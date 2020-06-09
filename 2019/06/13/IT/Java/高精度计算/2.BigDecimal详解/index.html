@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wy521angel的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="BigDecimal的使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二 BigDecimal详解">
+<meta property="og:url" content="http://yoursite.com/2019/06/13/IT/Java/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/2.BigDecimal%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="wy521angel的博客">
+<meta property="og:description" content="BigDecimal的使用">
+<meta property="article:published_time" content="2019-06-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-06-13T07:52:52.000Z">
+<meta property="article:author" content="wy521angel">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/13/IT/Java/高精度计算/2.BigDecimal详解/"/>
+
+
+
+
+
+  <title>二 BigDecimal详解 | wy521angel的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wy521angel的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一个从事IT工作的伪文艺青年</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-camera"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/13/IT/Java/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/2.BigDecimal%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wy521angel">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wy521angel的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">二 BigDecimal详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-13T00:00:00+08:00">
+                2019-06-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/" itemprop="url" rel="index">
+                    <span itemprop="name">IT</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Java/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/" itemprop="url" rel="index">
+                    <span itemprop="name">高精度计算</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/06/13/IT/Java/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/2.BigDecimal%E8%AF%A6%E8%A7%A3/" class="leancloud_visitors" data-flag-title="二 BigDecimal详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  BigDecimal的使用
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&#160; &#160; &#160; &#160;BigInteger 和 BigDecimal 都能实现大数字的运算，不同的是 BigDecimal 加入了小数的概念。Java在java.math包中提供的API类BigDecimal，用来对超过16位有效位的数进行精确的运算。双精度浮点型变量double可以处理16位有效数。在实际应用中，需要对更大或者更小的数进行运算和处理。float和double只能用来做科学计算或者是工程计算，它们没有提供完全精确的结果，不应该被用于要求精确结果的场合。但是，商业计算往往要求结果精确，在商业计算中要用BigDecimal。BigDecimal所创建的是对象，我们不能使用传统的+、-、*、/等算术运算符直接对其对象进行数学运算，而必须调用其相对应的方法。方法中的参数也必须是BigDecimal的对象。</p>
+<h1 id="标度"><a href="#标度" class="headerlink" title="标度"></a>标度</h1><p>&#160; &#160; &#160; &#160;BigDecimal由非标度值和 32 位的整数标度 (scale) 组成，表示的数为: unscaledValue × 10的-scale 次幂。</p>
+<p>&#160; &#160; &#160; &#160;如果scale为零或正数，最终的结果中，小数点后面的位数就等于scale标度。比如: scale为1，10的-1次方,  0.1 小数点后有1位；如果scale是负数，那最终的结果将会是乘以 10的|scale| 次方比如:  scale为-3 最终的值就是非标度值乘以1000 (10的(- -3)次方)。</p>
+<h1 id="ulp"><a href="#ulp" class="headerlink" title="ulp"></a>ulp</h1><p>&#160; &#160; &#160; &#160;unit in the last place</p>
+<p>&#160; &#160; &#160; &#160;两个数之间的距离，在数学中是无限的，比如1和2之间有无数个数，但是在计算机中是有限的，因为计算机需要用有限个字节来表示double或者float，计算机表示不了无限的数，因为没有无限内存。</p>
+<p>&#160; &#160; &#160; &#160;假设两个数之间有10个数，那么ulp 就是1/10 ，1和2之间有一个数，距离为1；1.1和2.1之间有十个数，距离为0.1，这就是ulp。</p>
+<p>&#160; &#160; &#160; &#160;非零 BigDecimal 值的 ulp 是此值与下一个具有相同位数的较大 BigDecimal 值之间的正距离，零值的 ulp 在数值上等于1 和 this.scale()之间的距离，所以可以说所有的数的ulp为[1, this.scale()]。</p>
+<p>实例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(BigDecimal.ZERO.ulp());</span><br><span class="line">System.out.println(Bigdecimal.ZERO.scale());</span><br><span class="line">System.out.println(Bigdecimal.ONE.ulp());</span><br><span class="line">System.out.println(<span class="keyword">new</span> Bigdecimal(<span class="string">"232312.323422232"</span>).ulp());</span><br><span class="line"></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">1E-9</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="初始化数据"><a href="#初始化数据" class="headerlink" title="初始化数据"></a>初始化数据</h1><p>&#160; &#160; &#160; &#160;new BigDecimal() 传参支持 integer,long,double,float,BigInteger。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal.ZERO 初始化一个为<span class="number">0</span>的BigDecimal对象</span><br><span class="line">BigDecimal.ONE 初始化一个为<span class="number">1</span>的BigDecimal对象</span><br><span class="line">BigDecimal.TEN 初始化一个为<span class="number">10</span>的BigDecimal对象</span><br></pre></td></tr></table></figure>
+
+<h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal(<span class="keyword">int</span>) </span><br><span class="line">实例化时将整数型转换为 BigDecimal 类型。</span><br><span class="line">BigDecimal(<span class="keyword">double</span>) </span><br><span class="line">实例化时将双精度型转换为 BigDecimal 类型。</span><br><span class="line">BigDecimal(<span class="keyword">long</span>)</span><br><span class="line">实例化时将长整数形式转换为 BigDecimal 类型。 </span><br><span class="line">BigDecimal(String) </span><br><span class="line">实例化时将字符串形式转换为 BigDecimal 类型。</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;如果是想将一个有小数的数字转换为BigDecimal的话，如“3.1”，那么最好用BigDecimal(String)，即new BigDecimal(“3.1”)，而不能用new BigDecimal(3.1),因为这样会导致精度缺失，实际得出的值不等于3.1,jdk中也明确说明了不推荐使用new BigDecimal(Double),并且new BigDecimal(String)的效率比new BigDecimal(Double)要高，还有一个方法就是BigDecimal(BigInteger,int)，可以使用new BigDecimal(BigInteger.valueOf(31),1)来得到3.1,它的效率也很高。在jdk6.0中加入了BigDecimal(int)的构造函数，所以当被转换的数值是整数时，也可以用它。</p>
+<h2 id="其余构造方法"><a href="#其余构造方法" class="headerlink" title="其余构造方法"></a>其余构造方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal(BigInteger val) </span><br><span class="line">将 BigInteger 转换为 BigDecimal。 </span><br><span class="line"></span><br><span class="line">BigDecimal(BigInteger unscaledVal, <span class="keyword">int</span> scale) </span><br><span class="line">将 BigInteger 非标度值和 <span class="keyword">int</span> 标度转换为 BigDecimal。 </span><br><span class="line"></span><br><span class="line">BigDecimal(BigInteger unscaledVal, <span class="keyword">int</span> scale, MathContext mc) </span><br><span class="line">将 BigInteger 非标度值和 <span class="keyword">int</span> 标度转换为 BigDecimal（根据上下文设置进行舍入）。 </span><br><span class="line"></span><br><span class="line">BigDecimal(BigInteger val, MathContext mc) </span><br><span class="line">将 BigInteger 转换为 BigDecimal（根据上下文设置进行舍入）。 </span><br><span class="line"></span><br><span class="line">BigDecimal(<span class="keyword">char</span>[] in) </span><br><span class="line">将 BigDecimal 的字符数组表示形式转换为 BigDecimal，接受与 BigDecimal(String) 构造方法相同的字符序列。 </span><br><span class="line"></span><br><span class="line">BigDecimal(<span class="keyword">char</span>[] in, <span class="keyword">int</span> offset, <span class="keyword">int</span> len) </span><br><span class="line">将 BigDecimal 的字符数组表示形式转换为 BigDecimal，接受与 BigDecimal(String) 构造方法相同的字符序列，同时允许指定子数组。 </span><br><span class="line"></span><br><span class="line">BigDecimal(<span class="keyword">char</span>[] in, <span class="keyword">int</span> offset, <span class="keyword">int</span> len, MathContext mc) </span><br><span class="line">将 BigDecimal 的字符数组表示形式转换为 BigDecimal，接受与 BigDecimal(String) 构造方法相同的字符序列，同时允许指定子数组，并根据上下文设置进行舍入。 </span><br><span class="line"></span><br><span class="line">BigDecimal(<span class="keyword">char</span>[] in, MathContext mc) </span><br><span class="line">将 BigDecimal 的字符数组表示形式转换为 BigDecimal，接受与 BigDecimal(String) 构造方法相同的字符序列（根据上下文设置进行舍入）。 </span><br><span class="line"></span><br><span class="line">BigDecimal(<span class="keyword">double</span> val, MathContext mc) </span><br><span class="line">将 <span class="keyword">double</span> 转换为 BigDecimal（根据上下文设置进行舍入）。 </span><br><span class="line"></span><br><span class="line">BigDecimal(<span class="keyword">int</span> val, MathContext mc) </span><br><span class="line">将 <span class="keyword">int</span> 转换为 BigDecimal（根据上下文设置进行舍入）。 </span><br><span class="line"></span><br><span class="line">BigDecimal(<span class="keyword">long</span> val, MathContext mc) </span><br><span class="line">将 <span class="keyword">long</span> 转换为 BigDecimal（根据上下文设置进行舍入）。 </span><br><span class="line"></span><br><span class="line">BigDecimal(String val, MathContext mc) </span><br><span class="line">将 BigDecimal 的字符串表示形式转换为 BigDecimal，接受与 BigDecimal(String) 构造方法相同的字符串（按照上下文设置进行舍入）。</span><br></pre></td></tr></table></figure>
+
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><h2 id="加减乘除"><a href="#加减乘除" class="headerlink" title="加减乘除"></a>加减乘除</h2><table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BigDecimal add(BigDecimal augend)</td>
+<td>做加法运算，返回一个 BigDecimal，其值为 (this + augend)，其标度为 max(this.scale(), augend.scale())。</td>
+</tr>
+<tr>
+<td>BigDecimal subtract(BigDecimal subtrahend)</td>
+<td>做减法运算，返回一个 BigDecimal，其值为 (this - subtrahend)，其标度为 max(this.scale(), subtrahend.scale())。</td>
+</tr>
+<tr>
+<td>BigDecimal multiply(BigDecimal multiplieand)</td>
+<td>做乘法运算，返回一个 BigDecimal，其值为 (this × multiplicand)，其标度为 (this.scale() + multiplicand.scale())。</td>
+</tr>
+<tr>
+<td>BigDecimal divide(BigDecimal divisor,int scale,int roundingMode )</td>
+<td>做除法运算，返回一个 BigDecimal，其值为 (this / divisor)，其标度为指定标度。</td>
+</tr>
+</tbody></table>
+<p>&#160; &#160; &#160; &#160;其中，divide() 方法的 3 个参数分别表示除数、商的小数点后的位数和近似值处理模式（详见<a href="https://wy521angel.github.io/2019/06/13/IT/Java/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/3.BigDecimal%E7%9A%84%E8%88%8D%E5%85%A5%E6%96%B9%E5%BC%8F/" target="_blank" rel="noopener">BigDecimal的舍入方式</a>）</p>
+<h2 id="其它方法："><a href="#其它方法：" class="headerlink" title="其它方法："></a>其它方法：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BigDecimal <span class="title">abs</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回 BigDecimal，其值为此 BigDecimal 的绝对值，其标度为 <span class="keyword">this</span>.<span class="title">scale</span><span class="params">()</span>。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">abs</span><span class="params">(MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回其值为此 BigDecimal 绝对值的 BigDecimal（根据上下文设置进行舍入）。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">add</span><span class="params">(BigDecimal augend, MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回其值为 <span class="params">(<span class="keyword">this</span> + augend)</span> 的 BigDecimal（根据上下文设置进行舍入）。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">byte</span> <span class="title">byteValueExact</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">将此 BigDecimal 转换为 <span class="keyword">byte</span>，以检查丢失的信息。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(BigDecimal val)</span> </span></span><br><span class="line"><span class="function">将此 BigDecimal 与指定的 BigDecimal 比较。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">divide</span><span class="params">(BigDecimal divisor)</span> </span></span><br><span class="line"><span class="function">返回一个 BigDecimal，其值为 <span class="params">(<span class="keyword">this</span> / divisor)</span>，其首选标度为 <span class="params">(<span class="keyword">this</span>.scale()</span> - divisor.<span class="title">scale</span><span class="params">()</span>)；如果无法表示准确的商值（因为它有无穷的十进制扩展），则抛出 ArithmeticException。</span></span><br><span class="line"><span class="function"> </span></span><br><span class="line"><span class="function">BigDecimal <span class="title">divide</span><span class="params">(BigDecimal divisor, <span class="keyword">int</span> roundingMode)</span> </span></span><br><span class="line"><span class="function">返回一个 BigDecimal，其值为 <span class="params">(<span class="keyword">this</span> / divisor)</span>，其标度为 <span class="keyword">this</span>.<span class="title">scale</span><span class="params">()</span>。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">divide</span><span class="params">(BigDecimal divisor, <span class="keyword">int</span> scale, RoundingMode roundingMode)</span> </span></span><br><span class="line"><span class="function">返回一个 BigDecimal，其值为 <span class="params">(<span class="keyword">this</span> / divisor)</span>，其标度为指定标度。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">divide</span><span class="params">(BigDecimal divisor, MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回其值为 <span class="params">(<span class="keyword">this</span> / divisor)</span> 的 BigDecimal（根据上下文设置进行舍入）。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">divide</span><span class="params">(BigDecimal divisor, RoundingMode roundingMode)</span> </span></span><br><span class="line"><span class="function">返回一个 BigDecimal，其值为 <span class="params">(<span class="keyword">this</span> / divisor)</span>，其标度为 <span class="keyword">this</span>.<span class="title">scale</span><span class="params">()</span>。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal[] <span class="title">divideAndRemainder</span><span class="params">(BigDecimal divisor)</span> </span></span><br><span class="line"><span class="function">返回由两个元素组成的 BigDecimal 数组，该数组包含 divideToIntegralValue 的结果，后跟对两个操作数计算所得到的 remainder。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal[] <span class="title">divideAndRemainder</span><span class="params">(BigDecimal divisor, MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回由两个元素组成的 BigDecimal 数组，该数组包含 divideToIntegralValue 的结果，后跟根据上下文设置对两个操作数进行舍入计算所得到的 remainder 的结果。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">divideToIntegralValue</span><span class="params">(BigDecimal divisor)</span> </span></span><br><span class="line"><span class="function">返回 BigDecimal，其值为向下舍入所得商值 <span class="params">(<span class="keyword">this</span> / divisor)</span> 的整数部分。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">divideToIntegralValue</span><span class="params">(BigDecimal divisor, MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回 BigDecimal，其值为 <span class="params">(<span class="keyword">this</span> / divisor)</span> 的整数部分。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">doubleValue</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">将此 BigDecimal 转换为 <span class="keyword">double</span>。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object x)</span> </span></span><br><span class="line"><span class="function">比较此 BigDecimal 与指定的 Object 的相等性。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">floatValue</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">将此 BigDecimal 转换为 <span class="keyword">float</span>。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回此 BigDecimal 的哈希码。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">intValue</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">将此 BigDecimal 转换为 <span class="keyword">int</span>。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">intValueExact</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">将此 BigDecimal 转换为 <span class="keyword">int</span>，以检查丢失的信息。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">longValue</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">将此 BigDecimal 转换为 <span class="keyword">long</span>。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">longValueExact</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">将此 BigDecimal 转换为 <span class="keyword">long</span>，以检查丢失的信息。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">max</span><span class="params">(BigDecimal val)</span> </span></span><br><span class="line"><span class="function">返回此 BigDecimal 和 val 的最大值。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">min</span><span class="params">(BigDecimal val)</span> </span></span><br><span class="line"><span class="function">返回此 BigDecimal 和 val 的最小值。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">movePointLeft</span><span class="params">(<span class="keyword">int</span> n)</span> </span></span><br><span class="line"><span class="function">返回一个 BigDecimal，它等效于将该值的小数点向左移动 n 位。如果 n 为负数，则该调用等效于 <span class="title">movePointRight</span><span class="params">(-n)</span>，如果 n 为非负数，则调用仅将 n 添加到该标度。返回的值和标度分别为: <span class="params">(<span class="keyword">this</span>*<span class="number">10</span>^-n)</span>,<span class="title">max</span><span class="params">(<span class="keyword">this</span>.scale()</span>+n,0)。</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">movePointRight</span><span class="params">(<span class="keyword">int</span> n)</span> </span></span><br><span class="line"><span class="function">返回一个 BigDecimal，它等效于将该值的小数点向右移动 n 位。如果 n 为负，则该调用等效于 <span class="title">movePointLeft</span><span class="params">(-n)</span>，如果 n 为非负数，则该调用仅从该标度减去 n，返回的值和标度分别为: <span class="params">(<span class="keyword">this</span>*<span class="number">10</span>^n)</span>,<span class="title">max</span><span class="params">(<span class="keyword">this</span>.scale()</span>-n,0)。</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">multiply</span><span class="params">(BigDecimal multiplicand, MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回其值为 <span class="params">(<span class="keyword">this</span> × multiplicand)</span> 的 BigDecimal（根据上下文设置进行舍入）。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">negate</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回 BigDecimal，其值为 <span class="params">(-<span class="keyword">this</span>)</span>，其标度为 <span class="keyword">this</span>.<span class="title">scale</span><span class="params">()</span>。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">negate</span><span class="params">(MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回其值为 <span class="params">(-<span class="keyword">this</span>)</span> 的 BigDecimal（根据上下文设置进行舍入）。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">plus</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回 BigDecimal，其值为 <span class="params">(+<span class="keyword">this</span>)</span>，其标度为 <span class="keyword">this</span>.<span class="title">scale</span><span class="params">()</span>。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">plus</span><span class="params">(MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回其值为 <span class="params">(+<span class="keyword">this</span>)</span> 的 BigDecimal（根据上下文设置进行舍入）。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">pow</span><span class="params">(<span class="keyword">int</span> n)</span> </span></span><br><span class="line"><span class="function">返回其值为 <span class="params">(<span class="keyword">this</span> ^n)</span> 的 BigDecimal，准确计算该幂，使其具有无限精度。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">pow</span><span class="params">(<span class="keyword">int</span> n, MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回其值为 <span class="params">(<span class="keyword">this</span> ^n)</span> 的 BigDecimal。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">precision</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回此 BigDecimal 的精度。（精度是非标度值的数字个数。）零值的精度是 1</span></span><br><span class="line"><span class="function"> </span></span><br><span class="line"><span class="function">BigDecimal <span class="title">remainder</span><span class="params">(BigDecimal divisor)</span> </span></span><br><span class="line"><span class="function">返回其值为 <span class="params">(<span class="keyword">this</span> % divisor)</span> 的 BigDecimal。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">remainder</span><span class="params">(BigDecimal divisor, MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回其值为 <span class="params">(<span class="keyword">this</span> % divisor)</span> 的 BigDecimal（根据上下文设置进行舍入）。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">round</span><span class="params">(MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回根据 MathContext 设置进行舍入后的 BigDecimal。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">scale</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回此 BigDecimal 的标度。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">scaleByPowerOfTen</span><span class="params">(<span class="keyword">int</span> n)</span> </span></span><br><span class="line"><span class="function">返回其数值等于 <span class="params">(<span class="keyword">this</span> * <span class="number">10</span>^n)</span> 的 BigDecimal，该结果的标度为：<span class="params">(<span class="keyword">this</span>.scale()</span>-n)。</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">setScale</span><span class="params">(<span class="keyword">int</span> newScale)</span> </span></span><br><span class="line"><span class="function">返回一个 BigDecimal，其标度为指定值，其值在数值上等于此 BigDecimal 的值。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">setScale</span><span class="params">(<span class="keyword">int</span> newScale, <span class="keyword">int</span> roundingMode)</span> </span></span><br><span class="line"><span class="function">返回一个 BigDecimal，其标度为指定值，其非标度值通过此 BigDecimal 的非标度值乘以或除以十的适当次幂来确定，以维护其总值。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">setScale</span><span class="params">(<span class="keyword">int</span> newScale, RoundingMode roundingMode)</span> </span></span><br><span class="line"><span class="function">返回 BigDecimal，其标度为指定值，其非标度值通过此 BigDecimal 的非标度值乘以或除以十的适当次幂来确定，以维护其总值。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">short</span> <span class="title">shortValueExact</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">将此 BigDecimal 转换为 <span class="keyword">short</span>，以检查丢失的信息。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">signum</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回此 BigDecimal 的正负号函数，负、零或正时，返回 -1、0 或 1。</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">stripTrailingZeros</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回数值上等于此小数，但从该表示形式移除所有尾部零的 BigDecimal。形式转换，数值是相等的，转换为去掉所有尾部的0的形式的数值，例如800.000去掉所有的0就是8，准换后为8乘以10的平方。</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">subtract</span><span class="params">(BigDecimal subtrahend, MathContext mc)</span> </span></span><br><span class="line"><span class="function">返回其值为 <span class="params">(<span class="keyword">this</span> - subtrahend)</span> 的 BigDecimal（根据上下文设置进行舍入）。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigInteger <span class="title">toBigInteger</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">将此 BigDecimal 转换为 BigInteger。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigInteger <span class="title">toBigIntegerExact</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">将此 BigDecimal 转换为 BigInteger，以检查丢失的信息。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">String <span class="title">toEngineeringString</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回此 BigDecimal 的字符串表示形式，需要指数时，则使用工程计数法。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">String <span class="title">toPlainString</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回不带指数字段的此 BigDecimal 的字符串表示形式。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">String <span class="title">toString</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回此 BigDecimal 的字符串表示形式，如果需要指数，则使用科学记数法。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">ulp</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回此 BigDecimal 的 ulp（最后一位的单位）的大小。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigInteger <span class="title">unscaledValue</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">返回其值为此 BigDecimal 的非标度值 的 BigInteger。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">valueOf</span><span class="params">(<span class="keyword">double</span> val)</span> </span></span><br><span class="line"><span class="function">使用 Double.<span class="title">toString</span><span class="params">(<span class="keyword">double</span>)</span> 方法提供的 <span class="keyword">double</span> 规范的字符串表示形式将 <span class="keyword">double</span> 转换为 BigDecimal。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">valueOf</span><span class="params">(<span class="keyword">long</span> val)</span> </span></span><br><span class="line"><span class="function">将 <span class="keyword">long</span> 值转换为具有零标度的 BigDecimal。 </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">BigDecimal <span class="title">valueOf</span><span class="params">(<span class="keyword">long</span> unscaledVal, <span class="keyword">int</span> scale)</span> </span></span><br><span class="line"><span class="function">将 <span class="keyword">long</span> 非标度值和 <span class="keyword">int</span> 标度转换为 BigDecimal。</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="部分实例"><a href="#部分实例" class="headerlink" title="部分实例"></a>部分实例</h1><h2 id="加减乘除-1"><a href="#加减乘除-1" class="headerlink" title="加减乘除"></a>加减乘除</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal b1 = <span class="keyword">new</span> BigDecimal(<span class="string">"1"</span>);</span><br><span class="line">BigDecimal b2 = <span class="keyword">new</span> BigDecimal(<span class="string">"0.11"</span>);</span><br><span class="line">System.out.println(b1.add(b2));</span><br><span class="line">System.out.println(b1.subtract(b2));</span><br><span class="line">System.out.println(b1.multiply(b2));</span><br><span class="line">System.out.println(b1.divide(b2,<span class="number">2</span>,BigDecimal.ROUND_HALF_UP));<span class="comment">//四舍五入保留两位小数</span></span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;使用divide()方法注意：相除的时候，被除数为0，会抛出异常：java.lang.ArithmeticException: Division by zero。<br>&#160; &#160; &#160; &#160;相除后为小数，则应该保留小数位，否则可能会抛出异常：java.lang.ArithmeticException: Non-terminating decimal expansion; no exact representable decimal result。</p>
+<h2 id="乘方"><a href="#乘方" class="headerlink" title="乘方"></a>乘方</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal b1 = <span class="keyword">new</span> BigDecimal(<span class="string">"1.11"</span>);</span><br><span class="line"><span class="comment">//二次方</span></span><br><span class="line">System.out.println(b1.pow(<span class="number">2</span>));</span><br><span class="line"><span class="comment">//三次方</span></span><br><span class="line">System.out.println(b1.pow(<span class="number">3</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="比较大小"><a href="#比较大小" class="headerlink" title="比较大小"></a>比较大小</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal b1 = <span class="keyword">new</span> BigDecimal(<span class="string">"1.11"</span>); </span><br><span class="line">BigDecimal b2 = <span class="keyword">new</span> BigDecimal(<span class="string">"0.11"</span>); </span><br><span class="line"><span class="comment">//大于0 则b1&gt;b2；等于0 则b1==b2; 小于0 则b1&lt;b2 System.out.println(b1.compareTo(b2));</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="精度"><a href="#精度" class="headerlink" title="精度"></a>精度</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal b1 = <span class="keyword">new</span> BigDecimal(<span class="string">"11.111"</span>);</span><br><span class="line"><span class="comment">//位数</span></span><br><span class="line">System.out.println(b1.precision());<span class="comment">//5</span></span><br><span class="line"><span class="comment">//小数点后有多少位</span></span><br><span class="line">System.out.println(b1.scale());<span class="comment">//3</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="格式化例子"><a href="#格式化例子" class="headerlink" title="格式化例子"></a>格式化例子</h2><p>&#160; &#160; &#160; &#160;由于NumberFormat类的format()方法可以使用BigDecimal对象作为其参数，可以利用BigDecimal对超出16位有效数字的货币值，百分值，以及一般数值进行格式化控制。以利用BigDecimal对货币和百分比格式化为例，首先，创建BigDecimal对象，进行BigDecimal的算术运算后，分别建立对货币和百分比格式化的引用，最后利用BigDecimal对象作为format()方法的参数，输出其格式化的货币值和百分比。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">NumberFormat currency = NumberFormat.getCurrencyInstance(); <span class="comment">//建立货币格式化引用 </span></span><br><span class="line">NumberFormat percent = NumberFormat.getPercentInstance();  <span class="comment">//建立百分比格式化引用 </span></span><br><span class="line">percent.setMaximumFractionDigits(<span class="number">3</span>); <span class="comment">//百分比小数点最多3位 </span></span><br><span class="line">    </span><br><span class="line">BigDecimal loanAmount = <span class="keyword">new</span> BigDecimal(<span class="string">"15000.48"</span>); <span class="comment">//贷款金额</span></span><br><span class="line">BigDecimal interestRate = <span class="keyword">new</span> BigDecimal(<span class="string">"0.008"</span>); <span class="comment">//利率   </span></span><br><span class="line">BigDecimal interest = loanAmount.multiply(interestRate); <span class="comment">//相乘</span></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"贷款金额:\t"</span> + currency.format(loanAmount)); </span><br><span class="line">System.out.println(<span class="string">"利率:\t"</span> + percent.format(interestRate)); </span><br><span class="line">System.out.println(<span class="string">"利息:\t"</span> + currency.format(interest));</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;运行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">贷款金额:    ￥15,000.48</span><br><span class="line">利率:        0.8%</span><br><span class="line">利息:       ￥120.00</span><br></pre></td></tr></table></figure>
+
+<p>代码详见GitHub：<a href="https://github.com/wy521angel/AccuracyCalculationTest" target="_blank" rel="noopener">AccuracyCalculationTest</a></p>
+<blockquote>
+<p>参考资料：<br><a href="https://www.cnblogs.com/linjiqin/p/3413894.html" target="_blank" rel="noopener">https://www.cnblogs.com/linjiqin/p/3413894.html</a><br><a href="https://www.mayou18.com/detail/share/1zJSRknx.html" target="_blank" rel="noopener">https://www.mayou18.com/detail/share/1zJSRknx.html</a><br><a href="https://www.vxzsk.com/2086.html" target="_blank" rel="noopener">https://www.vxzsk.com/2086.html</a><br><a href="https://www.cnblogs.com/hellojava/archive/2013/01/06/2845423.html" target="_blank" rel="noopener">https://www.cnblogs.com/hellojava/archive/2013/01/06/2845423.html</a><br><a href="https://www.cnblogs.com/noteless/p/9896139.html" target="_blank" rel="noopener">https://www.cnblogs.com/noteless/p/9896139.html</a><br><a href="https://juejin.im/post/5c2f77f3518825260a7dc172#heading-1" target="_blank" rel="noopener">https://juejin.im/post/5c2f77f3518825260a7dc172#heading-1</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/16/IT/Android/%E7%BA%BF%E7%A8%8B/Android%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="next" title="Android中的线程池">
+                <i class="fa fa-chevron-left"></i> Android中的线程池
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/13/IT/Java/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/3.BigDecimal%E7%9A%84%E8%88%8D%E5%85%A5%E6%96%B9%E5%BC%8F/" rel="prev" title="三 BigDecimal 舍入模式（Rounding mode）介绍">
+                三 BigDecimal 舍入模式（Rounding mode）介绍 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDEwMS82NjU2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myavatar.jpg"
+               alt="wy521angel" />
+          <p class="site-author-name" itemprop="name">wy521angel</p>
+           
+              <p class="site-description motion-element" itemprop="description">存放一些IT技术积累</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">136</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="Hongyang的博客" target="_blank">Hongyang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/guolin_blog" title="郭霖的博客" target="_blank">郭霖的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/eclipsexys" title="eclipse_xu的博客" target="_blank">eclipse_xu的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lovelion?viewmode=list" title="刘伟的博客" target="_blank">刘伟的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philipdroid.github.io" title="philipdroid的博客" target="_blank">philipdroid的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://juejin.im/timeline" title="掘金" target="_blank">掘金</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.infoq.com/cn" title="InfoQ" target="_blank">InfoQ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.uisdc.com" title="优设" target="_blank">优设</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=34341358&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标度"><span class="nav-number">2.</span> <span class="nav-text">标度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ulp"><span class="nav-number">3.</span> <span class="nav-text">ulp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初始化数据"><span class="nav-number">4.</span> <span class="nav-text">初始化数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#构造方法"><span class="nav-number">4.1.</span> <span class="nav-text">构造方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其余构造方法"><span class="nav-number">4.2.</span> <span class="nav-text">其余构造方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方法"><span class="nav-number">5.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#加减乘除"><span class="nav-number">5.1.</span> <span class="nav-text">加减乘除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它方法："><span class="nav-number">5.2.</span> <span class="nav-text">其它方法：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部分实例"><span class="nav-number">6.</span> <span class="nav-text">部分实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#加减乘除-1"><span class="nav-number">6.1.</span> <span class="nav-text">加减乘除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乘方"><span class="nav-number">6.2.</span> <span class="nav-text">乘方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较大小"><span class="nav-number">6.3.</span> <span class="nav-text">比较大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#精度"><span class="nav-number">6.4.</span> <span class="nav-text">精度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格式化例子"><span class="nav-number">6.5.</span> <span class="nav-text">格式化例子</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wy521angel</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("xVeur9szsyg7AkKwseQcBlqr-MdYXbMMI", "UEl3HMLcU0j2xYsHkUlJGVS8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a href="https://github.com/wy521angel" target="_blank" rel="noopener"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+  
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>

@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="面试,Service," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wy521angel的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="使用详解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Service使用详解">
+<meta property="og:url" content="http://yoursite.com/2017/08/12/IT/Android/Service%E7%9B%B8%E5%85%B3/Service%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="wy521angel的博客">
+<meta property="og:description" content="使用详解">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/acf512a8ec473d63491a69ffb9a0ad0f8bfd1d1f/IT/Android/Service%E7%B3%BB%E5%88%97/Service/Service%E6%B5%8B%E8%AF%95%E7%9A%84%E6%9C%8D%E5%8A%A1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/d3f2fe44f8f8fdd9b0920558225f25c7e7a30999/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E5%8D%8E%E4%B8%BAService%E6%B5%8B%E8%AF%95%E7%9A%84%E6%9C%8D%E5%8A%A1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/628105ea8d8ef2aa4e6daae016cb3c945a2f1021/IT/Android/Service%E7%B3%BB%E5%88%97/Service/IntentService%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BA%BF%E7%A8%8B%E9%80%90%E4%B8%80%E5%A4%84%E7%90%86%E6%89%80%E6%9C%89%E5%90%AF%E5%8A%A8%E8%AF%B7%E6%B1%82.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/74412e0b1aff4313f1538271b36262f853113d79/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E4%B8%A4%E4%B8%AA%E6%9C%8D%E5%8A%A1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/30fc7b654762dd36b1767af6c54ec4493cad6939/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E7%BB%91%E5%AE%9A%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/ce18e5dd41850ce2f9828c1e7431669d13d337b7/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E7%8A%B6%E6%80%81%E6%A0%8F%E9%80%9A%E7%9F%A5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/3b02e4c66cbb98c83ea54ffd6f7b791de98b106f/IT/Android/Service%E7%B3%BB%E5%88%97/Service/Service%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%AE%98%E6%96%B9%E8%AF%B4%E6%98%8E%E5%9B%BE.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/1a41ad8e3a2a53fcd15727ee8ceb37972648301d/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E5%85%B3%E9%97%AD%E6%9C%8D%E5%8A%A1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/42b515861bc4971e95a9fe71681fa80719029335/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E5%A2%A8%E8%BF%B9%E5%A4%A9%E6%B0%94%E5%9C%A8%E7%8A%B6%E6%80%81%E6%A0%8F%E4%B8%AD%E7%9A%84%E5%A4%A9%E6%B0%94%E9%A2%84%E6%8A%A5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/8391cf7705695d28135e2eebbb76943ca1f8eac6/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E7%8A%B6%E6%80%81%E6%A0%8F%E5%A2%9E%E5%8A%A0%E9%80%9A%E7%9F%A5.png">
+<meta property="article:published_time" content="2017-08-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-06-09T05:23:13.000Z">
+<meta property="article:author" content="wy521angel">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="Service">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/acf512a8ec473d63491a69ffb9a0ad0f8bfd1d1f/IT/Android/Service%E7%B3%BB%E5%88%97/Service/Service%E6%B5%8B%E8%AF%95%E7%9A%84%E6%9C%8D%E5%8A%A1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/12/IT/Android/Service相关/Service使用详解/"/>
+
+
+
+
+
+  <title>Service使用详解 | wy521angel的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wy521angel的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一个从事IT工作的伪文艺青年</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-camera"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/IT/Android/Service%E7%9B%B8%E5%85%B3/Service%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wy521angel">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wy521angel的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Service使用详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-12T00:00:00+08:00">
+                2017-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/" itemprop="url" rel="index">
+                    <span itemprop="name">IT</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/Service/" itemprop="url" rel="index">
+                    <span itemprop="name">Service</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/12/IT/Android/Service%E7%9B%B8%E5%85%B3/Service%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" class="leancloud_visitors" data-flag-title="Service使用详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  使用详解
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Service简介"><a href="#Service简介" class="headerlink" title="Service简介"></a>Service简介</h1><p>&#160; &#160; &#160; &#160;Service 是 Android 系统中的四大组件之一，主要有两个应用场景：后台运行和跨进程访问。它可以在后台执行长时间运行操作而不提供用户界面，除非系统必须回收内存资源，否则系统不会停止或销毁服务。Service 服务可由其它应用组件启动，而且即使用户切换到其它应用，服务仍将在后台继续运行。 此外，组件可以绑定到服务，以与之进行交互，甚至是执行进程间通信 (IPC)。需要注意的是，Service 是在主线程里执行操作的，可能会因为执行耗时操作而导致ANR。</p>
+<p>&#160; &#160; &#160; &#160;Service 的运行不依赖于任何用户界面，即使程序被切换到后台或者用户打开另一个应用程序，Service 仍然能够保持正常运行，这也正是 Service 的使用场景。当某个应用程序进程被杀掉时，所有依赖于该进程的 Service 也会停止运行。</p>
+<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>&#160; &#160; &#160; &#160;Service 可以分为以下三种形式：  </p>
+<p>•    启动<br>&#160; &#160; &#160; &#160;当应用组件通过调用 startService() 启动服务时，服务即处于“启动”状态。一旦启动，服务即可在后台无限期运行，即使启动服务的组件已被销毁也不受影响。已启动的服务通常是执行单一操作，而且不会将结果返回给调用方。</p>
+<p>•    绑定<br>&#160; &#160; &#160; &#160;当应用组件通过调用 bindService() 绑定到服务时，服务即处于“绑定”状态。绑定服务提供了一个客户端——服务器接口，允许组件与服务进行交互、发送请求、获取结果，甚至是利用进程间通信 (IPC) 跨进程执行这些操作。多个组件可以同时绑定服务，服务只会在组件与其绑定时运行，一旦该服务与所有组件之间的绑定全部取消，系统便会销毁它。  </p>
+<p>•  启动且绑定<br>&#160; &#160; &#160; &#160;服务既可以是启动服务，也允许绑定。此时需要同时实现以下回调方法：onStartCommand()和 onBind()。系统不会在所有客户端都取消绑定时销毁服务。为此，必须通过调用 stopSelf() 或 stopService() 显式停止服务。</p>
+<p>&#160; &#160; &#160; &#160;无论应用是处于启动状态还是绑定状态，或者处于启动且绑定状态，任何应用组件均可像使用 Activity 那样通过调用 Intent 来使用服务（即使此服务来自另一应用），也可以通过清单文件将服务声明为私有服务，阻止其他应用访问。</p>
+<p>&#160; &#160; &#160; &#160;要使用服务，必须继承 Service 类（或者 Service 类的现有子类），在子类中重写某些回调方法，以处理服务生命周期的某些关键方面并提供一种机制将组件绑定到服务。</p>
+<p>•    onStartCommand()<br>&#160; &#160; &#160; &#160;当组件通过调用 startService() 请求启动服务时，系统将调用此方法（如果是绑定服务则不会调用此方法）。一旦执行此方法，服务即会启动并可在后台无限期运行。 在指定任务完成后，通过调用 stopSelf() 或 stopService() 来停止服务。  </p>
+<p>•    onBind()<br>&#160; &#160; &#160; &#160;当一个组件想通过调用 bindService() 与服务绑定时，系统将调用此方法（如果是启动服务则不会调用此方法）。在此方法的实现中，必须通过返回 IBinder 提供一个接口，供客户端用来与服务进行通信。  </p>
+<p>•    onCreate()<br>&#160; &#160; &#160; &#160;首次创建服务时，系统将调用此方法来执行初始化操作（在调用 onStartCommand() 或 onBind() 之前）。如果在启动或绑定之前 Service 已在运行，则不会调用此方法。</p>
+<p>•    onDestroy()<br>&#160; &#160; &#160; &#160;当服务不再使用且将被销毁时，系统将调用此方法，这是服务接收的最后一个调用，在此方法中应清理占用的资源。</p>
+<p>&#160; &#160; &#160; &#160;仅当内存过低必须回收系统资源以供前台 Activity 使用时，系统才会强制停止服务。如果将服务绑定到前台 Activity，则它不太可能会终止，如果将服务声明为在前台运行，则它几乎永远不会终止。或者，如果服务已启动并要长时间运行，则系统会随着时间的推移降低服务在后台任务列表中的位置，而服务也将随之变得非常容易被终止。如果服务是启动服务，则必须将其设计为能够妥善处理系统对它的重启。如果系统终止服务，那么一旦资源变得再次可用，系统便会重启服务（这还取决于 onStartCommand() 的返回值）。</p>
+<h1 id="声明-Service"><a href="#声明-Service" class="headerlink" title="声明 Service"></a>声明 Service</h1><p>&#160; &#160; &#160; &#160;如同其它组件一样，想要使用 Service，必须在清单文件中对其进行声明，声明方式是添加&lt;service&gt;元素作为&lt;application&gt;元素的子元素，例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">".MyService"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;android:name 属性是唯一必需的属性，用于指定服务的类名，还可将其他属性包括在&lt;service&gt;元素中以定义一些特性。</p>
+<p>&#160; &#160; &#160; &#160;为了确保应用的安全性，最好始终使用显式 Intent 启动或绑定 Service，且不要为服务声明 Intent 过滤器。启动哪个服务存在一定的不确定性，而如果对这种不确定性的考量非常有必要，则可为服务提供 Intent 过滤器并从 Intent 中排除相应的组件名称，但随后必须使用 setPackage() 方法设置 Intent 的软件包，这样可以充分消除目标服务的不确定性。</p>
+<p>&#160; &#160; &#160; &#160;此外，还可以通过添加 android:exported 属性并将其设置为 “false”，确保服务仅适用于本应用。这可以有效阻止其它应用启动本应用内的服务，即便在使用显式 Intent 时也是如此。</p>
+<p>&#160; &#160; &#160; &#160;Service包含的属性有：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:description</span>=<span class="string">"string resource"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:directBootAware</span>=<span class="string">[</span>"<span class="attr">true</span>" | "<span class="attr">false</span>"]</span></span><br><span class="line"><span class="tag">         <span class="attr">android:enabled</span>=<span class="string">[</span>"<span class="attr">true</span>" | "<span class="attr">false</span>"]</span></span><br><span class="line"><span class="tag">         <span class="attr">android:exported</span>=<span class="string">[</span>"<span class="attr">true</span>" | "<span class="attr">false</span>"]</span></span><br><span class="line"><span class="tag">         <span class="attr">android:icon</span>=<span class="string">"drawable resource"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:isolatedProcess</span>=<span class="string">[</span>"<span class="attr">true</span>" | "<span class="attr">false</span>"]</span></span><br><span class="line"><span class="tag">         <span class="attr">android:label</span>=<span class="string">"string resource"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:name</span>=<span class="string">"string"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:permission</span>=<span class="string">"string"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:process</span>=<span class="string">"string"</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">service</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>description</td>
+<td>对服务进行描述，属性值应为对字符串资源的引用，以便进行本地化</td>
+</tr>
+<tr>
+<td>directBootAware</td>
+<td>设置是否可以在用户解锁设备之前运行，默认值为“false”</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>设置是否可以由系统来实例化服务。&lt; application &gt;元素有自己的enabled属性，适用于包括服务在内的所有应用程序组件。要启用服务，&lt; application &gt;和&lt; service &gt;属性必须都为“true”（默认情况下都为true）。如果其中一个是“false”，则服务被禁用</td>
+</tr>
+<tr>
+<td>exported</td>
+<td>设置其它应用程序的组件是否可以调用本服务或与其交互，如果可以，则为“true”。当值为“false”时，只有同一个应用程序或具有相同用户ID的应用程序的组件可以启动该服务或绑定到该服务。该属性的默认值取决于服务是否包含Intent filters。没有任何过滤器意味着它只能通过指定其确切的类名来调用，这意味着该服务仅用于应用程序内部使用（因为其他人不知道类名）。所以在这种情况下，默认值为“false”。 另一方面，如果存在至少一个过滤器，意味着该服务打算供外部使用，因此默认值为“true”</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>服务的图标，属性值应是对drawable资源的引用。如果未设置，则将使用应用程序图标</td>
+</tr>
+<tr>
+<td>isolatedProcess</td>
+<td>设置该服务是否作为一个单独的进程运行，如果设置为true，此服务将在与系统其余部分隔离的特殊进程下运行，并且没有自己的权限，与它唯一的通信是通过服务API（绑定和启动）</td>
+</tr>
+<tr>
+<td>label</td>
+<td>可以向用户显示的服务的名称，属性值应是对字符串资源的引用</td>
+</tr>
+<tr>
+<td>name</td>
+<td>服务类的完全限定名</td>
+</tr>
+<tr>
+<td>permission</td>
+<td>设定组件必须具有的权限，得以启动服务或绑定服务。如果startService（），bindService（）或stopService（）的调用者没有被授予此权限，则该方法将不会工作，并且Intent对象不会传递到服务中</td>
+</tr>
+<tr>
+<td>process</td>
+<td>用来运行服务的进程的名称。通常，应用程序的所有组件都运行在应用程序创建的默认进程中，它与应用程序包名具有相同的名称。 &lt; application &gt;元素的process属性可以为所有组件设置不同的默认值，但组件可以使用自己的进程属性覆盖默认值，从而允许跨多个进程扩展应用程序</td>
+</tr>
+</tbody></table>
+<h1 id="启动Service"><a href="#启动Service" class="headerlink" title="启动Service"></a>启动Service</h1><p>&#160; &#160; &#160; &#160;启动服务由组件通过调用 startService() 启动，服务启动之后，其生命周期即独立于启动它的组件，并且可以在后台无限期地运行，即使启动服务的组件已被销毁也不受影响。因此，服务应通过调用 stopSelf() 来自行停止运行，或者由另一个组件调用 stopService() 来停止。</p>
+<p>&#160; &#160; &#160; &#160;可以通过扩展两个类来创建启动服务：</p>
+<p>•    Service<br>&#160; &#160; &#160; &#160;这是所有服务的父类。扩展此类时，如果要执行耗时操作，必须创建一个用于执行操作的新线程，因为默认情况下服务将运行于UI线程。</p>
+<p>•    IntentService<br>&#160; &#160; &#160; &#160;这是 Service 的子类，它使用工作线程逐一处理所有启动请求。如果应用不需要同时处理多个请求，这是最好的选择。IntentService只需实现构造函数与 onHandleIntent() 方法即可，onHandleIntent()方法会接收每个启动请求的 Intent。</p>
+<h2 id="继承Service"><a href="#继承Service" class="headerlink" title="继承Service"></a>继承Service</h2><p>&#160; &#160; &#160; &#160;这里举一个音乐播放器的例子，继承 Service 类实现自定义 Service，提供在后台播放音乐、暂停音乐、停止音乐的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String TAG = <span class="string">"MyService"</span>;</span><br><span class="line">    <span class="keyword">private</span> MediaPlayer mediaPlayer;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> startId;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> Control &#123;</span><br><span class="line">        PLAY, PAUSE, STOP</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mediaPlayer == <span class="keyword">null</span>) &#123;</span><br><span class="line">            mediaPlayer = MediaPlayer.create(<span class="keyword">this</span>, R.raw.music);</span><br><span class="line">            mediaPlayer.setLooping(<span class="keyword">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        Log.e(TAG, <span class="string">"onCreate"</span>);</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">onStartCommand</span><span class="params">(Intent intent, <span class="keyword">int</span> flags, <span class="keyword">int</span> startId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.startId = startId;</span><br><span class="line">        Log.e(TAG, <span class="string">"onStartCommand---startId: "</span> + startId);</span><br><span class="line">        Bundle bundle = intent.getExtras();</span><br><span class="line">        <span class="keyword">if</span> (bundle != <span class="keyword">null</span>) &#123;</span><br><span class="line">            Control control = (Control) bundle.getSerializable(<span class="string">"Key"</span>);</span><br><span class="line">            <span class="keyword">if</span> (control != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">switch</span> (control) &#123;</span><br><span class="line">                    <span class="keyword">case</span> PLAY:</span><br><span class="line">                        play();</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> PAUSE:</span><br><span class="line">                        pause();</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> STOP:</span><br><span class="line">                        stop();</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onStartCommand(intent, flags, startId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"onDestroy"</span>);</span><br><span class="line">        <span class="keyword">if</span> (mediaPlayer != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mediaPlayer.stop();</span><br><span class="line">            mediaPlayer.release();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!mediaPlayer.isPlaying()) &#123;</span><br><span class="line">            mediaPlayer.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">pause</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mediaPlayer != <span class="keyword">null</span> &amp;&amp; mediaPlayer.isPlaying()) &#123;</span><br><span class="line">            mediaPlayer.pause();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mediaPlayer != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mediaPlayer.stop();</span><br><span class="line">        &#125;</span><br><span class="line">        stopSelf(startId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"onBind"</span>);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException(<span class="string">"Not yet implemented"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;在布局中添加三个按钮，用于控制音乐播放、暂停与停止。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">playMusic</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, MyService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        Bundle bundle = <span class="keyword">new</span> Bundle();</span><br><span class="line">        bundle.putSerializable(<span class="string">"Key"</span>, MyService.Control.PLAY);</span><br><span class="line">        intent.putExtras(bundle);</span><br><span class="line">        startService(intent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pauseMusic</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, MyService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        Bundle bundle = <span class="keyword">new</span> Bundle();</span><br><span class="line">        bundle.putSerializable(<span class="string">"Key"</span>, MyService.Control.PAUSE);</span><br><span class="line">        intent.putExtras(bundle);</span><br><span class="line">        startService(intent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stopMusic</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, MyService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        Bundle bundle = <span class="keyword">new</span> Bundle();</span><br><span class="line">        bundle.putSerializable(<span class="string">"Key"</span>, MyService.Control.STOP);</span><br><span class="line">        intent.putExtras(bundle);</span><br><span class="line">        startService(intent);</span><br><span class="line">        <span class="comment">//或者是直接如下调用</span></span><br><span class="line">        <span class="comment">//Intent intent = new Intent(this, MyService.class);</span></span><br><span class="line">        <span class="comment">//stopService(intent);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;在清单文件中声明 Service，为其添加 label 标签，便于在系统中识别 Service。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:name</span>=<span class="string">".MyService"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;点击“播放音乐”按钮后，在后台将会运行着名为“Service测试”的服务：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/acf512a8ec473d63491a69ffb9a0ad0f8bfd1d1f/IT/Android/Service%E7%B3%BB%E5%88%97/Service/Service%E6%B5%8B%E8%AF%95%E7%9A%84%E6%9C%8D%E5%8A%A1.png" alt="Service测试的服务"></p>
+<p>&#160; &#160; &#160; &#160;注意：华为手机的设置-应用管理中已经无法查看正在运行的程序，也无法查看那些程序所占的运行内存。其实这个功能还是存在的，只不过换了个位置，那就是开发者选项-正在运行的服务，在这里可以很清楚地看到每个程序的内存占用情况。如下图中的ServiceTest：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/d3f2fe44f8f8fdd9b0920558225f25c7e7a30999/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E5%8D%8E%E4%B8%BAService%E6%B5%8B%E8%AF%95%E7%9A%84%E6%9C%8D%E5%8A%A1.png" alt="华为Service测试的服务"></p>
+<p>&#160; &#160; &#160; &#160;通过Log日志可以发现，多次点击“播放音乐”按钮，“onCreate()”方法只会在初始时调用一次，“onStartCommand(Intent intent, int flags, int startId)”方法会在每次点击时都被调用，点击“停止音乐”按钮，“onDestroy()”方法会被调用。</p>
+<p>&#160; &#160; &#160; &#160;每次回调onStartCommand()方法时，参数“startId”的值都是递增的，startId用于唯一标识每次对Service发起的处理请求，如果服务同时处理多个 onStartCommand() 请求，则不应在处理完一个启动请求之后立即销毁服务，因为此时可能已经收到了新的启动请求，在第一个请求结束时停止服务会导致第二个请求被终止。为了避免这一问题，可以使用 stopSelf(int) 确保服务停止请求始终基于最新一次的启动请求。也就是说，如果调用 stopSelf(int) 方法的参数值与onStartCommand()接受到的最新的startId值不相符的话，stopSelf()方法就会失效，从而避免终止尚未处理的请求。</p>
+<p>&#160; &#160; &#160; &#160;如果服务没有提供绑定，则使用 startService() 传递的 Intent 是应用组件与服务之间唯一的通信模式。如果希望服务返回结果，则启动服务的客户端可以为广播创建一个 PendingIntent （使用 getBroadcast()），并通过启动服务的 Intent 传递给服务。然后，服务就可以使用广播传递结果。</p>
+<p>&#160; &#160; &#160; &#160;onStartCommand() 方法必须返回一个整数，用于描述系统应该如何应对服务被杀死的情况，返回值必须是以下常量之一：</p>
+<p>•    START_NOT_STICKY  </p>
+<p>&#160; &#160; &#160; &#160;如果系统在 onStartCommand() 返回后终止服务，除非有挂起 Intent 要传递，否则系统不会重建服务。这是最安全的选项，可以避免在不必要时以及应用能够轻松重启所有未完成的作业时运行服务。  </p>
+<p>•    START_STICKY  </p>
+<p>&#160; &#160; &#160; &#160;如果系统在 onStartCommand() 返回后终止服务，则会重建服务并调用 onStartCommand()，但不会重新传递最后一个 Intent。相反，除非有挂起 Intent 要启动服务（在这种情况下，将传递这些 Intent ），否则系统会通过空 Intent 调用 onStartCommand()。这适用于不执行命令、但无限期运行并等待作业的媒体播放器（或类似服务）。  </p>
+<p>•    START_REDELIVER_INTENT   </p>
+<p>&#160; &#160; &#160; &#160;如果系统在 onStartCommand() 返回后终止服务，则会重建服务，并通过传递给服务的最后一个 Intent 调用 onStartCommand()。任何挂起 Intent 均依次传递。这适用于主动执行应该立即恢复的作业（例如下载文件）的服务。</p>
+<h2 id="IntentService（详见-IntentService-详解）"><a href="#IntentService（详见-IntentService-详解）" class="headerlink" title="IntentService（详见 IntentService 详解）"></a>IntentService（详见<a href="https://wy521angel.github.io/2018/04/18/IT/Android/Service/IntentService%20详解/" target="_blank" rel="noopener"> IntentService 详解</a>）</h2><p>&#160; &#160; &#160; &#160;由于大多数启动服务都不必同时处理多个请求，因此使用 IntentService 类实现服务也许是最好的选择，IntentService 执行以下操作：</p>
+<p>•    创建默认的工作线程，用于在应用的主线程外执行传递给 onStartCommand() 的所有 Intent；<br>•    创建工作队列，用于将 Intent 逐一传递给 onHandleIntent() 实现，这样就不必担心多线程问题；<br>•    在处理完所有启动请求后停止服务，因此不必自己调用 stopSelf()方法；<br>•    提供 onBind() 的默认实现（返回 null）；<br>•    提供 onStartCommand() 的默认实现，可将 Intent 依次发送到工作队列和 onHandleIntent()。</p>
+<p>&#160; &#160; &#160; &#160;因此，只需实现构造函数与 onHandleIntent() 方法即可。</p>
+<p>&#160; &#160; &#160; &#160;这里举一个关于输出日志的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyIntentService</span> <span class="keyword">extends</span> <span class="title">IntentService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String TAG = <span class="string">"MyIntentService"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyIntentService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(<span class="string">"MyIntentService"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onHandleIntent</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        Bundle bundle = intent.getExtras();</span><br><span class="line">        <span class="keyword">if</span> (bundle != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">200</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                Log.e(TAG, bundle.getString(<span class="string">"key"</span>, <span class="string">"默认值"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StartIntentServiceActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_start_intent_service);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startService</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, MyIntentService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        Bundle bundle = <span class="keyword">new</span> Bundle();</span><br><span class="line">        bundle.putString(<span class="string">"key"</span>, <span class="string">"当前值："</span> + i++);</span><br><span class="line">        intent.putExtras(bundle);</span><br><span class="line">        startService(intent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;当中，startService(View view)方法与一个Button绑定，连续快速地多次点击Button，验证IntentService当中的日志是否依次输出，还是交叉着输出：</p>
+<p>&#160; &#160; &#160; &#160;可以看到是依次输出的，即IntentService的工作线程是逐一处理所有启动请求的：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/628105ea8d8ef2aa4e6daae016cb3c945a2f1021/IT/Android/Service%E7%B3%BB%E5%88%97/Service/IntentService%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%BA%BF%E7%A8%8B%E9%80%90%E4%B8%80%E5%A4%84%E7%90%86%E6%89%80%E6%9C%89%E5%90%AF%E5%8A%A8%E8%AF%B7%E6%B1%82.png" alt="IntentService的工作线程是逐一处理所有启动请求"></p>
+<p>&#160; &#160; &#160; &#160;此外，查看后台，可以看到当前后台应用程序进程中有两个服务（用我自己的华为p7测试后台还是只有1个服务）</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/74412e0b1aff4313f1538271b36262f853113d79/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E4%B8%A4%E4%B8%AA%E6%9C%8D%E5%8A%A1.png" alt="两个服务"></p>
+<h1 id="绑定Service"><a href="#绑定Service" class="headerlink" title="绑定Service"></a>绑定Service</h1><p>&#160; &#160; &#160; &#160;应用组件（客户端）通过调用 bindService() 绑定到服务，绑定是异步的，系统随后调用服务的 onBind() 方法，该方法返回用于与服务交互的 IBinder。要接收 IBinder，客户端必须提供一个 ServiceConnection 实例用于监控与服务的连接，并将其传递给 bindService()。当 Android 系统创建了客户端与服务之间的连接时，会回调ServiceConnection 对象的onServiceConnected()方法，向客户端传递用来与服务通信的 IBinder。</p>
+<p>&#160; &#160; &#160; &#160;多个客户端可同时连接到一个服务。不过，只有在第一个客户端绑定时，系统才会调用服务的 onBind() 方法来检索 IBinder。系统随后无需再次调用 onBind()，便可将同一 IBinder 传递至其他绑定的客户端。当所有客户端都取消了与服务的绑定后，系统会将服务销毁（除非 startService() 也启动了该服务）。</p>
+<p>&#160; &#160; &#160; &#160;另外，只有 Activity、服务和内容提供者可以绑定到服务，无法从广播接收器绑定到服务。</p>
+<p>&#160; &#160; &#160; &#160;可以通过以下三种方法定义IBinder接口：</p>
+<p>•    扩展 Binder 类  </p>
+<p>&#160; &#160; &#160; &#160;如果服务是供本应用专用，并且运行在与客户端相同的进程中，则应通过扩展 Binder 类并从 onBind() 返回它的一个实例来创建接口。客户端收到 Binder 后，可利用它直接访问 Service 中可用的公共方法；</p>
+<p>•    使用 Messenger  </p>
+<p>&#160; &#160; &#160; &#160;如需让接口跨不同的进程工作，则可使用 Messenger 为服务创建接口。服务可以以这种方式定义对应于不同类型 Message 对象的 Handler。此 Handler 是 Messenger 的基础，后者随后可与客户端分享一个 IBinder，从而让客户端能利用 Message 对象向服务发送命令。此外，客户端还可定义自有 Messenger，以便服务回传消息。这是执行进程间通信 (IPC) 的最简单方法，因为 Messenger 会在单一线程中创建包含所有请求的队列，这样就不必对服务进行线程安全设计；</p>
+<p>•    使用 AIDL  </p>
+<p>&#160; &#160; &#160; &#160;AIDL（Android 接口定义语言）执行所有将对象分解成原语的工作，操作系统可以识别这些原语并将它们编组到各进程中，以执行 IPC。 之前采用 Messenger 的方法实际上是以 AIDL 作为其底层结构。 如上所述，Messenger 会在单一线程中创建包含所有客户端请求的队列，以便服务一次接收一个请求。 不过，如果想让服务同时处理多个请求，则可直接使用 AIDL。 在此情况下，服务必须具备多线程处理能力，并采用线程安全式设计。如需直接使用 AIDL，必须创建一个定义编程接口的 .aidl 文件。Android SDK 工具利用该文件生成一个实现接口并处理 IPC 的抽象类，随后可在服务内对其进行扩展。</p>
+<h2 id="绑定服务的具体步骤"><a href="#绑定服务的具体步骤" class="headerlink" title="绑定服务的具体步骤"></a>绑定服务的具体步骤</h2><h3 id="扩展-Binder-类"><a href="#扩展-Binder-类" class="headerlink" title="扩展 Binder 类"></a>扩展 Binder 类</h3><p>&#160; &#160; &#160; &#160;如果服务仅供本地应用使用，不需要跨进程工作，则可以实现自有 Binder 类，让客户端通过该类直接访问服务中的公共方法。此方法只有在客户端和服务位于同一应用和进程内这一最常见的情况下方才有效。</p>
+<p>&#160; &#160; &#160; &#160;以下是具体的设置方法：</p>
+<p>•    在服务中创建一个可满足下列任一要求的 Binder 实例：</p>
+<p>&#160; &#160; &#160; &#160;◦    包含客户端可调用的公共方法<br>&#160; &#160; &#160; &#160;◦    返回当前 Service 实例，其中包含客户端可调用的公共方法<br>&#160; &#160; &#160; &#160;◦    或返回由服务承载的其他类的实例，其中包含客户端可调用的公共方法      </p>
+<p>•    从 onBind() 回调方法返回此 Binder 实例；  </p>
+<p>•    在客户端中，从 onServiceConnected() 回调方法接收 Binder，并使用提供的方法调用绑定服务。</p>
+<h3 id="实现-ServiceConnection接口"><a href="#实现-ServiceConnection接口" class="headerlink" title="实现 ServiceConnection接口"></a>实现 ServiceConnection接口</h3><p>&#160; &#160; &#160; &#160;重写两个回调方法：</p>
+<p>•    onServiceConnected()<br>系统会调用该方法以传递服务的onBind() 方法返回的 IBinder<br>•    onServiceDisconnected()<br>Android 系统会在与服务的连接意外中断时，例如当服务崩溃或被终止时调用该方法。当客户端取消绑定时，系统不会调用该方法。</p>
+<h3 id="调用-bindService-，传递-ServiceConnection-对象"><a href="#调用-bindService-，传递-ServiceConnection-对象" class="headerlink" title="调用 bindService()，传递 ServiceConnection 对象"></a>调用 bindService()，传递 ServiceConnection 对象</h3><h3 id="当系统调用了-onServiceConnected-的回调方法时，就可以通过IBinder对象操作服务了"><a href="#当系统调用了-onServiceConnected-的回调方法时，就可以通过IBinder对象操作服务了" class="headerlink" title="当系统调用了 onServiceConnected() 的回调方法时，就可以通过IBinder对象操作服务了"></a>当系统调用了 onServiceConnected() 的回调方法时，就可以通过IBinder对象操作服务了</h3><h3 id="要断开与服务的连接需调用-unbindService-方法。如果应用在客户端仍处于绑定状态时销毁客户端，会导致客户端取消绑定，更好的做法是在客户端与服务交互完成后立即取消绑定客户端，这样可以关闭空闲服务"><a href="#要断开与服务的连接需调用-unbindService-方法。如果应用在客户端仍处于绑定状态时销毁客户端，会导致客户端取消绑定，更好的做法是在客户端与服务交互完成后立即取消绑定客户端，这样可以关闭空闲服务" class="headerlink" title="要断开与服务的连接需调用 unbindService()方法。如果应用在客户端仍处于绑定状态时销毁客户端，会导致客户端取消绑定，更好的做法是在客户端与服务交互完成后立即取消绑定客户端，这样可以关闭空闲服务"></a>要断开与服务的连接需调用 unbindService()方法。如果应用在客户端仍处于绑定状态时销毁客户端，会导致客户端取消绑定，更好的做法是在客户端与服务交互完成后立即取消绑定客户端，这样可以关闭空闲服务</h3><p>&#160; &#160; &#160; &#160;示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBindService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IBinder myBinder;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Random mGenerator;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String TAG = <span class="string">"MyBindService"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBinder</span> <span class="keyword">extends</span> <span class="title">Binder</span> </span>&#123;</span><br><span class="line">        <span class="function">MyBindService <span class="title">getService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> MyBindService.<span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"onCreate"</span>);</span><br><span class="line">        myBinder = <span class="keyword">new</span> MyBinder();</span><br><span class="line">        mGenerator = <span class="keyword">new</span> Random();</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"onBind"</span>);</span><br><span class="line">        <span class="keyword">return</span> myBinder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"onDestroy"</span>);</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onUnbind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"onUnbind"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onUnbind(intent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRebind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"onRebind"</span>);</span><br><span class="line">        <span class="keyword">super</span>.onRebind(intent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getRandomNumber</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mGenerator.nextInt(<span class="number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BindServiceActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> MyBindService mService;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mBound = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_bind_service);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ServiceConnection mConnection = <span class="keyword">new</span> ServiceConnection() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> </span>&#123;</span><br><span class="line">            MyBindService.MyBinder binder = (MyBindService.MyBinder) service;</span><br><span class="line">            mService = binder.getService();</span><br><span class="line">            mBound = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(ComponentName name)</span> </span>&#123;</span><br><span class="line">            mBound = <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindService</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, MyBindService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unBindService</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mBound) &#123;</span><br><span class="line">            unbindService(mConnection);</span><br><span class="line">            mBound = <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getData</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mBound) &#123;</span><br><span class="line">            Toast.makeText(<span class="keyword">this</span>, <span class="string">"获取到的随机数："</span> + mService.getRandomNumber(), Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Toast.makeText(<span class="keyword">this</span>, <span class="string">"服务未绑定"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        <span class="keyword">if</span> (mBound) &#123;</span><br><span class="line">            unbindService(mConnection);</span><br><span class="line">            mBound = <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;可以看到，这里我们仍然是构建出了一个 Intent 对象，然后调用 bindService() 方法将 Activity 和 Service 进行绑定。bindService() 方法接收三个参数，第一个参数就是刚刚构建出的 Intent 对象，第二个参数是前面创建出的 ServiceConnection 的实例，第三个参数是一个标志位，这里传入 BIND_AUTO_CREATE 表示在 Activity 和 Service 建立关联后自动创建 Service，这会使得 MyService 中的 onCreate() 方法得到执行，但 onStartCommand() 方法不会执行。</p>
+<h2 id="绑定服务的生命周期"><a href="#绑定服务的生命周期" class="headerlink" title="绑定服务的生命周期"></a>绑定服务的生命周期</h2><p>&#160; &#160; &#160; &#160;绑定服务的生命周期在同时启动服务的情况下比较特殊，想要终止服务，除了需要取消绑定服务外，还需要服务通过 stopSelf() 自行停止或其他组件调用 stopService()。</p>
+<p>&#160; &#160; &#160; &#160;其中，如果服务已启动并接受绑定，则当系统调用了onUnbind() 方法，想要在客户端下一次绑定到服务时调用 onRebind() 方法的话，则onUnbind() 方法需返回 true。onRebind() 返回空值，但客户端仍可以在其 onServiceConnected() 回调中接收到 IBinder对象。</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/30fc7b654762dd36b1767af6c54ec4493cad6939/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E7%BB%91%E5%AE%9A%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt="绑定服务的生命周期"></p>
+<h2 id="绑定时机"><a href="#绑定时机" class="headerlink" title="绑定时机"></a>绑定时机</h2><p>• 如果只需要在 Activity 可见时与服务交互，则应在 onStart() 期间绑定，在 onStop() 期间取消绑定；</p>
+<p>• 如果希望 Activity 在后台停止运行状态下仍可接收响应，则可在 onCreate() 期间绑定，在onDestroy() 期间取消绑定。这意味着 Activity 在其整个运行过程中（包括后台运行期间）都需要使用此服务；</p>
+<p>• 通常情况下，切勿在 Activity 的 onResume() 和 onPause() 期间绑定和取消绑定，因为每一次生命周期转换都会发生这些回调，应该使发生在这些转换期间的处理保持在最低水平。假设有两个Activity需要绑定到同一服务，从Activity A跳转到Activity B，这个过程中会依次执行A-onPause，B-onCreate，B-onStart，B-onResume，A-onStop。这样系统会在A-onPause的时候销毁服务，又在B-onResume的时候重建服务。当Activity B回退到Activity A时，会依次执行B-onPause，<br>A-onRestart，A-onStart，A-onResume，B-onStop，B-onDestroy。此时，系统会在B-onPause时销毁服务，又在A-onResume时重建服务。这样就造成了多次的销毁与重建，因此需要选定好绑定服务与取消绑定服务的时机。</p>
+<h1 id="在前台运行Service"><a href="#在前台运行Service" class="headerlink" title="在前台运行Service"></a>在前台运行Service</h1><p>&#160; &#160; &#160; &#160;前台服务被认为是用户主动意识到的一种服务，因此在内存不足时，系统也不会考虑将其终止。 前台服务必须在状态栏提供通知，放在“正在进行”标题下方，这意味着除非服务停止或从前台移除，否则不能清除通知。</p>
+<p>&#160; &#160; &#160; &#160;要请求让服务运行于前台，要调用 startForeground()方法，两个参数分别是：唯一标识通知的 int 类型整数和 Notification 对象。</p>
+<p>&#160; &#160; &#160; &#160;修改MyService当中的play()方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!mediaPlayer.isPlaying()) &#123;</span><br><span class="line">        mediaPlayer.start();</span><br><span class="line">        NotificationCompat.Builder mBuilder = <span class="keyword">new</span> NotificationCompat.Builder(<span class="keyword">this</span>);</span><br><span class="line">        mBuilder.setSmallIcon(R.drawable.bird);</span><br><span class="line">        mBuilder.setContentTitle(<span class="string">"这是标题吧~叶应是叶"</span>);</span><br><span class="line">        mBuilder.setContentText(<span class="string">"http://blog.csdn.net/new_one_object"</span>);</span><br><span class="line">        startForeground(<span class="number">1</span>, mBuilder.build());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;点击播放音乐后，状态栏就出现了一个通知：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/ce18e5dd41850ce2f9828c1e7431669d13d337b7/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E7%8A%B6%E6%80%81%E6%A0%8F%E9%80%9A%E7%9F%A5.png" alt="状态栏通知"></p>
+<p>&#160; &#160; &#160; &#160;其中，提供给 startForeground() 的整型参数不得为 0。要从前台移除服务，需调用stopForeground()方法，此方法不会停止服务。 但是，如果前台服务被停止，则通知也会被移除。</p>
+<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><p>&#160; &#160; &#160; &#160;Service的生命周期官方说明图：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/3b02e4c66cbb98c83ea54ffd6f7b791de98b106f/IT/Android/Service%E7%B3%BB%E5%88%97/Service/Service%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%AE%98%E6%96%B9%E8%AF%B4%E6%98%8E%E5%9B%BE.png" alt="Service的生命周期官方说明图"></p>
+<p>&#160; &#160; &#160; &#160;服务生命周期从创建到销毁可以遵循两条不同的路径：</p>
+<p>• 启动服务    </p>
+<p>&#160; &#160; &#160; &#160;该服务在其它组件调用 startService() 时创建，然后无限期运行，必须通过调用 stopSelf() 来自行停止运行或通过其它组件调用 stopService() 来停止服务。服务停止后，系统会将其销毁；</p>
+<p>• 绑定服务<br>&#160; &#160; &#160; &#160;服务在另一个组件（客户端）调用 bindService() 时创建。然后，客户端通过 IBinder 接口与服务进行通信。客户端可以通过调用 unbindService() 关闭连接。多个客户端可以绑定到相同服务，而且当所有绑定全部取消后，系统即会销毁该服务（服务不必自行停止运行）</p>
+<p>&#160; &#160; &#160; &#160;这两条路径并非完全独立。也就是说，可以绑定到已经使用 startService() 启动的服务。例如，可以通过使用 Intent（标识要播放的音乐）调用 startService() 来启动后台音乐服务。随后，可能在用户需要稍加控制播放器或获取有关当前播放歌曲的信息时，Activity 可以通过调用 bindService() 绑定到服务。在这种情况下，除非所有客户端均取消绑定，否则 stopService() 或 stopSelf() 不会实际停止服务。</p>
+<p>&#160; &#160; &#160; &#160;我们应该始终记得在Service的onDestroy()方法里去清理掉那些不再使用的资源，防止在Service被销毁后还会有一些不再使用的对象仍占用着内存。</p>
+<p>&#160; &#160; &#160; &#160;代码见 <a href="https://github.com/wy521angel/ServiceTest/tree/master/ServiceTest" target="_blank" rel="noopener">ServiceTest</a>。</p>
+<h1 id="从服务的种类再谈-Service"><a href="#从服务的种类再谈-Service" class="headerlink" title="从服务的种类再谈 Service"></a>从服务的种类再谈 Service</h1><h2 id="后台服务"><a href="#后台服务" class="headerlink" title="后台服务"></a>后台服务</h2><p>&#160; &#160; &#160; &#160;后台服务可交互性主要是体现在不同的启动服务方式，startService()和bindService()。bindService()可以返回一个代理对象，可调用Service中的方法和获取返回结果等操作，而startService()不行。</p>
+<h3 id="不可交互的后台服务"><a href="#不可交互的后台服务" class="headerlink" title="不可交互的后台服务"></a>不可交互的后台服务</h3><p>&#160; &#160; &#160; &#160;不可交互的后台服务即是普通的Service，Service的生命周期很简单，分别为 onCreate、onStartCommand、onDestroy 这三个。当我们 startService() 的时候，首次创建 Service 会回调 onCreate() 方法，然后回调 onStartCommand() 方法，再次 startService() 的时候，就只会执行一次 onStartCommand()。服务一旦开启后，我们就需要通过 stopService() 方法或者 stopSelf() 方法把服务关闭，这时就会回调 onDestroy()。</p>
+<h4 id="一、创建服务类"><a href="#一、创建服务类" class="headerlink" title="一、创建服务类"></a>一、创建服务类</h4><p>&#160; &#160; &#160; &#160;创建一个服务非常简单，只要继承 Service，并实现onBind()方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BackGroupService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 綁定服务时调用</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> intent</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        Log.e(<span class="string">"Service"</span>, <span class="string">"onBind"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 服务创建时调用</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.e(<span class="string">"Service"</span>, <span class="string">"onCreate"</span>);</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 执行startService时调用</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> intent</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> flags</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> startId</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">onStartCommand</span><span class="params">(Intent intent, <span class="keyword">int</span> flags, <span class="keyword">int</span> startId)</span> </span>&#123;</span><br><span class="line">        Log.e(<span class="string">"Service"</span>, <span class="string">"onStartCommand"</span>);</span><br><span class="line">        <span class="comment">//这里执行耗时操作</span></span><br><span class="line">        <span class="keyword">new</span> Thread() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Log.e(<span class="string">"Service"</span>, <span class="string">"doSomething"</span>);</span><br><span class="line">                        Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.start();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onStartCommand(intent, flags, startId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 服务被销毁时调用</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.e(<span class="string">"Service"</span>, <span class="string">"onDestroy"</span>);</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二、配置服务"><a href="#二、配置服务" class="headerlink" title="二、配置服务"></a>二、配置服务</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">".Service.BackGroupService"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="三、启动服务和停止服务"><a href="#三、启动服务和停止服务" class="headerlink" title="三、启动服务和停止服务"></a>三、启动服务和停止服务</h4><p>&#160; &#160; &#160; &#160;我们通过两个按钮分别演示启动服务和停止服务，通过 startService() 开启服务，通过 stopService() 停止服务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Button bt_open, bt_close;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        bt_open = (Button) findViewById(R.id.open);</span><br><span class="line">        bt_close = (Button) findViewById(R.id.close);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, BackGroupService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">        bt_open.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//启动服务</span></span><br><span class="line">                startService(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        bt_close.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//停止服务</span></span><br><span class="line">                stopService(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;当你开启服务后，还有一种方法可以关闭服务，在设置中，通过应用-&gt;找到自己应用-&gt;停止。</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/1a41ad8e3a2a53fcd15727ee8ceb37972648301d/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E5%85%B3%E9%97%AD%E6%9C%8D%E5%8A%A1.png" alt="关闭服务"></p>
+<h4 id="四、运行代码"><a href="#四、运行代码" class="headerlink" title="四、运行代码"></a>四、运行代码</h4><p>&#160; &#160; &#160; &#160;运行程序后，我们点击开始服务，然后一段时间后关闭服务。以 Log 信息来验证普通 Service 的生命周期：onCreate-&gt;onStartCommand-&gt;onDestroy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">11-24 00:19:51.483 16407-16407&#x2F;com.handsome.boke2 E&#x2F;Service: onCreate</span><br><span class="line">11-24 00:19:51.483 16407-16407&#x2F;com.handsome.boke2 E&#x2F;Service: onStartCommand</span><br><span class="line">11-24 00:19:51.485 16407-16613&#x2F;com.handsome.boke2 E&#x2F;Service: doSomething</span><br><span class="line">11-24 00:19:53.490 16407-16613&#x2F;com.handsome.boke2 E&#x2F;Service: doSomething</span><br><span class="line">11-24 00:19:55.491 16407-16613&#x2F;com.handsome.boke2 E&#x2F;Service: doSomething</span><br><span class="line">11-24 00:19:57.491 16407-16613&#x2F;com.handsome.boke2 E&#x2F;Service: doSomething</span><br><span class="line">11-24 00:19:58.056 16407-16407&#x2F;com.handsome.boke2 E&#x2F;Service: onDestroy</span><br><span class="line">11-24 00:19:59.492 16407-16613&#x2F;com.handsome.boke2 E&#x2F;Service: doSomething</span><br><span class="line">11-24 00:20:01.494 16407-16613&#x2F;com.handsome.boke2 E&#x2F;Service: doSomething</span><br><span class="line">11-24 00:20:03.495 16407-16613&#x2F;com.handsome.boke2 E&#x2F;Service: doSomething</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;会发现我们的子线程进行的耗时操作是一直存在的，而 Service 已经被关闭了，关闭该子线程的方法需要直接通过 Home 键关闭该应用程序。</p>
+<h3 id="可交互的后台服务"><a href="#可交互的后台服务" class="headerlink" title="可交互的后台服务"></a>可交互的后台服务</h3><p>&#160; &#160; &#160; &#160;可交互的后台服务是指前台页面可以调用后台服务的方法，可交互的后台服务实现步骤是和不可交互的后台服务实现步骤是一样的，区别在于启动的方式和获得 Service 的代理对象。</p>
+<h4 id="一、创建服务类-1"><a href="#一、创建服务类-1" class="headerlink" title="一、创建服务类"></a>一、创建服务类</h4><p>&#160; &#160; &#160; &#160;和普通 Service 不同在于这里返回一个代理对象，返回给前台进行获取，即前台可以获取该代理对象执行后台服务的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BackGroupService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 綁定服务时调用</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> intent</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        Log.e(<span class="string">"Service"</span>, <span class="string">"onBind"</span>);</span><br><span class="line">        <span class="comment">//返回代理对象</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyBinder();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 代理类</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">MyBinder</span> <span class="keyword">extends</span> <span class="title">Binder</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showToast</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            Log.e(<span class="string">"Service"</span>, <span class="string">"showToast"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            Log.e(<span class="string">"Service"</span>, <span class="string">"showList"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 解除绑定服务时调用</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> intent</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onUnbind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        Log.e(<span class="string">"Service"</span>, <span class="string">"onUnbind"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onUnbind(intent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 服务创建时调用</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.e(<span class="string">"Service"</span>, <span class="string">"onCreate"</span>);</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 服务被销毁时调用</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.e(<span class="string">"Service"</span>, <span class="string">"onDestroy"</span>);</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二、配置服务-1"><a href="#二、配置服务-1" class="headerlink" title="二、配置服务"></a>二、配置服务</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">".Service.BackGroupService"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="三、绑定服务和解除绑定服务"><a href="#三、绑定服务和解除绑定服务" class="headerlink" title="三、绑定服务和解除绑定服务"></a>三、绑定服务和解除绑定服务</h4><p>&#160; &#160; &#160; &#160;通过两个按钮分别演示绑定服务和解除绑定服务，通过 bindService() 开启服务，通过 unbindService() 停止服务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Button bt_open, bt_close;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        bt_open = (Button) findViewById(R.id.open);</span><br><span class="line">        bt_close = (Button) findViewById(R.id.close);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, BackGroupService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">        bt_open.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                bindService(intent, conn, BIND_AUTO_CREATE);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        bt_close.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                unbindService(conn);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ServiceConnection conn = <span class="keyword">new</span> ServiceConnection() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> </span>&#123;</span><br><span class="line">            <span class="comment">//拿到后台服务代理对象</span></span><br><span class="line">            BackGroupService.MyBinder myBinder = (BackGroupService.MyBinder) service;</span><br><span class="line">            <span class="comment">//调用后台服务的方法</span></span><br><span class="line">            myBinder.showToast();</span><br><span class="line">            myBinder.showList();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(ComponentName name)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;这里和 startService 的区别在于多了一个 ServiceConnection 对象，该对象是用户绑定后台服务后，可获取后台服务代理对象的回调，我们可以通过该回调，拿到后台服务的代理对象，并调用后台服务定义的方法，也就实现了后台服务和前台的交互。</p>
+<h4 id="四、运行代码-1"><a href="#四、运行代码-1" class="headerlink" title="四、运行代码"></a>四、运行代码</h4><p>&#160; &#160; &#160; &#160;运行程序后，我们点击绑定服务，然后一段时间后解除绑定服务。我们以Log信息来验证Service的生命周期：onCreate-&gt;onBind-&gt;onUnBind-&gt;onDestroy，其中也可以看到我们调用后台服务的方法 showToast 和 showList。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">11-24 00:55:32.775 15408-15408&#x2F;com.handsome.boke2 E&#x2F;Service: onCreate</span><br><span class="line">11-24 00:55:32.775 15408-15408&#x2F;com.handsome.boke2 E&#x2F;Service: onBind</span><br><span class="line">11-24 00:55:32.796 15408-15408&#x2F;com.handsome.boke2 E&#x2F;Service: showToast</span><br><span class="line">11-24 00:55:32.796 15408-15408&#x2F;com.handsome.boke2 E&#x2F;Service: showList</span><br><span class="line">11-24 00:55:34.290 15408-15408&#x2F;com.handsome.boke2 E&#x2F;Service: onUnbind</span><br><span class="line">11-24 00:55:34.290 15408-15408&#x2F;com.handsome.boke2 E&#x2F;Service: onDestroy</span><br></pre></td></tr></table></figure>
+
+<h2 id="混合性交互的后台服务"><a href="#混合性交互的后台服务" class="headerlink" title="混合性交互的后台服务"></a>混合性交互的后台服务</h2><p>&#160; &#160; &#160; &#160;将上面两种启动方式结合起来就是混合性交互的后台服务了，即可以单独运行后台服务，也可以运行后台服务中提供的方法，其完整的生命周期是：onCreate-&gt;onStartCommand-&gt;onBind-&gt;onUnBind-&gt;onDestroy。</p>
+<h2 id="前台服务"><a href="#前台服务" class="headerlink" title="前台服务"></a>前台服务</h2><p>&#160; &#160; &#160; &#160;由于后台服务优先级相对比较低，当系统出现内存不足的情况下，它就有可能会被回收掉，所以前台服务就是来弥补这个缺点的，它可以一直保持运行状态而不被系统回收。例如：墨迹天气在状态栏中的天气预报。</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/42b515861bc4971e95a9fe71681fa80719029335/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E5%A2%A8%E8%BF%B9%E5%A4%A9%E6%B0%94%E5%9C%A8%E7%8A%B6%E6%80%81%E6%A0%8F%E4%B8%AD%E7%9A%84%E5%A4%A9%E6%B0%94%E9%A2%84%E6%8A%A5.png" alt="墨迹天气在状态栏中的天气预报"></p>
+<h3 id="一、创建服务类-2"><a href="#一、创建服务类-2" class="headerlink" title="一、创建服务类"></a>一、创建服务类</h3><p>&#160; &#160; &#160; &#160;前台服务创建很简单，其实就在Service的基础上创建一个Notification，然后使用Service的startForeground()方法即可启动为前台服务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForegroundService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        showNotification();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 启动前台通知</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">showNotification</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建通知详细信息</span></span><br><span class="line">        Notification.Builder mBuilder = <span class="keyword">new</span> Notification.Builder(<span class="keyword">this</span>)</span><br><span class="line">                .setSmallIcon(R.mipmap.ic_launcher)</span><br><span class="line">                .setContentTitle(<span class="string">"2016年11月24日"</span>)</span><br><span class="line">                .setContentText(<span class="string">"今天天气阴天，8到14度"</span>);</span><br><span class="line">        <span class="comment">//创建点击跳转Intent</span></span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, MainActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        <span class="comment">//创建任务栈Builder</span></span><br><span class="line">        TaskStackBuilder stackBuilder = TaskStackBuilder.create(<span class="keyword">this</span>);</span><br><span class="line">        stackBuilder.addParentStack(MainActivity<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        stackBuilder.addNextIntent(intent);</span><br><span class="line">        PendingIntent pendingIntent = stackBuilder.getPendingIntent(<span class="number">0</span>,PendingIntent.FLAG_UPDATE_CURRENT);</span><br><span class="line">        <span class="comment">//设置跳转Intent到通知中</span></span><br><span class="line">        mBuilder.setContentIntent(pendingIntent);</span><br><span class="line">        <span class="comment">//获取通知服务</span></span><br><span class="line">        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);</span><br><span class="line">        <span class="comment">//构建通知</span></span><br><span class="line">        Notification notification = mBuilder.build();</span><br><span class="line">        <span class="comment">//显示通知</span></span><br><span class="line">        nm.notify(<span class="number">0</span>, notification);</span><br><span class="line">        <span class="comment">//启动为前台服务</span></span><br><span class="line">        startForeground(<span class="number">0</span>, notification);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="二、配置服务-2"><a href="#二、配置服务-2" class="headerlink" title="二、配置服务"></a>二、配置服务</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">".Service.ForegroundService"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="三、启动前台服务"><a href="#三、启动前台服务" class="headerlink" title="三、启动前台服务"></a>三、启动前台服务</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startService(<span class="keyword">new</span> Intent(<span class="keyword">this</span>, ForegroundService<span class="class">.<span class="keyword">class</span>))</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="四、运行代码-2"><a href="#四、运行代码-2" class="headerlink" title="四、运行代码"></a>四、运行代码</h3><p>&#160; &#160; &#160; &#160;我们可以看到状态栏确实增加了我们这条通知。</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/8391cf7705695d28135e2eebbb76943ca1f8eac6/IT/Android/Service%E7%B3%BB%E5%88%97/Service/%E7%8A%B6%E6%80%81%E6%A0%8F%E5%A2%9E%E5%8A%A0%E9%80%9A%E7%9F%A5.png" alt="状态栏增加通知"></p>
+<p>&#160; &#160; &#160; &#160;当我们将该程序退出并杀掉的时候，通过设置-&gt;应用-&gt;选择正在运行中的应用，我们可以发现，我们的程序退出杀掉了，而服务还在进行着。</p>
+<h2 id="系统服务"><a href="#系统服务" class="headerlink" title="系统服务"></a>系统服务</h2><p>&#160; &#160; &#160; &#160;系统服务提供了很多便捷服务，可以查询Wifi、网络状态、查询电量、查询音量、查询包名、查询Application信息等等等相关多的服务，具体大家可以自信查询文档，这里举例几个常见的服务。</p>
+<p>&#160; &#160; &#160; &#160;1. 判断Wifi是否开启</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WifiManager wm = (WifiManager) getSystemService(WIFI_SERVICE);</span><br><span class="line"><span class="keyword">boolean</span> enabled = wm.isWifiEnabled();</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;需要权限</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_WIFI_STATE"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.CHANGE_WIFI_STATE"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;2. 获取系统最大音量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);</span><br><span class="line"><span class="keyword">int</span> max = am.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;3. 获取当前音量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);</span><br><span class="line"><span class="keyword">int</span> current = am.getStreamMaxVolume(AudioManager.STREAM_RING);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;4. 判断网络是否有连接</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);</span><br><span class="line">NetworkInfo info = cm.getActiveNetworkInfo();</span><br><span class="line"><span class="keyword">boolean</span> isAvailable = info.isAvailable();</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;需要权限</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考资料：<br>叶志陈_ <a href="https://blog.csdn.net/new_one_object/article/details/55802948" target="_blank" rel="noopener">Android Service使用详解</a><br>Hensen_ <a href="http://blog.csdn.net/qq_30379689/article/details/53318861" target="_blank" rel="noopener">Android四大组件——Service后台服务、前台服务、IntentService、跨进程服务、无障碍服务、系统服务</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+          
+            <a href="/tags/Service/" rel="tag"># Service</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/10/IT/Android/%E7%BA%BF%E7%A8%8B/Android%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/" rel="next" title="Android异步消息处理机制详解">
+                <i class="fa fa-chevron-left"></i> Android异步消息处理机制详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/15/IT/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%EF%BC%88%E5%9B%9B%EF%BC%89/" rel="prev" title="代理模式（四）">
+                代理模式（四） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDEwMS82NjU2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myavatar.jpg"
+               alt="wy521angel" />
+          <p class="site-author-name" itemprop="name">wy521angel</p>
+           
+              <p class="site-description motion-element" itemprop="description">存放一些IT技术积累</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">136</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="Hongyang的博客" target="_blank">Hongyang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/guolin_blog" title="郭霖的博客" target="_blank">郭霖的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/eclipsexys" title="eclipse_xu的博客" target="_blank">eclipse_xu的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lovelion?viewmode=list" title="刘伟的博客" target="_blank">刘伟的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philipdroid.github.io" title="philipdroid的博客" target="_blank">philipdroid的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://juejin.im/timeline" title="掘金" target="_blank">掘金</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.infoq.com/cn" title="InfoQ" target="_blank">InfoQ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.uisdc.com" title="优设" target="_blank">优设</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=34341358&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Service简介"><span class="nav-number">1.</span> <span class="nav-text">Service简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础知识"><span class="nav-number">2.</span> <span class="nav-text">基础知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#声明-Service"><span class="nav-number">3.</span> <span class="nav-text">声明 Service</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动Service"><span class="nav-number">4.</span> <span class="nav-text">启动Service</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#继承Service"><span class="nav-number">4.1.</span> <span class="nav-text">继承Service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IntentService（详见-IntentService-详解）"><span class="nav-number">4.2.</span> <span class="nav-text">IntentService（详见 IntentService 详解）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#绑定Service"><span class="nav-number">5.</span> <span class="nav-text">绑定Service</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定服务的具体步骤"><span class="nav-number">5.1.</span> <span class="nav-text">绑定服务的具体步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展-Binder-类"><span class="nav-number">5.1.1.</span> <span class="nav-text">扩展 Binder 类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现-ServiceConnection接口"><span class="nav-number">5.1.2.</span> <span class="nav-text">实现 ServiceConnection接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用-bindService-，传递-ServiceConnection-对象"><span class="nav-number">5.1.3.</span> <span class="nav-text">调用 bindService()，传递 ServiceConnection 对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当系统调用了-onServiceConnected-的回调方法时，就可以通过IBinder对象操作服务了"><span class="nav-number">5.1.4.</span> <span class="nav-text">当系统调用了 onServiceConnected() 的回调方法时，就可以通过IBinder对象操作服务了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#要断开与服务的连接需调用-unbindService-方法。如果应用在客户端仍处于绑定状态时销毁客户端，会导致客户端取消绑定，更好的做法是在客户端与服务交互完成后立即取消绑定客户端，这样可以关闭空闲服务"><span class="nav-number">5.1.5.</span> <span class="nav-text">要断开与服务的连接需调用 unbindService()方法。如果应用在客户端仍处于绑定状态时销毁客户端，会导致客户端取消绑定，更好的做法是在客户端与服务交互完成后立即取消绑定客户端，这样可以关闭空闲服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定服务的生命周期"><span class="nav-number">5.2.</span> <span class="nav-text">绑定服务的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定时机"><span class="nav-number">5.3.</span> <span class="nav-text">绑定时机</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在前台运行Service"><span class="nav-number">6.</span> <span class="nav-text">在前台运行Service</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生命周期"><span class="nav-number">7.</span> <span class="nav-text">生命周期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从服务的种类再谈-Service"><span class="nav-number">8.</span> <span class="nav-text">从服务的种类再谈 Service</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#后台服务"><span class="nav-number">8.1.</span> <span class="nav-text">后台服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不可交互的后台服务"><span class="nav-number">8.1.1.</span> <span class="nav-text">不可交互的后台服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、创建服务类"><span class="nav-number">8.1.1.1.</span> <span class="nav-text">一、创建服务类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、配置服务"><span class="nav-number">8.1.1.2.</span> <span class="nav-text">二、配置服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、启动服务和停止服务"><span class="nav-number">8.1.1.3.</span> <span class="nav-text">三、启动服务和停止服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、运行代码"><span class="nav-number">8.1.1.4.</span> <span class="nav-text">四、运行代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可交互的后台服务"><span class="nav-number">8.1.2.</span> <span class="nav-text">可交互的后台服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、创建服务类-1"><span class="nav-number">8.1.2.1.</span> <span class="nav-text">一、创建服务类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、配置服务-1"><span class="nav-number">8.1.2.2.</span> <span class="nav-text">二、配置服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、绑定服务和解除绑定服务"><span class="nav-number">8.1.2.3.</span> <span class="nav-text">三、绑定服务和解除绑定服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、运行代码-1"><span class="nav-number">8.1.2.4.</span> <span class="nav-text">四、运行代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混合性交互的后台服务"><span class="nav-number">8.2.</span> <span class="nav-text">混合性交互的后台服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前台服务"><span class="nav-number">8.3.</span> <span class="nav-text">前台服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、创建服务类-2"><span class="nav-number">8.3.1.</span> <span class="nav-text">一、创建服务类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、配置服务-2"><span class="nav-number">8.3.2.</span> <span class="nav-text">二、配置服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、启动前台服务"><span class="nav-number">8.3.3.</span> <span class="nav-text">三、启动前台服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、运行代码-2"><span class="nav-number">8.3.4.</span> <span class="nav-text">四、运行代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统服务"><span class="nav-number">8.4.</span> <span class="nav-text">系统服务</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wy521angel</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("xVeur9szsyg7AkKwseQcBlqr-MdYXbMMI", "UEl3HMLcU0j2xYsHkUlJGVS8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a href="https://github.com/wy521angel" target="_blank" rel="noopener"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+  
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>

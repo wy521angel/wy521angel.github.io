@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="面试,Cookie,Authorization," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wy521angel的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Cookie、Authorization">
+<meta property="og:type" content="article">
+<meta property="og:title" content="登录与授权">
+<meta property="og:url" content="http://yoursite.com/2019/11/21/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/6.%E7%99%BB%E5%BD%95%E4%B8%8E%E6%8E%88%E6%9D%83/index.html">
+<meta property="og:site_name" content="wy521angel的博客">
+<meta property="og:description" content="Cookie、Authorization">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B61.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B62.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B63.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B64.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B65.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B66.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/96979044baa97de45bf0a52f1258c7389dfbf924/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%811.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/96979044baa97de45bf0a52f1258c7389dfbf924/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%812.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/96979044baa97de45bf0a52f1258c7389dfbf924/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%813.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/96979044baa97de45bf0a52f1258c7389dfbf924/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%814.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/96979044baa97de45bf0a52f1258c7389dfbf924/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%815.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%816.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD1.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD2.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD3.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD4.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD5.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD6.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E8%BF%BD%E8%B8%AA%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA1.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E8%BF%BD%E8%B8%AA%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA2.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E8%BF%BD%E8%B8%AA%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA3.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E8%BF%BD%E8%B8%AA%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA4.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E8%BF%BD%E8%B8%AA%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA5.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B1.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B2.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B3.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B4.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B5.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B%E6%80%9D%E8%80%831.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B%E6%80%9D%E8%80%832.png?raw=true">
+<meta property="article:published_time" content="2019-11-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-11-24T13:21:46.000Z">
+<meta property="article:author" content="wy521angel">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="Cookie">
+<meta property="article:tag" content="Authorization">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B61.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/21/IT/网络与协议/6.登录与授权/"/>
+
+
+
+
+
+  <title>登录与授权 | wy521angel的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wy521angel的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一个从事IT工作的伪文艺青年</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-camera"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/21/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/6.%E7%99%BB%E5%BD%95%E4%B8%8E%E6%8E%88%E6%9D%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wy521angel">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wy521angel的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">登录与授权</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-21T00:00:00+08:00">
+                2019-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/" itemprop="url" rel="index">
+                    <span itemprop="name">IT</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">网络与协议</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E7%99%BB%E5%BD%95%E4%B8%8E%E6%8E%88%E6%9D%83/" itemprop="url" rel="index">
+                    <span itemprop="name">登录与授权</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/11/21/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/6.%E7%99%BB%E5%BD%95%E4%B8%8E%E6%8E%88%E6%9D%83/" class="leancloud_visitors" data-flag-title="登录与授权">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  Cookie、Authorization
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="登录和授权的区别"><a href="#登录和授权的区别" class="headerlink" title="登录和授权的区别"></a>登录和授权的区别</h1><ul>
+<li>登录：身份认证，即确认“你是你”的过程。</li>
+<li>授权：由身份或持有的令牌确认享有某些权限（例如获取⽤户信息）。登录过程实质上的⽬的也是为了确认权限。</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;因此，在实际的应⽤中，多数场景下的“登录”和“授权”界限是模糊的。</p>
+<h1 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h1><h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><p>&#160; &#160; &#160; &#160;“购物⻋”功能的需求，由 Netscape 浏览器开发团队打造。</p>
+<h2 id="⼯作机制"><a href="#⼯作机制" class="headerlink" title="⼯作机制"></a>⼯作机制</h2><ol>
+<li>服务器需要客户端保存的内容，放在 Set-Cookie headers ⾥返回，客户端会⾃动保存。</li>
+<li>客户端保存的 Cookies，会在之后的所有请求⾥都携带进 Cookie header ⾥发回给服务器。</li>
+<li>客户端保存 Cookie 是按照服务器域名来分类的，例如 shop.com 发回的 Cookie 保存下来以后，在之后向 games.com 的请求中并不会携带。</li>
+<li>客户端保存的 Cookie 在超时后会被删除、没有设置超时时间的 Cookie（称作 Session Cookie）在浏览器关闭后就会⾃动删除；另外，服务器也可以主动删除还未过期的客户端 Cookies。</li>
+</ol>
+<p>&#160; &#160; &#160; &#160;图例：</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B61.png?raw=true" alt="Cookie工作机制1"></p>
+<p>&#160; &#160; &#160; &#160;如上图在购物车添加一个苹果，访问“cart”购物车的“path”，用“post”传入一个数据“apple = 1”，表示购物车增加一个苹果。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B62.png?raw=true" alt="Cookie工作机制2"></p>
+<p>&#160; &#160; &#160; &#160;服务器处理完成，返回信息，同时附加一个 header—“Set-Cookie”（Cookie 是客户端给服务端用的，Set-Cookie是服务端给客户端用的），要求客户端保存cart = “apple = 1”</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B63.png?raw=true" alt="Cookie工作机制3"></p>
+<p>&#160; &#160; &#160; &#160;客户端按域（此处是 shop.com）保存该 Cookie ，原封不动地将 cart = “apple = 1”保存下来。当再次访问指定的域时，Cookie 内容会自动附加出去，这是由浏览器来实现的，网站开发者或者用户不必关心。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B64.png?raw=true" alt="Cookie工作机制4"></p>
+<p>&#160; &#160; &#160; &#160;下次再向购物车添加香蕉时，只需要发送 banana = 1 ，同时将 Cookie 附加过去（浏览器执行的）。通过 psot 的 body 告诉服务器需要增加一个香蕉 ，通过 Cookie 自动告诉服务器已经增加了一个苹果。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B65.png?raw=true" alt="Cookie工作机制5"></p>
+<p>&#160; &#160; &#160; &#160;服务器这边已经确定，现在购物车里面一个苹果一个香蕉。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B66.png?raw=true" alt="Cookie工作机制6"></p>
+<p>&#160; &#160; &#160; &#160;客户端自动更新 Cookie 。整个过程服务器没有记录任何数据。</p>
+<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><h3 id="会话管理：登录状态、购物车等"><a href="#会话管理：登录状态、购物车等" class="headerlink" title="会话管理：登录状态、购物车等"></a>会话管理：登录状态、购物车等</h3><h4 id="使用-Cookie-管理登录状态"><a href="#使用-Cookie-管理登录状态" class="headerlink" title="使用 Cookie 管理登录状态"></a>使用 Cookie 管理登录状态</h4><p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/96979044baa97de45bf0a52f1258c7389dfbf924/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%811.png?raw=true" alt="使用Cookie管理登录状态1"></p>
+<p>&#160; &#160; &#160; &#160;向服务器发送登录请求，将用户名和密码添加。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/96979044baa97de45bf0a52f1258c7389dfbf924/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%812.png?raw=true" alt="使用Cookie管理登录状态2"></p>
+<p>&#160; &#160; &#160; &#160;服务器确认 a 登录了，并创建一个会话，表示服务端在和某个用户代理（User-Agent）在通信，对方可能是一个登录或未登录状态。例如服务器记录下会话信息：session：id = 123。并将会话信息返回给客户端，表示和客户端在交互。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/96979044baa97de45bf0a52f1258c7389dfbf924/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%813.png?raw=true" alt="使用Cookie管理登录状态3"></p>
+<p>&#160; &#160; &#160; &#160;客户端将 sessionid = 123 记录下来。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/96979044baa97de45bf0a52f1258c7389dfbf924/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%814.png?raw=true" alt="使用Cookie管理登录状态4"></p>
+<p>&#160; &#160; &#160; &#160;客户端再去访问时，会将 sessionid = 123 带过去。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/96979044baa97de45bf0a52f1258c7389dfbf924/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%815.png?raw=true" alt="使用Cookie管理登录状态5"></p>
+<p>&#160; &#160; &#160; &#160;服务器收到后，会对照是否有该会话，查到有 session：id = 123 ，并且处于登录状态，于是将用户信息返回。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E7%AE%A1%E7%90%86%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%816.png?raw=true" alt="使用Cookie管理登录状态6"></p>
+<p>&#160; &#160; &#160; &#160;Cookie 是可以有多个的，像这样客户端有两个 Cookie ：sessionid = 123 和 cart = “apple = 1”，二者互不干扰，分别管理登录和购物车。但管理登录服务器还是需要保存会话的。</p>
+<h4 id="⽤-Cookie-管理⽤户偏好"><a href="#⽤-Cookie-管理⽤户偏好" class="headerlink" title="⽤ Cookie 管理⽤户偏好"></a>⽤ Cookie 管理⽤户偏好</h4><p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD1.png?raw=true" alt="Cookie管理用户偏好1"></p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD2.png?raw=true" alt="Cookie管理用户偏好2"></p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD3.png?raw=true" alt="Cookie管理用户偏好3"></p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD4.png?raw=true" alt="Cookie管理用户偏好4"></p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD5.png?raw=true" alt="Cookie管理用户偏好5"></p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/Cookie%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD6.png?raw=true" alt="Cookie管理用户偏好6"></p>
+<p>&#160; &#160; &#160; &#160;假设 shop.com 有多个主题，客户端发出请求，服务端返回 client_id=123 。客户端特意发送请求改变主题为蓝色，服务器正常返回，并且记下了 client_id=123 的客户端的主题为蓝色。HTTP 是无状态的，下次客户端再访问另外一个页面 other_page ，client_id=123 自动附加，服务器根据 client_id=123 便知道需要蓝色主题了。</p>
+<h4 id="Tracking：分析用户行为"><a href="#Tracking：分析用户行为" class="headerlink" title="Tracking：分析用户行为"></a>Tracking：分析用户行为</h4><p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E8%BF%BD%E8%B8%AA%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA1.png?raw=true" alt="使用Cookie追踪用户行为1"></p>
+<p>&#160; &#160; &#160; &#160;客户端向服务器发送信息。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E8%BF%BD%E8%B8%AA%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA2.png?raw=true" alt="使用Cookie追踪用户行为2"></p>
+<p>&#160; &#160; &#160; &#160;之前的例子中，将服务器返回的 body 省略掉了，此处不能省略，因为 body 是做追踪的主要部分。可以看到图片链接中，增加了和图片地址本身无关的信息：“from=shop.com”，“3rd-party.com”这个网站就是帮助记录用户行踪的网站。追踪用户行为会有一个统一的网站，该网站记录用户去各个站点的信息。该图片链接在用户打开网页之后，会自动显示一张图片，图片会附加“from=shop.com”信息，该信息与图片显示无关。假设如果不是在“shop.com”打开该图片，而是在“taobao.com”，那么图片后面追加的信息则是“from=taobao.com”，二者显示的是同样的图片，但是对于第三方记录网站来说当前用户的来源不一样（“shop.com”还是“taobao.com”）。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E8%BF%BD%E8%B8%AA%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA3.png?raw=true" alt="使用Cookie追踪用户行为3"></p>
+<p>&#160; &#160; &#160; &#160;客户端记录下 Cookie ：client_id=123 ，向第三方（3rd-party.com）发送请求获取图片，第三方会记录 client_id=123 的用户来自 shop.com 。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E8%BF%BD%E8%B8%AA%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA4.png?raw=true" alt="使用Cookie追踪用户行为4"></p>
+<p>&#160; &#160; &#160; &#160;第三方将图片显示给用户。</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/%E4%BD%BF%E7%94%A8Cookie%E8%BF%BD%E8%B8%AA%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA5.png?raw=true" alt="使用Cookie追踪用户行为5"></p>
+<p>&#160; &#160; &#160; &#160;“client_id=abc” 是针对第三方网站的 id ，与 “client_id=123”没有关系，名字（client_id）是可以不一样的。“shop.com:client_id=123” 是用来管理用户的，而“3rd-party.com:client_id=abc”是用来记录用户行踪的。如果该用户再去“taobao.com”，该网站同样做了相同的第三方统计，在显示图片时，第三方网站会知道该用户之前去过“shop.com”，现在来了“taobao.com”，便会记录下这两个网站。这个时候对用户就有一定的画像了，用户去了两个网站。随着用户去的网站多，画像越详细，便有利于推广告。</p>
+<h2 id="利用-Cookie-机制“做坏事”与防范"><a href="#利用-Cookie-机制“做坏事”与防范" class="headerlink" title="利用 Cookie 机制“做坏事”与防范"></a>利用 Cookie 机制“做坏事”与防范</h2><h3 id="XSS-Cross-site-scripting"><a href="#XSS-Cross-site-scripting" class="headerlink" title="XSS (Cross-site scripting)"></a>XSS (Cross-site scripting)</h3><p>&#160; &#160; &#160; &#160;跨站脚本攻击。即使⽤ JavaScript 拿到浏览器的<br>Cookie 之后，发送到⾃⼰的⽹站，以这种⽅式来盗取⽤户 Cookie。</p>
+<p>&#160; &#160; &#160; &#160;应对⽅式： Server 在发送<br>Cookie 时，敏感的 Cookie 加上 HttpOnly ，这个 Cookie 只能⽤于 HTTP 请求，不能被 JavaScript 调⽤。它可以防⽌本地代码滥⽤ Cookie。</p>
+<h3 id="XSRF-Cross-site-request-forgery"><a href="#XSRF-Cross-site-request-forgery" class="headerlink" title="XSRF (Cross-site request forgery)"></a>XSRF (Cross-site request forgery)</h3><p>&#160; &#160; &#160; &#160;跨站请求伪造。即在⽤户不知情的情况下访问已经保存了 Cookie 的⽹站，以此来越权操作⽤户账户（例如盗取⽤户资⾦）。</p>
+<p>&#160; &#160; &#160; &#160;应对⽅式主要是从服务器安全⻆度考虑，如 Referer 校验。</p>
+<h1 id="Authorization"><a href="#Authorization" class="headerlink" title="Authorization"></a>Authorization</h1><p>&#160; &#160; &#160; &#160;两种主流⽅式： Basic 和 Bearer 。</p>
+<h2 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h2><p>&#160; &#160; &#160; &#160;格式： Authorization: Basic &lt;username:password(Base64ed)&gt;</p>
+<p>&#160; &#160; &#160; &#160;示例如下（比如用户名和密码分别为 wy521angel:123456，Base64 转换后为 d3k1MjFhbmdlbDoxMjM0NTY= ）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">get &#x2F;user http:&#x2F;1.1</span><br><span class="line">host: XXXXX.XXX</span><br><span class="line">Authorization: Basic d3k1MjFhbmdlbDoxMjM0NTY&#x3D;</span><br><span class="line"></span><br><span class="line">http:&#x2F;1.1 200 OK</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;“Authorization: Basic d3k1MjFhbmdlbDoxMjM0NTY=”这个就是认证信息，用在 header 中，如果数据对了，就可以获取到用户信息。为了安全，需要使用 Https 来传输。</p>
+<h2 id="Bearer"><a href="#Bearer" class="headerlink" title="Bearer"></a>Bearer</h2><p>&#160; &#160; &#160; &#160;格式： Authorization: Bearer &lt;bearer token&gt;</p>
+<p>&#160; &#160; &#160; &#160;bearer token 的获取⽅式：通过 OAuth2 的授权流程。</p>
+<h3 id="OAuth2-的流程图例："><a href="#OAuth2-的流程图例：" class="headerlink" title="OAuth2 的流程图例："></a>OAuth2 的流程图例：</h3><p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B1.png?raw=true" alt="OAuth2 的流程图例1"></p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B2.png?raw=true" alt="OAuth2 的流程图例2"></p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B3.png?raw=true" alt="OAuth2 的流程图例3"></p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B4.png?raw=true" alt="OAuth2 的流程图例4"></p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B5.png?raw=true" alt="OAuth2 的流程图例5"></p>
+<ol start="0">
+<li>第三⽅⽹站向授权⽅⽹站申请第三⽅授权合作，拿到 client id 和 client secret ；</li>
+<li>⽤户在使⽤第三⽅⽹站时，点击「通过 XX (如 GitHub) 授权」按钮，第三⽅⽹站将⻚⾯跳转到授权⽅⽹站，并传⼊ client id 作为⾃⼰的身份标识；</li>
+<li>授权⽅⽹站根据 client id ，将第三⽅⽹站的信息和第三⽅⽹站需要的⽤户权限展示给⽤户，并询问⽤户是否同意授权；</li>
+<li>⽤户点击「同意授权」按钮后，授权⽅⽹站将⻚⾯跳转回第三⽅⽹站，并传⼊ Authorization code 作为⽤户认可的凭证；</li>
+<li>第三⽅⽹站将 Authorization code 发送回⾃⼰的服务器；</li>
+<li>服务器将 Authorization code 和⾃⼰的 client secret ⼀并发送给授权⽅的服务器，授权⽅<br>服务器在验证通过后，返回 access token， OAuth 流程结束；</li>
+<li>在上⾯的过程结束之后，第三⽅⽹站的服务器（或者有时客户端也会）就可以使⽤ access<br>token 作为⽤户授权的令牌，向授权⽅⽹站发送请求来获取⽤户信息或操作⽤户账户。但这<br>已经在 OAuth 流程之外。</li>
+</ol>
+<p>&#160; &#160; &#160; &#160;如下图所示，Server 有时会把 access token 发还给客户端，这个不是不允许的，只不过这会对安全有一定的影响：</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B%E6%80%9D%E8%80%831.png?raw=true" alt="OAuth2流程思考1"></p>
+<p>&#160; &#160; &#160; &#160;如下图所示，这样请求也是允许的，很多公司都这样使用，只是它可能不太具有 OAuth2 的安全性：</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/OAuth2%E6%B5%81%E7%A8%8B%E6%80%9D%E8%80%832.png?raw=true" alt="OAuth2流程思考2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">为什么 OAuth 要引⼊ Authorization code，并需要申请授权的第三⽅将 Authorization code 发送回⾃⼰的服务器，再从服务器来获取 access token，⽽不是直接返回 access token ？这样复杂的流程意义何在？</span><br><span class="line"></span><br><span class="line">为了安全。 OAuth 不强制授权流程必须使⽤ HTTPS，因此需要保证当通信路径中存在窃听者时，依然具有⾜够⾼的安全性。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">第三方登录与第三方授权中的“第三方”：</span><br><span class="line">拿用户、掘金社区和 Github 举例，用户通过 Github 账号登录掘金，本来是用户和 Github 之间的信息，现在分享给掘金社区，则授权中的“第三方”是掘金；而通过 Github 账号登录掘金，登录的是掘金社区，利用了 Github ，登录的“第三方”是 Github 。</span><br></pre></td></tr></table></figure>
+
+<h3 id="微信登录："><a href="#微信登录：" class="headerlink" title="微信登录："></a>微信登录：</h3><p>&#160; &#160; &#160; &#160;第三⽅ App 通过微信登录的流程，也是⼀个 OAuth2 流程：</p>
+<ol start="0">
+<li>第三⽅ App 向腾讯申请第三⽅授权合作，拿到 client id 和 client secret ；</li>
+<li>⽤户在使⽤第三⽅ App 时，点击「通过微信登录」，第三⽅ App 将使⽤微信 SDK 跳转到<br>微信，并传⼊⾃⼰的 client id 作为⾃⼰的身份标识；</li>
+<li>微信通过和服务器交互，拿到第三⽅ App 的信息，并限制在界⾯中，然后询问⽤户是否同<br>意授权该 App 使⽤微信来登录；</li>
+<li>⽤户点击「使⽤微信登录」后，微信和服务器交互将授权信息提交，然后跳转回第三⽅<br>App，并传⼊ Authorization code 作为⽤户认可的凭证；</li>
+<li>第三⽅ App 调⽤⾃⼰服务器的「微信登录」 Api，并传⼊ Authorization code，然后等待<br>服务器的响应；</li>
+<li>服务器在收到登录请求后，拿收到的 Authorization code 去向微信的第三⽅授权接⼝发送<br>请求，将 Authorization code 和⾃⼰的 client secret ⼀起作为参数发送，微信在验证通过<br>后，返回 access token ；</li>
+<li>服务器在收到 access token 后，⽴即拿着 access token 去向微信的⽤户信息接⼝发送请<br>求，微信验证通过后，返回⽤户信息；</li>
+<li>服务器在收到⽤户信息后，在⾃⼰的数据库中为⽤户创建⼀个账户，并使⽤从微信服务器<br>拿来的⽤户信息填⼊⾃⼰的数据库，以及将⽤户的 ID 和⽤户的微信 ID 做关联；</li>
+<li>⽤户创建完成后，服务器向客户端的请求发送响应，传送回刚创建好的⽤户信息；</li>
+<li>客户端收到服务器响应，⽤户登录成功。</li>
+</ol>
+<h3 id="在⾃家-App-中使⽤-Bearer-token"><a href="#在⾃家-App-中使⽤-Bearer-token" class="headerlink" title="在⾃家 App 中使⽤ Bearer token"></a>在⾃家 App 中使⽤ Bearer token</h3><p>&#160; &#160; &#160; &#160;有的 App 会在 Api 的设计中，将登录和授权设计成类似 OAuth2 的过程，但简化掉 Authorization code 概念。即：登录接⼝请求成功时，会返回 access token，然后客户端在之后的请求中，就可以使⽤这个 access token 来当做 bearer token 进⾏⽤户操作了。</p>
+<h3 id="Refresh-token"><a href="#Refresh-token" class="headerlink" title="Refresh token"></a>Refresh token</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"token_type"</span>: <span class="string">"Bearer"</span>,</span><br><span class="line">  <span class="string">"access_token"</span>: <span class="string">"xxxxx"</span>,</span><br><span class="line">  <span class="string">"refresh_token"</span>: <span class="string">"xxxxx"</span>,</span><br><span class="line">  <span class="string">"expires_time"</span>: <span class="string">"xxxxx"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>⽤法： access token 有失效时间，在它失效后，调⽤ refresh token 接⼝，传⼊ refresh_token 来获取新的 access token。</li>
+<li>⽬的：安全。当 access token 失窃，由于它有失效时间，因此坏⼈只有较短的时间来“做坏<br>事”；同时，由于（在标准的 OAuth2 流程中） refresh token 永远只存在与第三⽅服务的服务<br>器中，因此 refresh token ⼏乎没有失窃的⻛险。</li>
+</ul>
+<blockquote>
+<p>参考资料：<br>腾讯课堂 HenCoder</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+          
+            <a href="/tags/Cookie/" rel="tag"># Cookie</a>
+          
+            <a href="/tags/Authorization/" rel="tag"># Authorization</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/20/IT/%E7%AE%97%E6%B3%95/Hash/" rel="next" title="Hash">
+                <i class="fa fa-chevron-left"></i> Hash
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/24/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/7.TCP%20IP%E5%8D%8F%E8%AE%AE%E6%97%8F/" rel="prev" title="TCP/IP协议族">
+                TCP/IP协议族 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDEwMS82NjU2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myavatar.jpg"
+               alt="wy521angel" />
+          <p class="site-author-name" itemprop="name">wy521angel</p>
+           
+              <p class="site-description motion-element" itemprop="description">存放一些IT技术积累</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">136</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="Hongyang的博客" target="_blank">Hongyang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/guolin_blog" title="郭霖的博客" target="_blank">郭霖的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/eclipsexys" title="eclipse_xu的博客" target="_blank">eclipse_xu的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lovelion?viewmode=list" title="刘伟的博客" target="_blank">刘伟的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philipdroid.github.io" title="philipdroid的博客" target="_blank">philipdroid的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://juejin.im/timeline" title="掘金" target="_blank">掘金</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.infoq.com/cn" title="InfoQ" target="_blank">InfoQ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.uisdc.com" title="优设" target="_blank">优设</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=34341358&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#登录和授权的区别"><span class="nav-number">1.</span> <span class="nav-text">登录和授权的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cookie"><span class="nav-number">2.</span> <span class="nav-text">Cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#起源"><span class="nav-number">2.1.</span> <span class="nav-text">起源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#⼯作机制"><span class="nav-number">2.2.</span> <span class="nav-text">⼯作机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用"><span class="nav-number">2.3.</span> <span class="nav-text">作用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#会话管理：登录状态、购物车等"><span class="nav-number">2.3.1.</span> <span class="nav-text">会话管理：登录状态、购物车等</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-Cookie-管理登录状态"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">使用 Cookie 管理登录状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#⽤-Cookie-管理⽤户偏好"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">⽤ Cookie 管理⽤户偏好</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tracking：分析用户行为"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">Tracking：分析用户行为</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用-Cookie-机制“做坏事”与防范"><span class="nav-number">2.4.</span> <span class="nav-text">利用 Cookie 机制“做坏事”与防范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS-Cross-site-scripting"><span class="nav-number">2.4.1.</span> <span class="nav-text">XSS (Cross-site scripting)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSRF-Cross-site-request-forgery"><span class="nav-number">2.4.2.</span> <span class="nav-text">XSRF (Cross-site request forgery)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Authorization"><span class="nav-number">3.</span> <span class="nav-text">Authorization</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic"><span class="nav-number">3.1.</span> <span class="nav-text">Basic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bearer"><span class="nav-number">3.2.</span> <span class="nav-text">Bearer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OAuth2-的流程图例："><span class="nav-number">3.2.1.</span> <span class="nav-text">OAuth2 的流程图例：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微信登录："><span class="nav-number">3.2.2.</span> <span class="nav-text">微信登录：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在⾃家-App-中使⽤-Bearer-token"><span class="nav-number">3.2.3.</span> <span class="nav-text">在⾃家 App 中使⽤ Bearer token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Refresh-token"><span class="nav-number">3.2.4.</span> <span class="nav-text">Refresh token</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wy521angel</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("xVeur9szsyg7AkKwseQcBlqr-MdYXbMMI", "UEl3HMLcU0j2xYsHkUlJGVS8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a href="https://github.com/wy521angel" target="_blank" rel="noopener"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+  
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>

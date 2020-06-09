@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="触摸反馈," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wy521angel的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Android GestureDetector、OverScroller、VelocityTracker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="点击与滚动">
+<meta property="og:url" content="http://yoursite.com/2019/12/11/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E7%82%B9%E5%87%BB%E4%B8%8E%E6%BB%9A%E5%8A%A8/index.html">
+<meta property="og:site_name" content="wy521angel的博客">
+<meta property="og:description" content="Android GestureDetector、OverScroller、VelocityTracker">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/49acd4881d720fc87b82d317b01e7daab0d07423/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/scroll%E5%8F%82%E6%95%B0%E7%9A%84%E6%AD%A3%E8%B4%9F%E5%80%BC%E8%AF%B4%E6%98%8E1.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/scroll%E5%8F%82%E6%95%B0%E7%9A%84%E6%AD%A3%E8%B4%9F%E5%80%BC%E8%AF%B4%E6%98%8E2.png?raw=true">
+<meta property="article:published_time" content="2019-12-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-12-19T08:13:24.000Z">
+<meta property="article:author" content="wy521angel">
+<meta property="article:tag" content="触摸反馈">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/49acd4881d720fc87b82d317b01e7daab0d07423/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/scroll%E5%8F%82%E6%95%B0%E7%9A%84%E6%AD%A3%E8%B4%9F%E5%80%BC%E8%AF%B4%E6%98%8E1.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/11/IT/Android/触摸反馈/点击与滚动/"/>
+
+
+
+
+
+  <title>点击与滚动 | wy521angel的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wy521angel的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一个从事IT工作的伪文艺青年</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-camera"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/11/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E7%82%B9%E5%87%BB%E4%B8%8E%E6%BB%9A%E5%8A%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wy521angel">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wy521angel的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">点击与滚动</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-11T00:00:00+08:00">
+                2019-12-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/" itemprop="url" rel="index">
+                    <span itemprop="name">IT</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/" itemprop="url" rel="index">
+                    <span itemprop="name">触摸反馈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/12/11/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E7%82%B9%E5%87%BB%E4%B8%8E%E6%BB%9A%E5%8A%A8/" class="leancloud_visitors" data-flag-title="点击与滚动">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  Android GestureDetector、OverScroller、VelocityTracker
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="GestureDetector"><a href="#GestureDetector" class="headerlink" title="GestureDetector"></a>GestureDetector</h1><p>&#160; &#160; &#160; &#160;⽤于在点击和⻓按之外，增加其它⼿势的监听，例如双击、滑动。通过在 View.onTouchEvent() ⾥调⽤ GestureDetector.onTouchEvent() ，以代理的形式来实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> gestureDetector.onTouchEvent(event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="GestureDetector-的默认监听器：-OnGestureListener"><a href="#GestureDetector-的默认监听器：-OnGestureListener" class="headerlink" title="GestureDetector 的默认监听器： OnGestureListener"></a>GestureDetector 的默认监听器： OnGestureListener</h2><p>&#160; &#160; &#160; &#160;通过构造⽅法 GestureDetector(Context, OnGestureListener) 来配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gestureDetector = <span class="keyword">new</span> GestureDetector(context, gestureListener);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;OnGestureListener 的⼏个回调⽅法如下，这些方法的返回值除了 onDown 有用外，其与方法的返回值（如果有）都没有用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onDown</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line"><span class="comment">// 每次 ACTION_DOWN 事件出现的时候都会被调⽤，一般来说就一个作用，确认事件是不是要消费，</span></span><br><span class="line"><span class="comment">// 在这⾥返回 true 可以保证必然消费掉事件，这里不返回 true 后面的事件都收不到。</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onShowPress</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line"><span class="comment">// ⽤户按下 100ms 不松⼿后会被调⽤，⽤于标记“可以显示按下状态了”</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onSingleTapUp</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line"><span class="comment">// ⽤户单击时被调⽤</span></span><br><span class="line"><span class="comment">// 注意：如果关闭了长按状态，即 gestureDetectorCompat.setIsLongpressEnabled(false);</span></span><br><span class="line"><span class="comment">// 按下后抬起手指无论时间长短都会被调用</span></span><br><span class="line"><span class="comment">// 如果长按开启，默认开启，⻓按后松⼿不会调⽤。</span></span><br><span class="line"><span class="comment">// 双击的第⼆下时不会被调⽤</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onScroll</span><span class="params">(MotionEvent downEvent, MotionEvent event, <span class="keyword">float</span> distanceX, <span class="keyword">float</span> distanceY)</span> </span>&#123;</span><br><span class="line"><span class="comment">// ⽤户滑动时被调⽤ 类似 onMove</span></span><br><span class="line"><span class="comment">// 第⼀个事件是⽤户按下时的 ACTION_DOWN 事件，第⼆个事件是当前事件</span></span><br><span class="line"><span class="comment">// 偏移是按下时的位置 - 当前事件的位置（旧位置 - 新位置）</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLongPress</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line"><span class="comment">// ⽤户⻓按（按下 500ms 不松⼿）后会被调⽤</span></span><br><span class="line"><span class="comment">// 这个在 GestureDetector 中是 500ms 在 GestureDetectorCompat 中变成了 600ms</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onFling</span><span class="params">(MotionEvent downEvent, MotionEvent event, <span class="keyword">float</span> velocityX, <span class="keyword">float</span> velocityY)</span> </span>&#123;</span><br><span class="line"><span class="comment">// 第⼀个事件是⽤户按下时的 ACTION_DOWN 事件，第⼆个事件是当前事件 后，后面两个参数是抬手时的速度</span></span><br><span class="line"><span class="comment">// ⽤于滑动时迅速抬起时被调⽤，⽤于⽤户希望控件进⾏惯性滑动的场景</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="双击监听器：-OnDoubleTapListener"><a href="#双击监听器：-OnDoubleTapListener" class="headerlink" title="双击监听器： OnDoubleTapListener"></a>双击监听器： OnDoubleTapListener</h2><p>&#160; &#160; &#160; &#160;通过 GestureDetector.setOnDoubleTapListener(OnDoubleTapListener) 来配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gestureDetector.setOnDoubleTapListener(doubleTapListener);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;OnDoubleTapListener 的⼏个回调⽅法如下，这三个方法的返回值都没有用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onSingleTapConfirmed</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line"><span class="comment">// ⽤户单击时被调⽤，和 onSingleTapUp() 的区别见 onSingleTapConfirmed() 与 onSingleTapUp() 的区别一节</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onDoubleTap</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line"><span class="comment">// ⽤户双击时被调⽤，两次间隔不到300ms</span></span><br><span class="line"><span class="comment">// 注意：第⼆次触摸到屏幕时就调⽤，⽽不是抬起时</span></span><br><span class="line"><span class="comment">// 如果手指连续点击屏幕四次，该方法会触发两次</span></span><br><span class="line"><span class="comment">// 当两次按下间隔低于40ms也不会触发双击（比如用户手指抖动）</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onDoubleTapEvent</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line"><span class="comment">// ⽤户双击第⼆次按下时、第⼆次按下后移动时、第⼆次按下后抬起时都会被调⽤</span></span><br><span class="line"><span class="comment">// 常⽤于“双击拖拽”的场景</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="监听器的简写说明"><a href="#监听器的简写说明" class="headerlink" title="监听器的简写说明"></a>监听器的简写说明</h2><p>&#160; &#160; &#160; &#160;注意到如果要实例化一个 GestureDetectorCompat 需要传入一个默认的监听器 OnGestureListener 并且实现它提供的好多方法，即使我们只需要实现双击功能，在增加 OnDoubleTapListener 时，也需要实现前者，类似如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">gestureDetectorCompat = <span class="keyword">new</span> GestureDetectorCompat(context, <span class="keyword">new</span> GestureDetector.OnGestureListener() &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onDown</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//省略了 onShowPress、onSingleTapUp、onScroll、onLongPress、onFling 等几个方法</span></span><br><span class="line">&#125;);</span><br><span class="line">gestureDetectorCompat.setOnDoubleTapListener(<span class="keyword">new</span> GestureDetector.OnDoubleTapListener() &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onDoubleTap</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//省略了 onSingleTapConfirmed、onDoubleTapEvent 等几个方法</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;像上面代码写比较麻烦，有一个简单的方法提供，如下代码（一般也都这么写）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gestureDetectorCompat = <span class="keyword">new</span> GestureDetectorCompat(context, <span class="keyword">new</span> GestureDetector.SimpleOnGestureListener()&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onDoubleTap</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onDoubleTap(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;另外，上面的代码如果通过类来实现接口，写法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XXX</span> <span class="keyword">extends</span> <span class="title">View</span> <span class="keyword">implements</span> <span class="title">GestureDetector</span>.<span class="title">OnGestureListener</span>, <span class="title">GestureDetector</span>.<span class="title">OnDoubleTapListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line">  gestureDetectorCompat = <span class="keyword">new</span> GestureDetectorCompat(context, <span class="keyword">this</span>);</span><br><span class="line">  gestureDetectorCompat.setOnDoubleTapListener(<span class="keyword">this</span>);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;GestureDetector 的源码中有如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">GestureDetector</span><span class="params">(Context context, OnGestureListener listener, Handler handler)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    mListener = listener;</span><br><span class="line">    <span class="keyword">if</span> (listener <span class="keyword">instanceof</span> OnDoubleTapListener) &#123;</span><br><span class="line">        setOnDoubleTapListener((OnDoubleTapListener) listener);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;可以看出，如果一个类实现了 OnDoubleTapListener ，源码会自动帮忙调用 setOnDoubleTapListener ，所以上面代码中的“gestureDetectorCompat.setOnDoubleTapListener(this);”可以省略，再次简写如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XXX</span> <span class="keyword">extends</span> <span class="title">View</span> <span class="keyword">implements</span> <span class="title">GestureDetector</span>.<span class="title">OnGestureListener</span>, <span class="title">GestureDetector</span>.<span class="title">OnDoubleTapListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line">  gestureDetectorCompat = <span class="keyword">new</span> GestureDetectorCompat(context, <span class="keyword">this</span>);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="onSingleTapConfirmed-与-onSingleTapUp"><a href="#onSingleTapConfirmed-与-onSingleTapUp" class="headerlink" title="onSingleTapConfirmed() 与 onSingleTapUp()"></a>onSingleTapConfirmed() 与 onSingleTapUp()</h2><p>&#160; &#160; &#160; &#160;不考虑之前提到的长按，onSingleTapUp() 在手指抬起时便会响应，onSingleTapConfirmed() 是单击确认，确认用户想要单击而不是双击。双击是短时间内连续触摸两次，⽤户的⼀次点击不会⽴即调⽤ onSingleTapConfirmed() 这个⽅法，⽽是在⼀定时间后（300ms），确认⽤户没有进⾏双击，这个⽅法才会被调⽤。如果上面几节中的默认监听和双击监听都有设置，手指快速按下又抬起，首先 onSingleTapUp() 会被调用，300ms之后 onSingleTapConfirmed() 被调用。所以设置了双击监听器后如果想要做单击的监听需要使用 onSingleTapConfirmed() 方法，因为在双击事件中的第一次单击之后，onSingleTapUp() 会被调用。</p>
+<h2 id="onDoubleTap-与-onDoubleTapEvent"><a href="#onDoubleTap-与-onDoubleTapEvent" class="headerlink" title="onDoubleTap() 与 onDoubleTapEvent()"></a>onDoubleTap() 与 onDoubleTapEvent()</h2><p>&#160; &#160; &#160; &#160;具体含义如前面章节所示，当手指触摸抬起再次触摸，onDoubleTap() 和 onDoubleTapEvent() 都会触发，正如前面所示，onDoubleTapEvent() 在手指第二次按下后的移动与抬起都会触发，所以双击使用 onDoubleTap() 即可，如果使用 onDoubleTapEvent() ，还需要判断“down”事件。</p>
+<h1 id="scrollTo-与-scrollBy"><a href="#scrollTo-与-scrollBy" class="headerlink" title="scrollTo 与 scrollBy"></a>scrollTo 与 scrollBy</h1><p>&#160; &#160; &#160; &#160;在一个 View 中，系统提供了 scrollTo、scrollBy 两种方式来改变一个 View 的位置，scrollTo(x,y) 表示移动到一个具体的坐标点（x,y），scrollBy(dx,dy) 表示移动的增量为 dx、dy。scrollTo() / scrollBy() 设置绘制时的偏移，通常⽤于滑动控件设置偏移。</p>
+<p>&#160; &#160; &#160; &#160;如果 ViewGroup 使用 to 和 by 的话，那所有的子 View都将移动，要是在 View 中使用的话，那么移动的就是 View 的内容了，举个例子，比如 TextView，content 就是它的文本，ImageView，drawable 就是对象。</p>
+<p>&#160; &#160; &#160; &#160;不能在 View 里面使用这个两个方法来拖动这个 view，应该在 View 所在的 ViewGroup 中使用方法来移动这个 view，例如：((View)getParent()).scrollBy(officeX,officeY)。详见 <a href="https://github.com/wy521angel/SlideTest/blob/master/app/src/main/java/com/example/wy521angel/slidetest/DragView4.java" target="_blank" rel="noopener">DragView4</a></p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/49acd4881d720fc87b82d317b01e7daab0d07423/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/scroll%E5%8F%82%E6%95%B0%E7%9A%84%E6%AD%A3%E8%B4%9F%E5%80%BC%E8%AF%B4%E6%98%8E1.png?raw=true" alt="scroll参数的正负值说明1"></p>
+<p>&#160; &#160; &#160; &#160;上图，中间的矩形相当于屏幕，即可视区域，后面的 content 相当于画布，代表视图，可以看到，只有视图的中间部分目前是可视的，其它部分都不可见，可见区域中设置一个 button,它的坐标是（20，10），下面我们使用 scrollBy 方法来进行移动后，如图：</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/scroll%E5%8F%82%E6%95%B0%E7%9A%84%E6%AD%A3%E8%B4%9F%E5%80%BC%E8%AF%B4%E6%98%8E2.png?raw=true" alt="scroll参数的正负值说明2"></p>
+<p>&#160; &#160; &#160; &#160;我们会发现，虽然设置 scrollBy(20.10)，偏移量均为 XY 的正方向，但是屏幕的可视区域，Button 却向反方向移动了，这就是参考系选择的不同，而产生的不同效果。通过上面的分析可以发现，我们将 scrollBy 的参数 dx,dy 设置成正数，那么 content 将向坐标轴负方向移动，反之，则向正方向。</p>
+<p>&#160; &#160; &#160; &#160;scrollTo() / scrollBy() 是瞬时⽅法，不会⾃动使⽤动画。如果要⽤动画，需要配合 View.computeScroll() ⽅法。</p>
+<h1 id="Scroller-与-OverScroller"><a href="#Scroller-与-OverScroller" class="headerlink" title="Scroller 与 OverScroller"></a>Scroller 与 OverScroller</h1><h2 id="Scroller-使用"><a href="#Scroller-使用" class="headerlink" title="Scroller 使用"></a>Scroller 使用</h2><p>&#160; &#160; &#160; &#160;使用scroller需要如下三个步骤：</p>
+<h3 id="初始化scroller"><a href="#初始化scroller" class="headerlink" title="初始化scroller"></a>初始化scroller</h3><p>&#160; &#160; &#160; &#160;首先，通过他的构造方法来创建一个scroller对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化mScroller</span></span><br><span class="line">mScroller = <span class="keyword">new</span> Scroller(context);</span><br></pre></td></tr></table></figure>
+
+<h3 id="重写computeScroll，实现模拟滑动"><a href="#重写computeScroll，实现模拟滑动" class="headerlink" title="重写computeScroll，实现模拟滑动"></a>重写computeScroll，实现模拟滑动</h3><p>&#160; &#160; &#160; &#160;系统在绘制 View 的同时，会在 onDraw() 方法中调用这个方法，这个方法实际上就是使用了 ScrollTo() 方法，再结合 Scroller 对象，帮助获取到当前的滚动值，我们可以通过不断的瞬间移动一个小的距离来实现整体上的平滑移动效果。通常情况下，computeScroll 的代码可以利用标准的写法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">super</span>.computeScroll();</span><br><span class="line"></span><br><span class="line">  <span class="comment">//判断Scroller是否执行完毕</span></span><br><span class="line">  <span class="keyword">if</span>(mScroller.computeScrollOffset())&#123;</span><br><span class="line">    ((View)getParent()).scrollTo(mScroller.getCurrX(),mScroller.getCurrY());</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//通过重绘来不断调用computeScroll</span></span><br><span class="line">  invalidate();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;Scroller类提供了 computeScrollOffset() 来判断是否完成了整个页面的滑动，同时也提供了 getCurrX()，getCurrY() 来获取当前滑动坐标。要注意的是 invalidate()，因为只能在 computeScroll 中获得模拟过程中的 scrollX,scrollY 坐标，但 computeScroll 方法是不会自动调用的，只能通过 invalidate—&gt;OnDraw—&gt;computeScroll 来间接调用，所以需要这个 invalidate，而当模拟过程结束的时候，computeScrollOffset 返回的是 false，结束循环。</p>
+<h3 id="startScroll开启模拟过程"><a href="#startScroll开启模拟过程" class="headerlink" title="startScroll开启模拟过程"></a>startScroll开启模拟过程</h3><p>&#160; &#160; &#160; &#160;使用 Scroller 类的 startScroll() 方法来开启平滑过程，startScroll 有两个重载的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startScroll</span><span class="params">(<span class="keyword">int</span> startX,<span class="keyword">int</span> startY,<span class="keyword">int</span> dx,<span class="keyword">int</span> dy,<span class="keyword">int</span> duration)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startScroll</span><span class="params">(<span class="keyword">int</span> startX,<span class="keyword">int</span> startY,<span class="keyword">int</span> dx,<span class="keyword">int</span> dy)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;可以看到它们的区别是具有指定的持续时长。详见 <a href="https://github.com/wy521angel/SlideTest/blob/master/app/src/main/java/com/example/wy521angel/slidetest/DragView5.java" target="_blank" rel="noopener">DragView5</a></p>
+<h2 id="OverScroller-使用"><a href="#OverScroller-使用" class="headerlink" title="OverScroller 使用"></a>OverScroller 使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scroller = <span class="keyword">new</span> OverScroller(context);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;常⽤于 onFling() ⽅法中，调⽤ OverScroller.fling() ⽅法来启动惯性滑动的计算，如 <a href="https://github.com/wy521angel/ScalableImageViewProject/blob/master/app/src/main/java/com/wy521angel/scalableimageviewproject/ScalableImageView.java" target="_blank" rel="noopener">ScalableImageView</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onFling</span><span class="params">(MotionEvent e1, MotionEvent e2, <span class="keyword">float</span> velocityX, <span class="keyword">float</span> velocityY)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 初始化滑动</span></span><br><span class="line">  scroller.fling(startX, startY, velocityX, velocityY, minX, maxX, minY, maxY);</span><br><span class="line">  <span class="comment">// 下⼀帧刷新</span></span><br><span class="line">  postOnAnimation(flingRunner);</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 计算此时的位置，并且如果滑动已经结束，就停⽌。 scroller.computeScrollOffset() 的返回值表示该动画是否还在进行中，结束返回 false 。</span></span><br><span class="line">  <span class="keyword">if</span> (scroller.computeScrollOffset()) &#123;</span><br><span class="line">    <span class="comment">// 把此时的位置应⽤于界⾯</span></span><br><span class="line">    offsetX = scroller.getCurrX();</span><br><span class="line">    offsetY = scroller.getCurrY();</span><br><span class="line">    invalidate();</span><br><span class="line">    <span class="comment">// 下⼀帧刷新</span></span><br><span class="line">    postOnAnimation(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;在触摸事件中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// onTouchEvent() 中：</span></span><br><span class="line">overScroller.startScroll(startX, startY, dx, dy);</span><br><span class="line">postInvalidateOnAnimation();</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"></span><br><span class="line"><span class="comment">// onTouchEvent() 外：</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (overScroller.computeScrollOffset()) &#123; <span class="comment">// 计算实时位置</span></span><br><span class="line">    scrollTo(overScroller.getCurrX(), overScroller.getCurrY()); <span class="comment">// 更新界⾯</span></span><br><span class="line">    postInvalidateOnAnimation(); <span class="comment">// 下⼀帧继续</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="postOnAnimation-与-post-、postInvalidateOnAnimation-的区别"><a href="#postOnAnimation-与-post-、postInvalidateOnAnimation-的区别" class="headerlink" title="postOnAnimation() 与 post()、postInvalidateOnAnimation()的区别"></a>postOnAnimation() 与 post()、postInvalidateOnAnimation()的区别</h2><p>&#160; &#160; &#160; &#160;post() 是立即去主线程执行，postOnAnimation() 也是去主线程执行，但是它会等到下一帧才执行。post() 的执行频率可能会比 postOnAnimation() 高，即同一帧执行多次。二者差别不大。另外还可以使用“ViewCompat.postOnAnimation(this,this);”去替换“postOnAnimation(this);”，前者会做兼容，根据系统的不同而使用“postOnAnimation()”还是“post()”。</p>
+<p>&#160; &#160; &#160; &#160;postInvalidateOnAnimation() 与 postOnAnimation() 相比，前者会自动调用 invalidate 方法，并且 computeScroll() 会在 draw 方法里面被自动调用，不需要实现 Runnable 接口。</p>
+<h2 id="OverScroller-与-Scroller-的区别"><a href="#OverScroller-与-Scroller-的区别" class="headerlink" title="OverScroller 与 Scroller 的区别"></a>OverScroller 与 Scroller 的区别</h2><p>&#160; &#160; &#160; &#160;使用 Scroller 也可替代 OverScroller 滑动，但是前者的初始速度很低，即便滑动很快展现出来的效果也是缓慢地移动。另外，OverScroller 的 fling() 可以多传入两个参数，它有过度滚动的参数，即滚动到边界还可以超越多少值。</p>
+<h1 id="VelocityTracker"><a href="#VelocityTracker" class="headerlink" title="VelocityTracker"></a>VelocityTracker</h1><p>&#160; &#160; &#160; &#160;如果 GestureDetector 不能满⾜需求，或者觉得 GestureDetector 过于复杂，可以⾃⼰处理 onTouchEvent() 的事件。但需要使⽤ VelocityTracker 来计算⼿指移动速度。</p>
+<h2 id="使⽤⽅法"><a href="#使⽤⽅法" class="headerlink" title="使⽤⽅法"></a>使⽤⽅法</h2><p>&#160; &#160; &#160; &#160;在每个事件序列开始时（即 ACTION_DOWN 事件到来时），通过 VelocityTracker.obtain() 创建⼀个实例，或者使⽤ velocityTracker.clear() 把之前的某个实例重置；</p>
+<p>&#160; &#160; &#160; &#160;对于每个事件（包括 ACTION_DOWN 事件），使⽤<br>velocityTracker.addMovement(event) 把事件添加进 VelocityTracker ；</p>
+<p>&#160; &#160; &#160; &#160;在需要速度的时候（例如在 ACTION_UP 中计算是否达到 fling 速度），使⽤ velocityTracker.computeCurrentVelocity(1000, maxVelocity) 来计算实时速度，并通过 getXVelocity() / getYVelocity() 来获取计算出的速度。⽅法参数中的1000是指计算的时间⻓度，单位是 ms。例如这⾥填⼊1000，那么<br>getXVelocity() 返回的值就是每 1000ms （即⼀秒）时间内⼿指移动的像素数。第⼆个参数是速度上限，超过这个速度时，计算出的速度会回落到这个速度。例如这⾥填了 200，⽽实时速度是 300，那么实际的返回速度将是200。maxVelocity 可以通过 viewConfiguration.getScaledMaximumFlingVelocity() 来获取。使用详见 <a href="https://github.com/wy521angel/SlideTest/blob/master/app/src/main/java/com/example/wy521angel/slidetest/TwoViewPager.java" target="_blank" rel="noopener">TwoViewPager</a></p>
+<blockquote>
+<p>参考资料：<br>腾讯课堂 HenCoder<br>Android 群英传</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/" rel="tag"># 触摸反馈</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/09/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/View%20%E4%B8%8E%20ViewGroup%20%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/" rel="next" title="View 与 ViewGroup 触摸反馈">
+                <i class="fa fa-chevron-left"></i> View 与 ViewGroup 触摸反馈
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/12/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E5%A4%9A%E7%82%B9%E8%A7%A6%E6%91%B8/" rel="prev" title="多点触摸">
+                多点触摸 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDEwMS82NjU2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myavatar.jpg"
+               alt="wy521angel" />
+          <p class="site-author-name" itemprop="name">wy521angel</p>
+           
+              <p class="site-description motion-element" itemprop="description">存放一些IT技术积累</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">136</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="Hongyang的博客" target="_blank">Hongyang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/guolin_blog" title="郭霖的博客" target="_blank">郭霖的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/eclipsexys" title="eclipse_xu的博客" target="_blank">eclipse_xu的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lovelion?viewmode=list" title="刘伟的博客" target="_blank">刘伟的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philipdroid.github.io" title="philipdroid的博客" target="_blank">philipdroid的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://juejin.im/timeline" title="掘金" target="_blank">掘金</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.infoq.com/cn" title="InfoQ" target="_blank">InfoQ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.uisdc.com" title="优设" target="_blank">优设</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=34341358&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GestureDetector"><span class="nav-number">1.</span> <span class="nav-text">GestureDetector</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GestureDetector-的默认监听器：-OnGestureListener"><span class="nav-number">1.1.</span> <span class="nav-text">GestureDetector 的默认监听器： OnGestureListener</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双击监听器：-OnDoubleTapListener"><span class="nav-number">1.2.</span> <span class="nav-text">双击监听器： OnDoubleTapListener</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监听器的简写说明"><span class="nav-number">1.3.</span> <span class="nav-text">监听器的简写说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#onSingleTapConfirmed-与-onSingleTapUp"><span class="nav-number">1.4.</span> <span class="nav-text">onSingleTapConfirmed() 与 onSingleTapUp()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#onDoubleTap-与-onDoubleTapEvent"><span class="nav-number">1.5.</span> <span class="nav-text">onDoubleTap() 与 onDoubleTapEvent()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#scrollTo-与-scrollBy"><span class="nav-number">2.</span> <span class="nav-text">scrollTo 与 scrollBy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Scroller-与-OverScroller"><span class="nav-number">3.</span> <span class="nav-text">Scroller 与 OverScroller</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Scroller-使用"><span class="nav-number">3.1.</span> <span class="nav-text">Scroller 使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化scroller"><span class="nav-number">3.1.1.</span> <span class="nav-text">初始化scroller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重写computeScroll，实现模拟滑动"><span class="nav-number">3.1.2.</span> <span class="nav-text">重写computeScroll，实现模拟滑动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#startScroll开启模拟过程"><span class="nav-number">3.1.3.</span> <span class="nav-text">startScroll开启模拟过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OverScroller-使用"><span class="nav-number">3.2.</span> <span class="nav-text">OverScroller 使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#postOnAnimation-与-post-、postInvalidateOnAnimation-的区别"><span class="nav-number">3.3.</span> <span class="nav-text">postOnAnimation() 与 post()、postInvalidateOnAnimation()的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OverScroller-与-Scroller-的区别"><span class="nav-number">3.4.</span> <span class="nav-text">OverScroller 与 Scroller 的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VelocityTracker"><span class="nav-number">4.</span> <span class="nav-text">VelocityTracker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使⽤⽅法"><span class="nav-number">4.1.</span> <span class="nav-text">使⽤⽅法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wy521angel</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("xVeur9szsyg7AkKwseQcBlqr-MdYXbMMI", "UEl3HMLcU0j2xYsHkUlJGVS8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a href="https://github.com/wy521angel" target="_blank" rel="noopener"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+  
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>

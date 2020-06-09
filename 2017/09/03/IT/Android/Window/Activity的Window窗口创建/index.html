@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="面试,window,源码分析," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wy521angel的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Activity的Window窗口创建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activity的Window窗口创建">
+<meta property="og:url" content="http://yoursite.com/2017/09/03/IT/Android/Window/Activity%E7%9A%84Window%E7%AA%97%E5%8F%A3%E5%88%9B%E5%BB%BA/index.html">
+<meta property="og:site_name" content="wy521angel的博客">
+<meta property="og:description" content="Activity的Window窗口创建">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/387e2bac90ab72108cb123f0440cca6c0c9cf8f4/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/ViewGroup%E5%92%8CView%E7%9A%84%E7%BB%84%E5%90%88%E5%85%B3%E7%B3%BB.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/387e2bac90ab72108cb123f0440cca6c0c9cf8f4/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/ViewGroup%E5%92%8CView%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/387e2bac90ab72108cb123f0440cca6c0c9cf8f4/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/%E9%A1%B5%E9%9D%A2layout%E8%A2%AB%E6%B7%BB%E5%8A%A0%E8%87%B3%E7%AA%97%E5%8F%A3Window%E7%9A%84%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/83db500755750d16b3785a26cebdeb95aaf9f7b3/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/%E7%AA%97%E5%8F%A3Window%E7%B1%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E5%85%B3%E7%B3%BB.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/a4446a3bf872a1a821fcc69037a7e63c3064dab5/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/Activity%E7%9A%84%E5%88%86%E6%9E%90%E7%AE%80%E5%8D%95%E5%85%B3%E7%B3%BB%E5%9B%BE.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/a4446a3bf872a1a821fcc69037a7e63c3064dab5/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/Activity%2CPhoneWiondow%2CDecorView%E7%9A%84%E5%85%B3%E7%B3%BB%E5%A6%82%E4%B8%8B%E5%9B%BE%EF%BC%9A.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/c1f90c12470cd3c2bc2e06536074deb200add85c/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/c1f90c12470cd3c2bc2e06536074deb200add85c/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/%E5%B8%83%E5%B1%80%E8%A7%A3%E9%87%8A.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/c1f90c12470cd3c2bc2e06536074deb200add85c/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/ViewTree%E7%BB%93%E6%9E%84.png">
+<meta property="article:published_time" content="2017-09-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-02-14T11:50:00.000Z">
+<meta property="article:author" content="wy521angel">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="window">
+<meta property="article:tag" content="源码分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/387e2bac90ab72108cb123f0440cca6c0c9cf8f4/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/ViewGroup%E5%92%8CView%E7%9A%84%E7%BB%84%E5%90%88%E5%85%B3%E7%B3%BB.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/03/IT/Android/Window/Activity的Window窗口创建/"/>
+
+
+
+
+
+  <title>Activity的Window窗口创建 | wy521angel的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wy521angel的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一个从事IT工作的伪文艺青年</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-camera"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/03/IT/Android/Window/Activity%E7%9A%84Window%E7%AA%97%E5%8F%A3%E5%88%9B%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wy521angel">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wy521angel的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Activity的Window窗口创建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-03T00:00:00+08:00">
+                2017-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/" itemprop="url" rel="index">
+                    <span itemprop="name">IT</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/window/" itemprop="url" rel="index">
+                    <span itemprop="name">window</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/09/03/IT/Android/Window/Activity%E7%9A%84Window%E7%AA%97%E5%8F%A3%E5%88%9B%E5%BB%BA/" class="leancloud_visitors" data-flag-title="Activity的Window窗口创建">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  Activity的Window窗口创建
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>&#160; &#160; &#160; &#160;在一个Android应用程序中，用户界面通过View和ViewGroup对象构建。所有View的子类成为“Widget”，所有ViewGroup的子类成为“Layout”。View和ViewGroup之间采用了组合设计模式。ViewGroup作为布局容器类的最上层，布局容器里面又可以有View和ViewGroup。</p>
+<p>&#160; &#160; &#160; &#160;ViewGroup和View的组合关系如下图：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/387e2bac90ab72108cb123f0440cca6c0c9cf8f4/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/ViewGroup%E5%92%8CView%E7%9A%84%E7%BB%84%E5%90%88%E5%85%B3%E7%B3%BB.png" alt="ViewGroup和View的组合关系"></p>
+<p>&#160; &#160; &#160; &#160;ViewGroup和View的继承关系如下图：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/387e2bac90ab72108cb123f0440cca6c0c9cf8f4/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/ViewGroup%E5%92%8CView%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB.png" alt="ViewGroup和View的继承关系"></p>
+<p>&#160; &#160; &#160; &#160;开发中，通常都是在onCreate()中调用setContentView(R.layout.custom_layout)来实现想要的页面布局，我们知道，页面都是依附在窗口之上的，而DecorView即是窗口最顶层的视图，这个布局是被放到了一个叫做DecorView的父布局里。Android frameworks中，与窗口视图处理相关的类，主要是Window及其实现类PhoneWindow，每一个Activity都有一个PhoneWindow对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PhoneWindow</span> <span class="keyword">extends</span> <span class="title">Window</span> <span class="keyword">implements</span> <span class="title">MenuBuilder</span>.<span class="title">Callback</span> </span>&#123;</span><br><span class="line">　　</span><br><span class="line">　　<span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">　　<span class="comment">//窗口顶层View</span></span><br><span class="line">   <span class="keyword">private</span> DecorView mDecor;</span><br><span class="line"></span><br><span class="line">　　<span class="comment">//所有自定义View的根View, id="@android:id/content"</span></span><br><span class="line">   <span class="keyword">private</span> ViewGroup mContentParent;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;DecorView其实是PhoneWindow中的一个内部类，本质上也是一个View，其只是扩展了FrameLayout的实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">DecorView</span> <span class="keyword">extends</span> <span class="title">FrameLayout</span> <span class="keyword">implements</span> <span class="title">RootViewSurfaceTaker</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//...</span></span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;页面layout被添加至窗口Window的流程大致如下：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/387e2bac90ab72108cb123f0440cca6c0c9cf8f4/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/%E9%A1%B5%E9%9D%A2layout%E8%A2%AB%E6%B7%BB%E5%8A%A0%E8%87%B3%E7%AA%97%E5%8F%A3Window%E7%9A%84%E6%B5%81%E7%A8%8B.png" alt="页面layout被添加至窗口Window的流程"></p>
+<h1 id="Activity的setContentView方法解析（Android5-1-1（API-22））"><a href="#Activity的setContentView方法解析（Android5-1-1（API-22））" class="headerlink" title="Activity的setContentView方法解析（Android5.1.1（API 22））"></a>Activity的setContentView方法解析（Android5.1.1（API 22））</h1><p>&#160; &#160; &#160; &#160;Activity的源码中提供了三个重载的setContentView方法，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(<span class="keyword">int</span> layoutResID)</span> </span>&#123;</span><br><span class="line">    getWindow().setContentView(layoutResID);</span><br><span class="line">    initWindowDecorActionBar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">    getWindow().setContentView(view);</span><br><span class="line">    initWindowDecorActionBar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(View view, ViewGroup.LayoutParams params)</span> </span>&#123;</span><br><span class="line">    getWindow().setContentView(view, params);</span><br><span class="line">    initWindowDecorActionBar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;它们都先调运了getWindow()的setContentView方法，具体实现为PhoneWindow中的同名方法，getWindow()获取的即是PhoneWindow对象，然后调运Activity的initWindowDecorActionBar方法。</p>
+<h1 id="关于窗口Window类的一些关系"><a href="#关于窗口Window类的一些关系" class="headerlink" title="关于窗口Window类的一些关系"></a>关于窗口Window类的一些关系</h1><p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/83db500755750d16b3785a26cebdeb95aaf9f7b3/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/%E7%AA%97%E5%8F%A3Window%E7%B1%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E5%85%B3%E7%B3%BB.png" alt="窗口Window类的一些关系"></p>
+<p>&#160; &#160; &#160; &#160;Activity中有一个成员为Window，其实例化对象为PhoneWindow，PhoneWindow为抽象Window类的实现类。</p>
+<p>&#160; &#160; &#160; &#160;这里先简要说明下这些类的职责：</p>
+<ol>
+<li>Window是一个抽象类，提供了绘制窗口的一组通用API。</li>
+<li>PhoneWindow是Window的具体继承实现类。而且该类内部包含了一个DecorView对象，该DecorView对象是所有应用窗口(Activity界面)的根View。</li>
+<li>DecorView是PhoneWindow的内部类，是FrameLayout的子类，是对FrameLayout进行功能的修饰（所以叫DecorXXX），是所有应用窗口的根View 。</li>
+</ol>
+<p>&#160; &#160; &#160; &#160;Window的一个比较重要的属性是mWindowManager，它是WindowManager(这是个接口)的一个实现类的一个实例。我们平时通过getWindowManager()方法获得的东西就是这个mWindowManager。顾名思义，它是Window的管理者，负责管理着窗口及其中显示的内容。它的实际实现类是WindowManagerImpl。mWindowManager并不是在PhoneWindow中实例化的，是在父类就实例化好的。</p>
+<h1 id="窗口PhoneWindow类的setContentView方法"><a href="#窗口PhoneWindow类的setContentView方法" class="headerlink" title="窗口PhoneWindow类的setContentView方法"></a>窗口PhoneWindow类的setContentView方法</h1><p>&#160; &#160; &#160; &#160;可以看见Window类的setContentView方法都是抽象的。直接先看PhoneWindow类的setContentView(int layoutResID)方法源码，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(<span class="keyword">int</span> layoutResID)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Note: FEATURE_CONTENT_TRANSITIONS may be set in the process of installing the window</span></span><br><span class="line">    <span class="comment">// decor, when theme attributes and the like are crystalized. Do not check the feature</span></span><br><span class="line">    <span class="comment">// before this happens.</span></span><br><span class="line">    <span class="keyword">if</span> (mContentParent == <span class="keyword">null</span>) &#123;</span><br><span class="line">        installDecor();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        mContentParent.removeAllViews();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        <span class="keyword">final</span> Scene newScene = Scene.getSceneForLayout(mContentParent, layoutResID,</span><br><span class="line">                getContext());</span><br><span class="line">        transitionTo(newScene);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        mLayoutInflater.inflate(layoutResID, mContentParent);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">final</span> Callback cb = getCallback();</span><br><span class="line">    <span class="keyword">if</span> (cb != <span class="keyword">null</span> &amp;&amp; !isDestroyed()) &#123;</span><br><span class="line">        cb.onContentChanged();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;可以看见，第五行首先判断mContentParent是否为null，也就是第一次调运）；如果是第一次调用，则调用installDecor()方法，否则判断是否设置FEATURE_CONTENT_TRANSITIONS Window属性（默认false），如果没有就移除该mContentParent内所有的所有子View；接着16行mLayoutInflater.inflate(layoutResID, mContentParent);将我们的资源文件通过LayoutInflater对象转换为View树，并且添加至mContentParent视图中（其中mLayoutInflater是在PhoneWindow的构造函数中得到实例对象的LayoutInflater.from(context);）。</p>
+<p>&#160; &#160; &#160; &#160;再来看下PhoneWindow类的setContentView(View view)方法和setContentView(View view, ViewGroup.LayoutParams params)方法源码，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">    setContentView(view, <span class="keyword">new</span> ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(View view, ViewGroup.LayoutParams params)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Note: FEATURE_CONTENT_TRANSITIONS may be set in the process of installing the window</span></span><br><span class="line">    <span class="comment">// decor, when theme attributes and the like are crystalized. Do not check the feature</span></span><br><span class="line">    <span class="comment">// before this happens.</span></span><br><span class="line">    <span class="keyword">if</span> (mContentParent == <span class="keyword">null</span>) &#123;</span><br><span class="line">        installDecor();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        mContentParent.removeAllViews();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        view.setLayoutParams(params);</span><br><span class="line">        <span class="keyword">final</span> Scene newScene = <span class="keyword">new</span> Scene(mContentParent, view);</span><br><span class="line">        transitionTo(newScene);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        mContentParent.addView(view, params);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">final</span> Callback cb = getCallback();</span><br><span class="line">    <span class="keyword">if</span> (cb != <span class="keyword">null</span> &amp;&amp; !isDestroyed()) &#123;</span><br><span class="line">        cb.onContentChanged();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;其实只用分析setContentView(View view, ViewGroup.LayoutParams params)方法即可，如果你在Activity中调运setContentView(View view)方法，实质也是调运setContentView(View view, ViewGroup.LayoutParams params)，只是LayoutParams设置成了MATCH_PARENT而已。</p>
+<p>&#160; &#160; &#160; &#160;直接分析setContentView(View view, ViewGroup.LayoutParams params)方法，可以看见该方法与setContentView(int layoutResID)类似，只是少了LayoutInflater将xml文件解析转换为View而已，这里直接使用View的addView方法追加到了当前mContentParent。</p>
+<h1 id="窗口PhoneWindow类的installDecor方法"><a href="#窗口PhoneWindow类的installDecor方法" class="headerlink" title="窗口PhoneWindow类的installDecor方法"></a>窗口PhoneWindow类的installDecor方法</h1><p>&#160; &#160; &#160; &#160;继续看上面PhoneWindow类setContentView方法的第6行installDecor();代码，在PhoneWindow中查看installDecor源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">installDecor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mDecor == <span class="keyword">null</span>) &#123;</span><br><span class="line">        mDecor = generateDecor();</span><br><span class="line">        mDecor.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);</span><br><span class="line">        mDecor.setIsRootNamespace(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">if</span> (!mInvalidatePanelMenuPosted &amp;&amp; mInvalidatePanelMenuFeatures != <span class="number">0</span>) &#123;</span><br><span class="line">            mDecor.postOnAnimation(mInvalidatePanelMenuRunnable);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mContentParent == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">//根据窗口的风格修饰，选择对应的修饰布局文件，并且将id为content的FrameLayout赋值给mContentParent</span></span><br><span class="line">        mContentParent = generateLayout(mDecor);</span><br><span class="line">        <span class="comment">//......</span></span><br><span class="line">        <span class="comment">//初始化一堆属性值</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160; 第2到9行可以看出，首先判断mDecor对象是否为空，如果为空则调用generateDecor()创建一个DecorView(该类是FrameLayout子类，即一个ViewGroup视图)，然后设置一些属性，我们看下PhoneWindow的generateDecor方法，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> DecorView <span class="title">generateDecor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> DecorView(getContext(), -<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;可以看见generateDecor方法仅仅是new一个DecorView的实例。</p>
+<p>&#160; &#160; &#160; &#160;回到installDecor方法继续往下看，第10行开始到方法结束都需要一个if (mContentParent == null)判断为真才会执行，当mContentParent对象为空则调用generateLayout()方法去创建mContentParent对象。看下generateLayout方法源码，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> ViewGroup <span class="title">generateLayout</span><span class="params">(DecorView decor)</span> </span>&#123;</span><br><span class="line">   <span class="comment">// Apply data from current theme.</span></span><br><span class="line">　　<span class="comment">//1,获取&lt;Application android:theme=""/&gt;, &lt;Activity/&gt;节点指定的themes或者代码requestWindowFeature()中指定的Features, 并设置</span></span><br><span class="line">　　TypedArray a = getWindowStyle();</span><br><span class="line">　　<span class="comment">//...</span></span><br><span class="line">　　</span><br><span class="line">　　<span class="comment">//2,获取窗口Features, 设置相应的修饰布局文件，这些xml文件位于frameworks/base/core/res/res/layout下（依据主题style设置一些值）</span></span><br><span class="line">   <span class="comment">// Inflate the window decor.</span></span><br><span class="line">　　<span class="keyword">int</span> layoutResource;</span><br><span class="line">　　<span class="keyword">int</span> features = getLocalFeatures();</span><br><span class="line">   <span class="comment">//下面即根据设定好的features值选择不同的窗口修饰布局文件,得到layoutResource值</span></span><br><span class="line">　　<span class="keyword">if</span> ((features &amp; ((<span class="number">1</span> &lt;&lt; FEATURE_LEFT_ICON) | (<span class="number">1</span> &lt;&lt; FEATURE_RIGHT_ICON))) != <span class="number">0</span>) &#123;</span><br><span class="line">　　　　<span class="keyword">if</span> (mIsFloating) &#123;</span><br><span class="line">　　　　　　TypedValue res = <span class="keyword">new</span> TypedValue();</span><br><span class="line">　　　　　　getContext().getTheme().resolveAttribute(com.android.internal.R.attr.dialogTitleIconsDecorLayout, res, <span class="keyword">true</span>);</span><br><span class="line">　　　　　　layoutResource = res.resourceId;</span><br><span class="line">　　　　&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    　　layoutResource = com.android.internal.R.layout.screen_title_icons;</span><br><span class="line">　　&#125;</span><br><span class="line">　　removeFeature(FEATURE_ACTION_BAR);</span><br><span class="line">　　&#125; <span class="keyword">else</span> <span class="keyword">if</span> ((features &amp; ((<span class="number">1</span> &lt;&lt; FEATURE_PROGRESS) | (<span class="number">1</span> &lt;&lt; FEATURE_INDETERMINATE_PROGRESS))) != <span class="number">0</span> &amp;&amp; (features &amp; (<span class="number">1</span> &lt;&lt; FEATURE_ACTION_BAR)) == <span class="number">0</span>) &#123;</span><br><span class="line">　　layoutResource = com.android.internal.R.layout.screen_progress;</span><br><span class="line">　　<span class="comment">//...</span></span><br><span class="line">　　</span><br><span class="line">　　mDecor.startChanging();</span><br><span class="line">　　<span class="comment">//3, 将上面选定的窗口修饰布局文件inflate为View树，添加到decorView中，并且指定contentParent值</span></span><br><span class="line">　　View in = mLayoutInflater.inflate(layoutResource, <span class="keyword">null</span>);</span><br><span class="line">　　decor.addView(in, <span class="keyword">new</span> ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));</span><br><span class="line">　　<span class="comment">//将窗口修饰布局文件中id="@android:id/content"的View赋值给mContentParent, 后续自定义的view/layout都将是其子View</span></span><br><span class="line">　　ViewGroup contentParent = (ViewGroup)findViewById(ID_ANDROID_CONTENT);</span><br><span class="line">　　<span class="keyword">if</span> (contentParent == <span class="keyword">null</span>) &#123;</span><br><span class="line">　　　　<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Window couldn't find content container view"</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">　　<span class="comment">//...</span></span><br><span class="line">   <span class="comment">//继续一堆属性设置，完事返回contentParent</span></span><br><span class="line">   <span class="keyword">return</span> contentParent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;可以看见上面方法主要作用就是根据窗口的风格修饰类型为该窗口选择不同的窗口根布局文件。mDecor做为根视图将该窗口根布局添加进去，然后获取id为content的FrameLayout返回给mContentParent对象。所以installDecor方法实质就是产生mDecor和mContentParent对象。从上述步骤中，可以看出为什么在代码中必须要在setContentView(…)之前执行requestWindowFeature(…)。</p>
+<p>&#160; &#160; &#160; &#160;我们平时写应用Activity时设置的theme或者feature（全屏、NoTitle等），一般是通过XML的android:theme属性或者java的requestFeature()方法来设置的，譬如：</p>
+<p>&#160; &#160; &#160; &#160;通过java文件设置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">requestWindowFeature(Window.FEATURE_NO_TITLE);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;通过xml文件设置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:theme=“@android:style/Theme.NoTitleBar”</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;其实requestWindowFeature()设置的值就是在这里通过getLocalFeature()获取的；而android:theme属性也是通过这里的getWindowStyle()获取的。</p>
+<p>&#160; &#160; &#160; &#160;然后回过头可以看见上面PhoneWindow类的setContentView方法最后通过调运mLayoutInflater.inflate(layoutResID, mContentParent);或者mContentParent.addView(view, params);语句将我们的xml或者java View插入到了mContentParent（id为content的FrameLayout对象）ViewGroup中。最后setContentView还会调用一个Callback接口的成员函数onContentChanged来通知对应的Activity组件视图内容发生了变化。</p>
+<h1 id="Window类内部接口Callback的onContentChanged方法"><a href="#Window类内部接口Callback的onContentChanged方法" class="headerlink" title="Window类内部接口Callback的onContentChanged方法"></a>Window类内部接口Callback的onContentChanged方法</h1><p>&#160; &#160; &#160; &#160;上面说了PhoneWindow类的setContentView方法中最后调运了onContentChanged方法。我们这里看下setContentView这段代码，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContentView</span><span class="params">(<span class="keyword">int</span> layoutResID)</span> </span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="keyword">final</span> Callback cb = getCallback();</span><br><span class="line">    <span class="keyword">if</span> (cb != <span class="keyword">null</span> &amp;&amp; !isDestroyed()) &#123;</span><br><span class="line">        cb.onContentChanged();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;首先通过getCallback获取对象cb（回调接口），PhoneWindow没有重写Window的这个方法，所以到抽象类Window中可以看到：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Return the current Callback interface for this window.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Callback <span class="title">getCallback</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mCallback;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;这个mCallback在哪赋值的呢，继续看Window类发现有一个方法，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCallback</span><span class="params">(Callback callback)</span> </span>&#123;</span><br><span class="line">    mCallback = callback;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;Window中的mCallback是通过这个方法赋值的，那就回想一下，Window又是Activity的组合成员，那就是Activity一定调运这个方法了，回到Activity发现在Activity的attach方法中进行了设置，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(Context context, ActivityThread aThread,</span></span></span><br><span class="line"><span class="function"><span class="params">    ......</span></span></span><br><span class="line"><span class="function"><span class="params">    mWindow.setCallback(<span class="keyword">this</span>)</span></span>;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;也就是说Activity类实现了Window的Callback接口。看下Activity实现的onContentChanged方法。如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onContentChanged</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;onContentChanged是个空方法。那就说明当Activity的布局改动时，即setContentView()或者addContentView()方法执行完毕时就会调用该方法。</p>
+<p>&#160; &#160; &#160; &#160;所以当我们写App时，Activity的各种View的findViewById()方法等都可以放到该方法中，系统会帮忙回调。</p>
+<h1 id="setContentView源码分析总结"><a href="#setContentView源码分析总结" class="headerlink" title="setContentView源码分析总结"></a>setContentView源码分析总结</h1><p>&#160; &#160; &#160; &#160;可以看出来setContentView整个过程主要是如何把Activity的布局文件或者java的View添加至窗口里，上面的过程可以重点概括为：</p>
+<ol>
+<li>创建一个DecorView的对象mDecor，该mDecor对象将作为整个应用窗口的根视图。</li>
+<li>依据Feature等style theme创建不同的窗口修饰布局文件，并且通过findViewById获取Activity布局文件该存放的地方（窗口修饰布局文件中id为content的FrameLayout）。</li>
+<li>将Activity的布局文件添加至id为content的FrameLayout内。<br>至此整个setContentView的主要流程就分析完毕。</li>
+<li>当setContentView设置显示OK以后会回调Activity的onContentChanged方法。Activity的各种View的findViewById()方法等都可以放到该方法中，系统会帮忙回调。</li>
+</ol>
+<h1 id="setContentView完以后Activity显示界面初探"><a href="#setContentView完以后Activity显示界面初探" class="headerlink" title="setContentView完以后Activity显示界面初探"></a>setContentView完以后Activity显示界面初探</h1><p>&#160; &#160; &#160; &#160;这一小部分已经不属于sentContentView的分析范畴了，只是简单说明setContentView之后怎么被显示出来的。</p>
+<p>&#160; &#160; &#160; &#160;一个Activity的开始实际是ActivityThread的main方法，当启动Activity调运完ActivityThread的main方法之后，接着调用ActivityThread类performLaunchActivity来创建要启动的Activity组件，在创建Activity组件的过程中，还会为该Activity组件创建窗口对象和视图对象；接着Activity组件创建完成之后，通过调用ActivityThread类的handleResumeActivity将它激活。</p>
+<p>&#160; &#160; &#160; &#160;所以我们先看下handleResumeActivity方法，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">handleResumeActivity</span><span class="params">(IBinder token,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">boolean</span> clearHide, <span class="keyword">boolean</span> isForward, <span class="keyword">boolean</span> reallyResume)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// If we are getting ready to gc after going to the background, well</span></span><br><span class="line">    <span class="comment">// we are back active so skip it.</span></span><br><span class="line">    ......</span><br><span class="line">    <span class="comment">// TODO Push resumeArgs into the activity for consideration</span></span><br><span class="line">    ActivityClientRecord r = performResumeActivity(token, clearHide);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (r != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ......</span><br><span class="line">        <span class="comment">// If the window hasn't yet been added to the window manager,</span></span><br><span class="line">        <span class="comment">// and this guy didn't finish itself or start another activity,</span></span><br><span class="line">        <span class="comment">// then go ahead and add the window.</span></span><br><span class="line">        ......</span><br><span class="line">        <span class="comment">// If the window has already been added, but during resume</span></span><br><span class="line">        <span class="comment">// we started another activity, then don't yet make the</span></span><br><span class="line">        <span class="comment">// window visible.</span></span><br><span class="line">        ......</span><br><span class="line">        <span class="comment">// The window is now visible if it has been added, we are not</span></span><br><span class="line">        <span class="comment">// simply finishing, and we are not starting another activity.</span></span><br><span class="line">        <span class="keyword">if</span> (!r.activity.mFinished &amp;&amp; willBeVisible</span><br><span class="line">                &amp;&amp; r.activity.mDecor != <span class="keyword">null</span> &amp;&amp; !r.hideForNow) &#123;</span><br><span class="line">            ......</span><br><span class="line">            <span class="keyword">if</span> (r.activity.mVisibleFromClient) &#123;</span><br><span class="line">                r.activity.makeVisible();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ......</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// If an exception was thrown when trying to resume, then</span></span><br><span class="line">        <span class="comment">// just end this activity.</span></span><br><span class="line">        ......</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;看r.activity.makeVisible();语句，调用Activity的makeVisible方法显示我们上面通过setContentView创建的mDecor视图族。所以我们看下Activity的makeVisible方法，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">makeVisible</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!mWindowAdded) &#123;</span><br><span class="line">        ViewManager wm = getWindowManager();</span><br><span class="line">        wm.addView(mDecor, getWindow().getAttributes());</span><br><span class="line">        mWindowAdded = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mDecor.setVisibility(View.VISIBLE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;通过DecorView（FrameLayout，也即View）的setVisibility方法将View设置为VISIBLE，至此显示出来。到此setContentView的完整流程分析完毕。</p>
+<p>&#160; &#160; &#160; &#160;如下就是整个Activity的分析简单关系图：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/a4446a3bf872a1a821fcc69037a7e63c3064dab5/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/Activity%E7%9A%84%E5%88%86%E6%9E%90%E7%AE%80%E5%8D%95%E5%85%B3%E7%B3%BB%E5%9B%BE.png" alt="Activity的分析简单关系图"></p>
+<h1 id="一些补充"><a href="#一些补充" class="headerlink" title="一些补充"></a>一些补充</h1><p>&#160; &#160; &#160; &#160;Activity、PhoneWiondow、DecorView的关系也可以表示为如下图：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/a4446a3bf872a1a821fcc69037a7e63c3064dab5/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/Activity%2CPhoneWiondow%2CDecorView%E7%9A%84%E5%85%B3%E7%B3%BB%E5%A6%82%E4%B8%8B%E5%9B%BE%EF%BC%9A.png" alt="Activity,PhoneWiondow,DecorView的关系如下图"></p>
+<ul>
+<li>Window</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;位于 /frameworks/base/core/java/android/view/Window.java。该类是一个抽象类，提供了绘制窗口的一组通用API。可以将之理解为一个载体，各种View在这个载体上显示。</p>
+<ul>
+<li>PhoneWindow     </li>
+</ul>
+<p>&#160; &#160; &#160; &#160;位于<br>/frameworks/policies/base/phone/com/android/internal/policy/impl/PhoneWindow.java。该类继承于Window类，是Window类的具体实现，即我们可以通过该类具体去绘制窗口。并且，该类内部包含了一个DecorView对象，该DectorView对象是所有应用窗口(Activity界面)的根View。 简而言之，PhoneWindow类是把一个FrameLayout类即DecorView对象进行一定的包装，将它作为应用窗口的根View，并提供一组通用的窗口操作接口。</p>
+<ul>
+<li>WindowManager</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;WindowManager在Window中具有很重要的作用，在PhoneWindow中的mWindowManager实际是WindowManagerImpl类型的。WindowManagerImpl是接口WindowManager的一个实现类。WindowManager是在Activity执行attach()时被创建的，attach()方法是在onCreate()之前被调用的。</p>
+<ul>
+<li>DecorView</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;该类是PhoneWindow类的内部类。该类是一个FrameLayout的子类，并且是PhoneWindow的子类，该类就是对普通的FrameLayout进行功能的扩展，更确切点可以说是修饰(Decor的英文全称是Decoration，即“修饰”的意思)，比如说添加TitleBar(标题栏)，以及TitleBar上的滚动条等 。最重要的一点是，它是所有应用窗口的根View。通过setContentView()设置的布局是被放到DecorView中，DecorView是视图树的最顶层。</p>
+<p>&#160; &#160; &#160; &#160;注意：</p>
+<p>&#160; &#160; &#160; &#160;DecorView包含标题栏和内容区域两部分，它是继承自FrameLayout的，但这并不是说它自己的根布局是FrameLayout，事实上它的根布局是LinearLayout的。因为在generateLayout()方法中会选择不同的窗口修饰布局文件，而这些布局文件是LinearLayout布局。而内容区域的根布局才是FrameLayout布局。</p>
+<p>&#160; &#160; &#160; &#160;如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/c1f90c12470cd3c2bc2e06536074deb200add85c/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6.png" alt="布局文件"></p>
+<p>&#160; &#160; &#160; &#160;Window.FEATURE_NO_TITLE对应的窗口修饰布局文件为screen_simple.xml, 源码如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:fitsSystemWindows</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ViewStub</span> <span class="attr">android:id</span>=<span class="string">"@+id/action_mode_bar_stub"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:inflatedId</span>=<span class="string">"@+id/action_mode_bar"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:layout</span>=<span class="string">"@layout/action_mode_bar"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">FrameLayout</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:id</span>=<span class="string">"@android:id/content"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:foregroundInsidePadding</span>=<span class="string">"false"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:foregroundGravity</span>=<span class="string">"fill_horizontal|top"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">android:foreground</span>=<span class="string">"?android:attr/windowContentOverlay"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;源码中id为”@android:id/content”的FrameLayout就是内容区域，在整个流程中，其会赋值给PhoneWindow类中的属性mContentParent。</p>
+<p>&#160; &#160; &#160; &#160;如下图：</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/c1f90c12470cd3c2bc2e06536074deb200add85c/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/%E5%B8%83%E5%B1%80%E8%A7%A3%E9%87%8A.png" alt="布局解释"></p>
+<p>&#160; &#160; &#160; &#160;运行应用后，使用SDK提供的hierarchyviewer工具查看页面的ViewTree结构，可以看到结构如下:</p>
+<p><img src="https://raw.githubusercontent.com/wy521angel/MarkdowmPhotos/c1f90c12470cd3c2bc2e06536074deb200add85c/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/Android%E7%95%8C%E9%9D%A2%E6%9E%B6%E6%9E%84/ViewTree%E7%BB%93%E6%9E%84.png" alt="ViewTree结构"></p>
+<blockquote>
+<p>参考资料：<br>屌丝迷途 <a href="https://www.cnblogs.com/l2rf/p/6099170.html" target="_blank" rel="noopener">Android界面架构(Activity,PhoneWiondow,DecorView)简介</a><br>抹月 <a href="http://www.cnblogs.com/yogin/p/4061050.html" target="_blank" rel="noopener">Window窗口布局 — DecorView浅析</a><br>工匠若水 <a href="http://blog.csdn.net/yanbober/article/details/45970721/" target="_blank" rel="noopener">Android应用setContentView与LayoutInflater加载解析机制源码分析</a><br>CoorChice <a href="https://www.jianshu.com/p/df4d5ec779c8" target="_blank" rel="noopener">用两张图告诉你，为什么你的App会卡顿?
+</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+          
+            <a href="/tags/window/" rel="tag"># window</a>
+          
+            <a href="/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" rel="tag"># 源码分析</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/30/IT/Android/xml%20%E7%9B%B8%E5%85%B3/android%E4%B8%ADxml%20tools%E5%B1%9E%E6%80%A7%E8%AF%A6%E8%A7%A3/" rel="next" title="android中xml tools属性详解">
+                <i class="fa fa-chevron-left"></i> android中xml tools属性详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/08/IT/Android/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/Glide/Glide%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/2.Glide%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%882%EF%BC%89%E9%80%82%E9%85%8D%E5%99%A8%E3%80%81%E5%8D%A0%E4%BD%8D%E5%9B%BE%E4%B8%8E%E6%B8%90%E5%8F%98%E5%8A%A8%E7%94%BB/" rel="prev" title="Glide入门教程（2）适配器、占位图与渐变动画">
+                Glide入门教程（2）适配器、占位图与渐变动画 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDEwMS82NjU2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myavatar.jpg"
+               alt="wy521angel" />
+          <p class="site-author-name" itemprop="name">wy521angel</p>
+           
+              <p class="site-description motion-element" itemprop="description">存放一些IT技术积累</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">136</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="Hongyang的博客" target="_blank">Hongyang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/guolin_blog" title="郭霖的博客" target="_blank">郭霖的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/eclipsexys" title="eclipse_xu的博客" target="_blank">eclipse_xu的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lovelion?viewmode=list" title="刘伟的博客" target="_blank">刘伟的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philipdroid.github.io" title="philipdroid的博客" target="_blank">philipdroid的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://juejin.im/timeline" title="掘金" target="_blank">掘金</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.infoq.com/cn" title="InfoQ" target="_blank">InfoQ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.uisdc.com" title="优设" target="_blank">优设</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=34341358&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简述"><span class="nav-number">1.</span> <span class="nav-text">简述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Activity的setContentView方法解析（Android5-1-1（API-22））"><span class="nav-number">2.</span> <span class="nav-text">Activity的setContentView方法解析（Android5.1.1（API 22））</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于窗口Window类的一些关系"><span class="nav-number">3.</span> <span class="nav-text">关于窗口Window类的一些关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#窗口PhoneWindow类的setContentView方法"><span class="nav-number">4.</span> <span class="nav-text">窗口PhoneWindow类的setContentView方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#窗口PhoneWindow类的installDecor方法"><span class="nav-number">5.</span> <span class="nav-text">窗口PhoneWindow类的installDecor方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Window类内部接口Callback的onContentChanged方法"><span class="nav-number">6.</span> <span class="nav-text">Window类内部接口Callback的onContentChanged方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#setContentView源码分析总结"><span class="nav-number">7.</span> <span class="nav-text">setContentView源码分析总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#setContentView完以后Activity显示界面初探"><span class="nav-number">8.</span> <span class="nav-text">setContentView完以后Activity显示界面初探</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些补充"><span class="nav-number">9.</span> <span class="nav-text">一些补充</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wy521angel</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("xVeur9szsyg7AkKwseQcBlqr-MdYXbMMI", "UEl3HMLcU0j2xYsHkUlJGVS8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a href="https://github.com/wy521angel" target="_blank" rel="noopener"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+  
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>

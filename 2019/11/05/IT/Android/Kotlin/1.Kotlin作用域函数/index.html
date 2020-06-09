@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Kotlin,作用域函数," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wy521angel的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Kotlin 基本语法，作用域函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin作用域函数">
+<meta property="og:url" content="http://yoursite.com/2019/11/05/IT/Android/Kotlin/1.Kotlin%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="wy521angel的博客">
+<meta property="og:description" content="Kotlin 基本语法，作用域函数">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/3e5e9410678099aecb49f5e2087738db6b7a24b4/IT/Android/Kotlin/%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B0%E9%80%89%E7%94%A8%E5%9B%BE.jpg?raw=true">
+<meta property="article:published_time" content="2019-11-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-11-07T06:16:32.000Z">
+<meta property="article:author" content="wy521angel">
+<meta property="article:tag" content="Kotlin">
+<meta property="article:tag" content="作用域函数">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/3e5e9410678099aecb49f5e2087738db6b7a24b4/IT/Android/Kotlin/%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B0%E9%80%89%E7%94%A8%E5%9B%BE.jpg?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/05/IT/Android/Kotlin/1.Kotlin作用域函数/"/>
+
+
+
+
+
+  <title>Kotlin作用域函数 | wy521angel的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wy521angel的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一个从事IT工作的伪文艺青年</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-camera"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/05/IT/Android/Kotlin/1.Kotlin%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wy521angel">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wy521angel的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kotlin作用域函数</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-05T00:00:00+08:00">
+                2019-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/" itemprop="url" rel="index">
+                    <span itemprop="name">IT</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/Kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">Kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/Kotlin/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">基本语法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/11/05/IT/Android/Kotlin/1.Kotlin%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B0/" class="leancloud_visitors" data-flag-title="Kotlin作用域函数">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  Kotlin 基本语法，作用域函数
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是作用域函数（Scope-Functions）"><a href="#什么是作用域函数（Scope-Functions）" class="headerlink" title="什么是作用域函数（Scope Functions）"></a>什么是作用域函数（Scope Functions）</h1><p>&#160; &#160; &#160; &#160;Kotlin 标准库包含了几个特殊的函数，其目的是在调用对象的上下文环境（context）中执行代码块。当你在提供了 lambda 表达式的对象上调用此类函数时，它会形成一个临时作用域。在此作用域内，你可以在不使用其名称的情况下访问该对象，这些函数被称为作用域函数。在 Kotlin 中，作用域函数总共有五个，分别是：let（T.let）、run（run、T.run）、with、apply（ T.apply）、also（T.also）。</p>
+<p>&#160; &#160; &#160; &#160;基本上，这些函数的作用是一样的：在一个对象上执行代码块。不同的是这个对象如何在块内可用，以及整个表达式的结果是什么。</p>
+<p>&#160; &#160; &#160; &#160;下面是个简单示例：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>(<span class="keyword">var</span> name: String, <span class="keyword">var</span> age: <span class="built_in">Int</span>, <span class="keyword">var</span> city: String) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">moveTo</span><span class="params">(newCity: <span class="type">String</span>)</span></span> &#123; city = newCity &#125;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">incrementAge</span><span class="params">()</span></span> &#123; age++ &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    Person(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="string">"Amsterdam"</span>).let &#123;</span><br><span class="line">        println(it)</span><br><span class="line">        it.moveTo(<span class="string">"London"</span>)</span><br><span class="line">        it.incrementAge()</span><br><span class="line">        println(it)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;如果不使用 let 的话，你需要先创建出对象，然后再执行调用，并在每次使用它时重复其名称。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>(<span class="keyword">var</span> name: String, <span class="keyword">var</span> age: <span class="built_in">Int</span>, <span class="keyword">var</span> city: String) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">moveTo</span><span class="params">(newCity: <span class="type">String</span>)</span></span> &#123; city = newCity &#125;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">incrementAge</span><span class="params">()</span></span> &#123; age++ &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> alice = Person(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="string">"Amsterdam"</span>)</span><br><span class="line">    println(alice)</span><br><span class="line">    alice.moveTo(<span class="string">"London"</span>)</span><br><span class="line">    alice.incrementAge()</span><br><span class="line">    println(alice)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;作用域函数的目的就是尽可能的让你的代码变得更简洁更具可读性，尽可能少的创建对象，仅此而已。</p>
+<p>&#160; &#160; &#160; &#160;下面通过 run 函数再说明一下作用域：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> mood = <span class="string">"I am sad"</span></span><br><span class="line"></span><br><span class="line">    run &#123;</span><br><span class="line">        <span class="keyword">val</span> mood = <span class="string">"I am happy"</span></span><br><span class="line">        println(mood) <span class="comment">// I am happy</span></span><br><span class="line">    &#125;</span><br><span class="line">    println(mood)  <span class="comment">// I am sad</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;在这个例子中，在test函数的内部有一个分隔开的作用域，在这个作用域内部，完全包含一个在输出之前的 mood 变量被重新定义并初始化为 I am happy 的操作实现。</p>
+<p>&#160; &#160; &#160; &#160;这个作用域函数本身似乎看起来不是很有用。但是它返回这个作用域内部的最后一个对象，以下的代码会变得更加简洁，我们可以将show()方法应用到两个View中，而不需要去调用两次show()方法。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">run &#123;</span><br><span class="line">    <span class="keyword">if</span> (firstTimeView) introView <span class="keyword">else</span> normalView</span><br><span class="line">&#125;.show()</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="作用域函数的三个属性特征"><a href="#作用域函数的三个属性特征" class="headerlink" title="作用域函数的三个属性特征"></a>作用域函数的三个属性特征</h1><h2 id="普通函数与扩展函数"><a href="#普通函数与扩展函数" class="headerlink" title="普通函数与扩展函数"></a>普通函数与扩展函数</h2><p>&#160; &#160; &#160; &#160;如果我们对比 with 和 T.run 这两个函数的话，它们实际上是十分相似的。下面是使用它们实现相同功能的例子：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">with(webview.settings) &#123;</span><br><span class="line">    javaScriptEnabled = <span class="literal">true</span></span><br><span class="line">    databaseEnabled = <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// similarly</span></span><br><span class="line">webview.settings.run &#123;</span><br><span class="line">    javaScriptEnabled = <span class="literal">true</span></span><br><span class="line">    databaseEnabled = <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;然后它们之间唯一不同在于 with 是一个普通函数，而 T.run是一个扩展函数。</p>
+<p>&#160; &#160; &#160; &#160;那么它们各自使用的优点是什么？</p>
+<p>&#160; &#160; &#160; &#160;想象一下如果 webview.settings 可能为空，那么下面两种方式实现如何去修改呢？</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 比较丑陋的实现方式</span></span><br><span class="line">with(webview.settings) &#123;</span><br><span class="line">      <span class="keyword">this</span>?.javaScriptEnabled = <span class="literal">true</span></span><br><span class="line">      <span class="keyword">this</span>?.databaseEnabled = <span class="literal">true</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 比较好的实现方式</span></span><br><span class="line">webview.settings?.run &#123;</span><br><span class="line">    javaScriptEnabled = <span class="literal">true</span></span><br><span class="line">    databaseEnabled = <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;在这种情况下，显然 T.run 扩展函数更好，因为我们可以在使用它之前对可空性进行检查。</p>
+<h2 id="this-和-it-参数"><a href="#this-和-it-参数" class="headerlink" title="this 和 it 参数"></a>this 和 it 参数</h2><p>&#160; &#160; &#160; &#160;见下面区别一节。</p>
+<h2 id="返回-this-和-其它类型"><a href="#返回-this-和-其它类型" class="headerlink" title="返回 this 和 其它类型"></a>返回 this 和 其它类型</h2><p>&#160; &#160; &#160; &#160;见下面区别一节。</p>
+<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><p>&#160; &#160; &#160; &#160;由于作用域函数本质上非常相似，因此理解它们之间的差异非常重要。每个作用域函数有两个主要区别：</p>
+<ul>
+<li>引用上下文对象的方式</li>
+<li>返回值</li>
+</ul>
+<h2 id="上下文对象：this-还是-it"><a href="#上下文对象：this-还是-it" class="headerlink" title="上下文对象：this 还是 it"></a>上下文对象：this 还是 it</h2><p>&#160; &#160; &#160; &#160;在作用域函数的 lambda 中，上下文对象通过一个简短的引用而不是它的实际名称来提供。每个作用域函数使用两种方法中的一种来访问上下文对象：作为 lambda 接收器(this)或作为 lambda 参数(it)。两者都提供了相同的功能，下面描述它们各自在不同情况下的优缺点，并就它们的使用提供建议。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> str = <span class="string">"Hello"</span></span><br><span class="line">    <span class="comment">// this</span></span><br><span class="line">    str.run &#123;</span><br><span class="line">        println(<span class="string">"The receiver string length: <span class="variable">$length</span>"</span>)</span><br><span class="line">        <span class="comment">//println("The receiver string length: $&#123;this.length&#125;") // does the same</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// it</span></span><br><span class="line">    str.let &#123;</span><br><span class="line">        println(<span class="string">"The receiver string's length is <span class="subst">$&#123;it.length&#125;</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><p>&#160; &#160; &#160; &#160;run、with  和  apply 通过 this 关键字引用一个 context 对象作为 lambda 接收者。在它们的 lambda 中，this 对象可用于普通类函数中。大多数情况下，在访问接收者的成员时，可以省略 this 关键字，让代码保持简洁。另一方面，如果省略了 this ，就很难区分你操作的函数或变量是外部对象的还是接收者的了，所以，context 对象作为一个接收者（this）这种方式推荐用于调用接收者（this） 的成员变量或函数。示例如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>(<span class="keyword">var</span> name: String, <span class="keyword">var</span> age: <span class="built_in">Int</span> = <span class="number">0</span>, <span class="keyword">var</span> city: String = <span class="string">""</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> adam = Person(<span class="string">"Adam"</span>).apply &#123; </span><br><span class="line">        age = <span class="number">20</span>    <span class="comment">// same as this.age = 20 or adam.age = 20</span></span><br><span class="line">        city = <span class="string">"London"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="it"><a href="#it" class="headerlink" title="it"></a>it</h3><p>&#160; &#160; &#160; &#160;let、also 有一个作为 lambda 参数传入的 context 对象，如果不指定参数名，则可以通过该 context 对象的隐式默认名称 it 来访问它，it 比 this 看上去更简洁，用于表达式中也会使代码更加清晰易读。但是，当你访问 context 对象的函数或者属性时，不能像 apply 那样省略 this ，因此，当 context 对象主要用作参数被其他函数调用时，用 it 更好一些。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> kotlin.random.Random</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">writeToLog</span><span class="params">(message: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">"INFO: <span class="variable">$message</span>"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getRandomInt</span><span class="params">()</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Random.nextInt(<span class="number">100</span>).also &#123;</span><br><span class="line">            writeToLog(<span class="string">"getRandomInt() generated value <span class="variable">$it</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> i = getRandomInt()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;你也可以为 context 对象指定任意参数名</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> kotlin.random.Random</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">writeToLog</span><span class="params">(message: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">"INFO: <span class="variable">$message</span>"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getRandomInt</span><span class="params">()</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Random.nextInt(<span class="number">100</span>).also &#123; value -&gt;</span><br><span class="line">                writeToLog(<span class="string">"getRandomInt() generated value <span class="variable">$value</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> i = getRandomInt()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="T-run-和-T-let-举例对比"><a href="#T-run-和-T-let-举例对比" class="headerlink" title="T.run 和 T.let 举例对比"></a>T.run 和 T.let 举例对比</h3><p>&#160; &#160; &#160; &#160;如果对比 T.run 和 T.let 两个函数也是非常的相似，唯一的区别在于它们接收的参数不一样。下面显示了两种功能的相同逻辑。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">stringVariable?.run &#123;</span><br><span class="line">      println(<span class="string">"The length of this String is <span class="variable">$length</span>"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Similarly.</span></span><br><span class="line">stringVariable?.let &#123;</span><br><span class="line">      println(<span class="string">"The length of this String is <span class="subst">$&#123;it.length&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;如果你查看过 T.run 函数声明，你就会注意到 T.run 仅仅只是被当做了 block:T.() 扩展函数的调用块。因此，在其作用域内，T 可以被 this 指代。在编码过程中，在大多数情况下 this 是可以被省略的。因此我们上面的示例中，我们可以在 println 语句中直接使用 $length 而不是 ${this.lenght}. 所以我把这个称之为传递 this 参数。</p>
+<p>&#160; &#160; &#160; &#160;然而对于 T.let 函数的声明，你将会注意到 T.let 是传递它自己本身到函数中 block:(T)。因此这个类似于传递一个 lambda 表达式作为参数。它可以在函数作用域内部使用 it 来指代。所以我把这个称之为传递 it 参数。</p>
+<p>&#160; &#160; &#160; &#160;你也可以理解为 T.let 是有闭包参数的，谁调用了 let ，参数就是那个对象，而Kotlin中，lambda 如果只有一个参数，该参数可以省略不写，用 it 替代；而 T.run 没有闭包参数，但它可以通过 this 来获取到谁调用了 run 函数，this 指代了外层调用 run 的对象。这是二者的唯一区别。从上面看，似乎 T.run 比 T.let 更加优越，因为它更隐含，但是 T.let 函数具有一些微妙的优势，如下所示:</p>
+<ol>
+<li>T.let 函数提供了一种更清晰的区分方式去使用给定的变量函数/成员与外部类函数/成员。</li>
+<li>例如当 it 作为函数的参数传递时，this 不能被省略，并且 it 写起来比 this 更简洁，更清晰。</li>
+<li>T.let 允许更好地命名已使用变量，即可以将 it 转换为其它有含义名称，而 T.run 则不能，内部只能用 this 指代或者省略。</li>
+</ol>
+<h2 id="返回值：Context-对象还是-Lambda-结果"><a href="#返回值：Context-对象还是-Lambda-结果" class="headerlink" title="返回值：Context 对象还是 Lambda 结果"></a>返回值：Context 对象还是 Lambda 结果</h2><p>&#160; &#160; &#160; &#160;作用域函数的返回值不同：</p>
+<ul>
+<li>apply 和 also 返回 context 对象</li>
+<li>let、run、with 返回闭包的运算结果</li>
+</ul>
+<h3 id="返回-Context-对象"><a href="#返回-Context-对象" class="headerlink" title="返回 Context 对象"></a>返回 Context 对象</h3><p>&#160; &#160; &#160; &#160;apply 和 also 返回 context 对象，因此，它们可以结合起来进行链式调用。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> numberList = mutableListOf&lt;<span class="built_in">Double</span>&gt;()</span><br><span class="line">    numberList.also &#123; println(<span class="string">"Populating the list"</span>) &#125;</span><br><span class="line">        .apply &#123;</span><br><span class="line">            add(<span class="number">2.71</span>)</span><br><span class="line">            add(<span class="number">3.14</span>)</span><br><span class="line">            add(<span class="number">1.0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        .also &#123; println(<span class="string">"Sorting the list"</span>) &#125;</span><br><span class="line">        .sort()</span><br><span class="line">    println(numberList)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;也可以在 return 语句中使用，将 context 对象作为函数的返回值。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> kotlin.random.Random</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">writeToLog</span><span class="params">(message: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    println(<span class="string">"INFO: <span class="variable">$message</span>"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getRandomInt</span><span class="params">()</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Random.nextInt(<span class="number">100</span>).also &#123;</span><br><span class="line">            writeToLog(<span class="string">"getRandomInt() generated value <span class="variable">$it</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> i = getRandomInt()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="返回-Lambda-闭包结果"><a href="#返回-Lambda-闭包结果" class="headerlink" title="返回 Lambda 闭包结果"></a>返回 Lambda 闭包结果</h3><p>&#160; &#160; &#160; &#160;let、run、with 返回 lambda 闭包结果。所以，你可以将其执行结果赋值给变量，链式操作上一个闭包返回的结果。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> numbers = mutableListOf(<span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span>)</span><br><span class="line">    <span class="keyword">val</span> countEndsWithE = numbers.run &#123; </span><br><span class="line">        add(<span class="string">"four"</span>)</span><br><span class="line">        add(<span class="string">"five"</span>)</span><br><span class="line">        count &#123; it.endsWith(<span class="string">"e"</span>) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    println(<span class="string">"There are <span class="variable">$countEndsWithE</span> elements that end with e."</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;此外，你可以忽略返回值，使用 with 作用域函数来为变量创建一个临时作用域。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> numbers = mutableListOf(<span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span>)</span><br><span class="line">    with(numbers) &#123;</span><br><span class="line">        <span class="keyword">val</span> firstItem = first()</span><br><span class="line">        <span class="keyword">val</span> lastItem = last()        </span><br><span class="line">        println(<span class="string">"First item: <span class="variable">$firstItem</span>, last item: <span class="variable">$lastItem</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="T-let-和-T-also-举例对比"><a href="#T-let-和-T-also-举例对比" class="headerlink" title="T.let 和 T.also 举例对比"></a>T.let 和 T.also 举例对比</h3><p>&#160; &#160; &#160; &#160;现在让我们看看 T.let 和 T.also ，如果看它的内部函数作用域，它们都是相同的。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">stringVariable?.let &#123;</span><br><span class="line">      println(<span class="string">"The length of this String is <span class="subst">$&#123;it.length&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Exactly the same as below</span></span><br><span class="line">stringVariable?.also &#123;</span><br><span class="line">      println(<span class="string">"The length of this String is <span class="subst">$&#123;it.length&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;然而，二者微妙的不同在于它们的返回值，T.let 返回一个不同类型的值，而 T.also 返回T类型本身。</p>
+<p>&#160; &#160; &#160; &#160;这两个函数对于链式调用都很有用，其中 T.let 可以演变操作，而 T.also 则对相同的变量执行操作。</p>
+<p>&#160; &#160; &#160; &#160;简单的例子如下:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> original = <span class="string">"abc"</span></span><br><span class="line"><span class="comment">// Evolve the value and send to the next chain</span></span><br><span class="line">original.let &#123;</span><br><span class="line">    println(<span class="string">"The original String is <span class="variable">$it</span>"</span>) <span class="comment">// "abc"</span></span><br><span class="line">    it.reversed() <span class="comment">// evolve it as parameter to send to next let</span></span><br><span class="line">&#125;.let &#123;</span><br><span class="line">    println(<span class="string">"The reverse String is <span class="variable">$it</span>"</span>) <span class="comment">// "cba"</span></span><br><span class="line">    it.length  <span class="comment">// can be evolve to other type</span></span><br><span class="line">&#125;.let &#123;</span><br><span class="line">    println(<span class="string">"The length of the String is <span class="variable">$it</span>"</span>) <span class="comment">// 3</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Wrong</span></span><br><span class="line"><span class="comment">// Same value is sent in the chain (printed answer is wrong)</span></span><br><span class="line">original.also &#123;</span><br><span class="line">    println(<span class="string">"The original String is <span class="variable">$it</span>"</span>) <span class="comment">// "abc"</span></span><br><span class="line">    it.reversed() <span class="comment">// even if we evolve it, it is useless</span></span><br><span class="line">&#125;.also &#123;</span><br><span class="line">    println(<span class="string">"The reverse String is <span class="subst">$&#123;it&#125;</span>"</span>) <span class="comment">// "abc"</span></span><br><span class="line">    it.length  <span class="comment">// even if we evolve it, it is useless</span></span><br><span class="line">&#125;.also &#123;</span><br><span class="line">    println(<span class="string">"The length of the String is <span class="subst">$&#123;it&#125;</span>"</span>) <span class="comment">// "abc"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Corrected for also (i.e. manipulate as original string</span></span><br><span class="line"><span class="comment">// Same value is sent in the chain </span></span><br><span class="line">original.also &#123;</span><br><span class="line">    println(<span class="string">"The original String is <span class="variable">$it</span>"</span>) <span class="comment">// "abc"</span></span><br><span class="line">&#125;.also &#123;</span><br><span class="line">    println(<span class="string">"The reverse String is <span class="subst">$&#123;it.reversed()&#125;</span>"</span>) <span class="comment">// "cba"</span></span><br><span class="line">&#125;.also &#123;</span><br><span class="line">    println(<span class="string">"The length of the String is <span class="subst">$&#123;it.length&#125;</span>"</span>) <span class="comment">// 3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>&#160; &#160; &#160; &#160;T.also 似乎看上去没有意义，因为我们可以很容易地将它们组合成一个功能块。仔细思考，它有一些很好的优点。</p>
+<ol>
+<li>它可以对相同的对象提供非常清晰的分离过程，即创建更小的函数部分。</li>
+<li>在使用之前，它可以非常强大的进行自我操作，从而实现整个链式代码的构建操作。</li>
+</ol>
+<p>&#160; &#160; &#160; &#160;当两者结合在一起使用时，即一个自身演变，一个自我保留，它能使一些操作变得更加强大。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Normal approach</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">makeDir</span><span class="params">(path: <span class="type">String</span>)</span></span>: File  &#123;</span><br><span class="line">    <span class="keyword">val</span> result = File(path)</span><br><span class="line">    result.mkdirs()</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Improved approach</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">makeDir</span><span class="params">(path: <span class="type">String</span>)</span></span> = path.let&#123; File(it) &#125;.also&#123; it.mkdirs() &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="回顾所有属性特征"><a href="#回顾所有属性特征" class="headerlink" title="回顾所有属性特征"></a>回顾所有属性特征</h1><p>&#160; &#160; &#160; &#160;通过回顾这3个属性特征，我们可以非常清楚函数的行为。下面说明 T.apply 函数，它的三个属性如下：</p>
+<ol>
+<li>它是一个扩展函数</li>
+<li>它是传递this作为参数</li>
+<li>它是返回 this (即它自己本身)</li>
+</ol>
+<p>&#160; &#160; &#160; &#160;因此，可以想象下它可以被用作:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Normal approach</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">createInstance</span><span class="params">(args: <span class="type">Bundle</span>)</span></span> : MyFragment &#123;</span><br><span class="line">    <span class="keyword">val</span> fragment = MyFragment()</span><br><span class="line">    fragment.arguments = args</span><br><span class="line">    <span class="keyword">return</span> fragment</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Improved approach</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">createInstance</span><span class="params">(args: <span class="type">Bundle</span>)</span></span> </span><br><span class="line">              = MyFragment().apply &#123; arguments = args &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>&#160; &#160; &#160; &#160;或者我们也可以让无链对象创建链式调用。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Normal approach</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">createIntent</span><span class="params">(intentData: <span class="type">String</span>, intentAction: <span class="type">String</span>)</span></span>: Intent &#123;</span><br><span class="line">    <span class="keyword">val</span> intent = Intent()</span><br><span class="line">    intent.action = intentAction</span><br><span class="line">    intent.<span class="keyword">data</span>=Uri.parse(intentData)</span><br><span class="line">    <span class="keyword">return</span> intent</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Improved approach, chaining</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">createIntent</span><span class="params">(intentData: <span class="type">String</span>, intentAction: <span class="type">String</span>)</span></span> =</span><br><span class="line">        Intent().apply &#123; action = intentAction &#125;</span><br><span class="line">                .apply &#123; <span class="keyword">data</span> = Uri.parse(intentData) &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="使用场景详细说明"><a href="#使用场景详细说明" class="headerlink" title="使用场景详细说明"></a>使用场景详细说明</h1><p>&#160; &#160; &#160; &#160;下面介绍如何适当的选择作用域函数，从技术上来说，它们的功能在很多情况下都是可以互相转换的，所以下面的例子只是展示了一种通用做法，具体选择还是要看你的业务场景更适合哪种情况。</p>
+<h2 id="let"><a href="#let" class="headerlink" title="let"></a>let</h2><p>&#160; &#160; &#160; &#160;context 对象作为闭包参数（it）传入，返回值是lambda闭包结果。</p>
+<p>&#160; &#160; &#160; &#160;let 可用于在调用链的结果上调用一个或多个函数。例如，以下代码打印集合上的两个操作的结果：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> numbers = mutableListOf(<span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span>, <span class="string">"four"</span>, <span class="string">"five"</span>)</span><br><span class="line">    <span class="keyword">val</span> resultList = numbers.map &#123; it.length &#125;.filter &#123; it &gt; <span class="number">3</span> &#125;</span><br><span class="line">    println(resultList)    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;使用 let 可以重写为：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> numbers = mutableListOf(<span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span>, <span class="string">"four"</span>, <span class="string">"five"</span>)</span><br><span class="line">    numbers.map &#123; it.length &#125;.filter &#123; it &gt; <span class="number">3</span> &#125;.let &#123; </span><br><span class="line">        println(it)</span><br><span class="line">        <span class="comment">// and more function calls if needed</span></span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;如果闭包模块只有一个函数将 context 作为参数传入，你可以使用（::）替换 lambda：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> numbers = mutableListOf(<span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span>, <span class="string">"four"</span>, <span class="string">"five"</span>)</span><br><span class="line">    numbers.map &#123; it.length &#125;.filter &#123; it &gt; <span class="number">3</span> &#125;.let(::println)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;let 也经常被用于执行闭包代码块中使用非空值的函数，要对非空对象执行操作，使用安全调用操作符 ?. 后跟 let 闭包，在此闭包中，原来的可空对象就可以被转换为非空对象执行操作。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">processNonNullString</span><span class="params">(str: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    println(str.length)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> str: String? = <span class="string">"Hello"</span>   </span><br><span class="line">    <span class="comment">//processNonNullString(str)       // 编译错误: str 为可空对象，要求参数为不可空对象</span></span><br><span class="line">    <span class="keyword">val</span> length = str?.let &#123; </span><br><span class="line">        println(<span class="string">"let() called on <span class="variable">$it</span>"</span>)        </span><br><span class="line">        processNonNullString(it)      <span class="comment">// 正常执行: 'it' 在 '?.let &#123; &#125;' 中为不可空对象</span></span><br><span class="line">        it.length</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;使用 let 的另一种情况是引入局部变量，限制其作用域范围，以提高代码可读性。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> numbers = listOf(<span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span>, <span class="string">"four"</span>)</span><br><span class="line">    <span class="keyword">val</span> modifiedFirstItem = numbers.first().let &#123; firstItem -&gt;</span><br><span class="line">            println(<span class="string">"The first item of the list is '<span class="variable">$firstItem</span>'"</span>)</span><br><span class="line">        <span class="keyword">if</span> (firstItem.length &gt;= <span class="number">5</span>) firstItem <span class="keyword">else</span> <span class="string">"!"</span> + firstItem + <span class="string">"!"</span></span><br><span class="line">    &#125;.toUpperCase()</span><br><span class="line">    println(<span class="string">"First item after modifications: '<span class="variable">$modifiedFirstItem</span>'"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="with"><a href="#with" class="headerlink" title="with"></a>with</h2><p>&#160; &#160; &#160; &#160;context 对象作为闭包参数（it）传入，返回值是lambda闭包结果。</p>
+<p>&#160; &#160; &#160; &#160;非拓展函数。context 对象作为参数传递，但在 lambda 内部，它可用作接收器（this），返回值为 lambda 结果。</p>
+<p>&#160; &#160; &#160; &#160;官方建议是使用 context 对象调用函数而不提供 lambda 结果。在代码中，你可以简单的把 with 函数理解为 “使用此对象，执行以下操作”。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> numbers = mutableListOf(<span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span>)</span><br><span class="line">    with(numbers) &#123;</span><br><span class="line">        println(<span class="string">"'with' is called with argument <span class="variable">$this</span>"</span>)</span><br><span class="line">        println(<span class="string">"It contains <span class="variable">$size</span> elements"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;with 的另一个用例是引入一个辅助对象，我们可以方便的使用此对象的属性或函数来计算值。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> numbers = mutableListOf(<span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span>)</span><br><span class="line">    <span class="keyword">val</span> firstAndLast = with(numbers) &#123;</span><br><span class="line">        <span class="string">"The first element is <span class="subst">$&#123;first()&#125;</span>,"</span> +</span><br><span class="line">            <span class="string">" the last element is <span class="subst">$&#123;last()&#125;</span>"</span></span><br><span class="line">    &#125;</span><br><span class="line">    println(firstAndLast)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="run"><a href="#run" class="headerlink" title="run"></a>run</h2><p>&#160; &#160; &#160; &#160;context 对象可用作接收器（this），返回值为 lambda 闭包结果。</p>
+<p>&#160; &#160; &#160; &#160;run 和 with 的作用类似，但是调用方法和 let 一样——作为 context 对象的拓展函数。</p>
+<p>&#160; &#160; &#160; &#160;当你的 lambda 同时包含了对象初始化和返回值计算时，run 函数非常适合。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MultiportService</span></span>(<span class="keyword">var</span> url: String, <span class="keyword">var</span> port: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">prepareRequest</span><span class="params">()</span></span>: String = <span class="string">"Default request"</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">query</span><span class="params">(request: <span class="type">String</span>)</span></span>: String = <span class="string">"Result for query '<span class="variable">$request</span>'"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> service = MultiportService(<span class="string">"https://example.kotlinlang.org"</span>, <span class="number">80</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> result = service.run &#123;</span><br><span class="line">        port = <span class="number">8080</span></span><br><span class="line">        query(prepareRequest() + <span class="string">" to port <span class="variable">$port</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 同样的代码使用 let() 函数重写:</span></span><br><span class="line">    <span class="keyword">val</span> letResult = service.let &#123;</span><br><span class="line">        it.port = <span class="number">8080</span></span><br><span class="line">        it.query(it.prepareRequest() + <span class="string">" to port <span class="subst">$&#123;it.port&#125;</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    println(result)</span><br><span class="line">    println(letResult)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;除了在接收器对象上调用run之外，还可以将其用作非扩展函数。非扩展 run 允许你执行需要表达式的多个语句块。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> hexNumberRegex = run &#123;</span><br><span class="line">        <span class="keyword">val</span> digits = <span class="string">"0-9"</span></span><br><span class="line">        <span class="keyword">val</span> hexDigits = <span class="string">"A-Fa-f"</span></span><br><span class="line">        <span class="keyword">val</span> sign = <span class="string">"+-"</span></span><br><span class="line"></span><br><span class="line">        Regex(<span class="string">"[<span class="variable">$sign</span>]?[<span class="variable">$digits</span><span class="variable">$hexDigits</span>]+"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (match <span class="keyword">in</span> hexNumberRegex.findAll(<span class="string">"+1234 -FFFF not-a-number"</span>)) &#123;</span><br><span class="line">        println(match.value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h2><p>&#160; &#160; &#160; &#160;context 对象可用作接收器（this），返回调用者本身。</p>
+<p>&#160; &#160; &#160; &#160;使用apply不会返回值，主要对接收器对象的成员进行操作。 apply的常见情况是对象配置。此类调用可以理解为“将以下赋值应用于对象”。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>(<span class="keyword">var</span> name: String, <span class="keyword">var</span> age: <span class="built_in">Int</span> = <span class="number">0</span>, <span class="keyword">var</span> city: String = <span class="string">""</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> adam = Person(<span class="string">"Adam"</span>).apply &#123;</span><br><span class="line">        age = <span class="number">32</span></span><br><span class="line">        city = <span class="string">"London"</span>        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;将接收器作为返回值，你可以轻松进行链式调用以处理更复杂的操作。</p>
+<h2 id="also"><a href="#also" class="headerlink" title="also"></a>also</h2><p>&#160; &#160; &#160; &#160;context 对象作为闭包参数（it）传入，返回调用者本身。</p>
+<p>&#160; &#160; &#160; &#160;also 适用于执行将 context 对象作为参数进行的一些操作。还可用于不更改对象的其他操作，例如记录或打印调试信息。通常，你可以在不破坏程序逻辑的情况下从调用链中删除 also 调用。</p>
+<p>&#160; &#160; &#160; &#160;在代码中看到“also”时，可以理解为“然后执行以下操作”。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> numbers = mutableListOf(<span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span>)</span><br><span class="line">    numbers</span><br><span class="line">        .also &#123; println(<span class="string">"The list elements before adding new one: <span class="variable">$it</span>"</span>) &#125;</span><br><span class="line">        .add(<span class="string">"four"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="函数选择"><a href="#函数选择" class="headerlink" title="函数选择"></a>函数选择</h1><p>&#160; &#160; &#160; &#160;以下是它们之间的差异表，以帮助你选择合适的作用域函数。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>对象引用</th>
+<th>返回值</th>
+<th>是否是扩展函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>let</td>
+<td>it</td>
+<td>lambda 结果</td>
+<td>是</td>
+</tr>
+<tr>
+<td>run</td>
+<td>this</td>
+<td>lambda 结果</td>
+<td>是</td>
+</tr>
+<tr>
+<td>run</td>
+<td>-</td>
+<td>lambda 结果</td>
+<td>否：无 context 对象</td>
+</tr>
+<tr>
+<td>with</td>
+<td>this</td>
+<td>lambda 结果</td>
+<td>否：将 context 对象作为参数</td>
+</tr>
+<tr>
+<td>apply</td>
+<td>this</td>
+<td>调用者本身（context）</td>
+<td>是</td>
+</tr>
+<tr>
+<td>also</td>
+<td>it</td>
+<td>调用者本身（context）</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<p>&#160; &#160; &#160; &#160;以下是根据预期目的选择作用域函数的简短指南：</p>
+<ul>
+<li>在非 null 对象上执行 lambda：let</li>
+<li>将表达式作为局部范围中的变量引入：let</li>
+<li>对象配置：apply</li>
+<li>对象配置并计算结果：run</li>
+<li>运行需要表达式的语句：非扩展 run</li>
+<li>附加效果：also</li>
+<li>对函数进行分组调用：with</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;下图是作用域函数选用图<br><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/3e5e9410678099aecb49f5e2087738db6b7a24b4/IT/Android/Kotlin/%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B0%E9%80%89%E7%94%A8%E5%9B%BE.jpg?raw=true" alt="作用域函数选用图"> </p>
+<p>&#160; &#160; &#160; &#160;虽然作用域函数可以使代码更简洁，但是要避免过度使用它们：它会降低代码的可读性并导致错误。避免嵌套使用作用域函数，在链式调用它们时要小心：context 对象、this 或者 it 是很容易混淆的。</p>
+<blockquote>
+<p>参考资料：<br><a href="https://www.kotlincn.net/docs/reference/scope-functions.html" target="_blank" rel="noopener">https://www.kotlincn.net/docs/reference/scope-functions.html</a><br><a href="https://cloud.tencent.com/developer/article/1425178" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1425178</a><br><a href="https://zhuanlan.zhihu.com/p/37085876" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/37085876</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kotlin/" rel="tag"># Kotlin</a>
+          
+            <a href="/tags/%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%87%BD%E6%95%B0/" rel="tag"># 作用域函数</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/13/IT/Java/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/1.BigInteger%E8%AF%A6%E8%A7%A3/" rel="next" title="一 BigInteger详解">
+                <i class="fa fa-chevron-left"></i> 一 BigInteger详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/06/IT/Android/Kotlin/2.Kotlin%20takeIf%20%E5%92%8C%20takeUnless/" rel="prev" title="Kotlin takeIf 和 takeUnless">
+                Kotlin takeIf 和 takeUnless <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDEwMS82NjU2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myavatar.jpg"
+               alt="wy521angel" />
+          <p class="site-author-name" itemprop="name">wy521angel</p>
+           
+              <p class="site-description motion-element" itemprop="description">存放一些IT技术积累</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">136</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="Hongyang的博客" target="_blank">Hongyang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/guolin_blog" title="郭霖的博客" target="_blank">郭霖的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/eclipsexys" title="eclipse_xu的博客" target="_blank">eclipse_xu的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lovelion?viewmode=list" title="刘伟的博客" target="_blank">刘伟的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philipdroid.github.io" title="philipdroid的博客" target="_blank">philipdroid的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://juejin.im/timeline" title="掘金" target="_blank">掘金</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.infoq.com/cn" title="InfoQ" target="_blank">InfoQ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.uisdc.com" title="优设" target="_blank">优设</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=34341358&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是作用域函数（Scope-Functions）"><span class="nav-number">1.</span> <span class="nav-text">什么是作用域函数（Scope Functions）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#作用域函数的三个属性特征"><span class="nav-number">2.</span> <span class="nav-text">作用域函数的三个属性特征</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#普通函数与扩展函数"><span class="nav-number">2.1.</span> <span class="nav-text">普通函数与扩展函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#this-和-it-参数"><span class="nav-number">2.2.</span> <span class="nav-text">this 和 it 参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#返回-this-和-其它类型"><span class="nav-number">2.3.</span> <span class="nav-text">返回 this 和 其它类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#区别"><span class="nav-number">3.</span> <span class="nav-text">区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#上下文对象：this-还是-it"><span class="nav-number">3.1.</span> <span class="nav-text">上下文对象：this 还是 it</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#this"><span class="nav-number">3.1.1.</span> <span class="nav-text">this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#it"><span class="nav-number">3.1.2.</span> <span class="nav-text">it</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#T-run-和-T-let-举例对比"><span class="nav-number">3.1.3.</span> <span class="nav-text">T.run 和 T.let 举例对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#返回值：Context-对象还是-Lambda-结果"><span class="nav-number">3.2.</span> <span class="nav-text">返回值：Context 对象还是 Lambda 结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#返回-Context-对象"><span class="nav-number">3.2.1.</span> <span class="nav-text">返回 Context 对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回-Lambda-闭包结果"><span class="nav-number">3.2.2.</span> <span class="nav-text">返回 Lambda 闭包结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#T-let-和-T-also-举例对比"><span class="nav-number">3.2.3.</span> <span class="nav-text">T.let 和 T.also 举例对比</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回顾所有属性特征"><span class="nav-number">4.</span> <span class="nav-text">回顾所有属性特征</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用场景详细说明"><span class="nav-number">5.</span> <span class="nav-text">使用场景详细说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#let"><span class="nav-number">5.1.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#with"><span class="nav-number">5.2.</span> <span class="nav-text">with</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#run"><span class="nav-number">5.3.</span> <span class="nav-text">run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apply"><span class="nav-number">5.4.</span> <span class="nav-text">apply</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#also"><span class="nav-number">5.5.</span> <span class="nav-text">also</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数选择"><span class="nav-number">6.</span> <span class="nav-text">函数选择</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wy521angel</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("xVeur9szsyg7AkKwseQcBlqr-MdYXbMMI", "UEl3HMLcU0j2xYsHkUlJGVS8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a href="https://github.com/wy521angel" target="_blank" rel="noopener"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+  
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>

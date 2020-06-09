@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="触摸反馈," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wy521angel的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Android 拖拽 ViewDragHelper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ViewDragHelper 详解">
+<meta property="og:url" content="http://yoursite.com/2019/12/24/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/ViewDragHelper%20%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="wy521angel的博客">
+<meta property="og:description" content="Android 拖拽 ViewDragHelper">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/ViewDragHelper%E7%9A%84%E8%BE%B9%E7%95%8C%E5%A4%84%E7%90%86.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/ViewDragHelper%E6%95%88%E6%9E%9C%E5%9B%BE.gif?raw=true">
+<meta property="article:published_time" content="2019-12-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-12-25T08:50:42.000Z">
+<meta property="article:author" content="wy521angel">
+<meta property="article:tag" content="触摸反馈">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/ViewDragHelper%E7%9A%84%E8%BE%B9%E7%95%8C%E5%A4%84%E7%90%86.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/24/IT/Android/触摸反馈/ViewDragHelper 详解/"/>
+
+
+
+
+
+  <title>ViewDragHelper 详解 | wy521angel的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wy521angel的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一个从事IT工作的伪文艺青年</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-camera"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/24/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/ViewDragHelper%20%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wy521angel">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wy521angel的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ViewDragHelper 详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-24T00:00:00+08:00">
+                2019-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/" itemprop="url" rel="index">
+                    <span itemprop="name">IT</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/" itemprop="url" rel="index">
+                    <span itemprop="name">触摸反馈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/12/24/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/ViewDragHelper%20%E8%AF%A6%E8%A7%A3/" class="leancloud_visitors" data-flag-title="ViewDragHelper 详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  Android 拖拽 ViewDragHelper
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h1><p>&#160; &#160; &#160; &#160;ViewDragHelper的使用，分为以下几个步骤：</p>
+<h2 id="初始化ViewDragHelper"><a href="#初始化ViewDragHelper" class="headerlink" title="初始化ViewDragHelper"></a>初始化ViewDragHelper</h2><p>&#160; &#160; &#160; &#160;ViewDragHelper 通常定义在一个 ViewGroup 中，通过其静态方法初始化：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mViewDragHelper = ViewDragHelper.create(<span class="keyword">this</span>,callback);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;它的第一个参数是要监听的 View,第二个参数是一个 Callback 回调，这个回调是整个业务的核心。</p>
+<p>&#160; &#160; &#160; &#160;另外，ViewDragHelper 还有一个三个参数的创建方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ViewDragHelper <span class="title">create</span><span class="params">(ViewGroup forParent, <span class="keyword">float</span> sensitivity, Callback cb)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mViewDragHelper = ViewDragHelper.create(<span class="keyword">this</span>, <span class="number">1.0f</span>, callback);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;它的不同是多了一个灵敏度（第二个参数）。第二个参数 sensitivity，主要用于设置 touchSlop（helper.mTouchSlop = (int) (helper.mTouchSlop * (1 / sensitivity))），可见传入越大，mTouchSlop的值就会越小，越敏感。这个灵敏度的默认值是1.0f，一般设置为1.0f 就行，且参数越大越敏感。</p>
+<h2 id="触摸相关方法"><a href="#触摸相关方法" class="headerlink" title="触摸相关方法"></a>触摸相关方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//事件拦截</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mViewDragHelper.shouldInterceptTouchEvent(ev);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//触摸事件</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//将触摸事件传递给ViewDragHelper</span></span><br><span class="line">    mViewDragHelper.processTouchEvent(event);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="处理回调Callback"><a href="#处理回调Callback" class="headerlink" title="处理回调Callback"></a>处理回调Callback</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//侧滑回调</span></span><br><span class="line"><span class="keyword">private</span> ViewDragHelper.Callback callback = <span class="keyword">new</span> ViewDragHelper.Callback() &#123;</span><br><span class="line">    <span class="comment">//何时开始触摸</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryCaptureView</span><span class="params">(View child, <span class="keyword">int</span> pointerId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//处理水平滑动</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">clampViewPositionHorizontal</span><span class="params">(View child, <span class="keyword">int</span> left, <span class="keyword">int</span> dx)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//处理垂直滑动</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">clampViewPositionVertical</span><span class="params">(View child, <span class="keyword">int</span> top, <span class="keyword">int</span> dy)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> top;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;tryCaptureView() 方法是 IDE 自动帮助重写的，返回 ture 则表示可以捕获该 view，可以根据传入的第一个 view 参数，指定在创建 ViewDragHelper 时，哪一个子 View 可以被移动。</p>
+<p>&#160; &#160; &#160; &#160;clampViewPositionHorizontal() 与 clampViewPositionVertical() 的默认值返回0，即不发生滑动。如果只重写其中的一个，那么就只会在该方向上滑动。clampViewPositionVertical(View child, int top, int dy) 中的参数 top，代表在垂直方向上 child 移动的距离，而 dy 则表示比较前一次的增量。clampViewPositionVertical() 同理。通常只需要返回 top 和 left 即可，但当需要更加精确地计算 padding 等属性时，就需要针对它们进行一些处理，返回大小合适的值。</p>
+<p>&#160; &#160; &#160; &#160;可以在这两个方法中对 child 移动的边界进行控制，left , top 分别为即将移动到的位置，比如横向的情况下，我希望只在 ViewGroup 的内部移动，如下图：</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/ViewDragHelper%E7%9A%84%E8%BE%B9%E7%95%8C%E5%A4%84%E7%90%86.png?raw=true" alt="ViewDragHelper的边界处理"></p>
+<p>&#160; &#160; &#160; &#160;上图可以看出蓝色 View 可以移动的水平区域为灰色区域，假设移动区域为 m，则 paddingleft &lt;= m &lt;= viewgroup.getWidth() - paddingright - view.getwidth 。可以按照如下代码编写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">clampViewPositionHorizontal</span><span class="params">(View child, <span class="keyword">int</span> left, <span class="keyword">int</span> dx)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> leftBound = getPaddingLeft();</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> rightBound = getWidth() - mDragView.getWidth() - leftBound;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> newLeft = Math.min(Math.max(left, leftBound), rightBound);</span><br><span class="line">    <span class="keyword">return</span> newLeft;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;通过重写 onViewReleased()，可以实现当手指离开屏幕之后的操作。这个方法内部是通过 scroller 类实现的，这也是之前重写 computeScroll() 方法的原因。</p>
+<p>&#160; &#160; &#160; &#160;经过上述3个步骤，就完成了一个简单的自定义 ViewGroup，可以自由的拖动子 View。详见 <a href="https://github.com/wy521angel/DragTest/blob/master/app/src/main/java/com/wy521angel/dragtest/ViewDragGroup.java" target="_blank" rel="noopener">ViewDragHelper 侧滑菜单简单实例</a></p>
+<h1 id="详细功能展示"><a href="#详细功能展示" class="headerlink" title="详细功能展示"></a>详细功能展示</h1><p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/ViewDragHelper%E6%95%88%E6%9E%9C%E5%9B%BE.gif?raw=true" alt="ViewDragHelper效果图"></p>
+<ul>
+<li>第一个View，就是演示简单的移动。</li>
+<li>第二个View，演示除了移动后，松手自动返回到原本的位置。（注意你拖动的越快，返回的越快）</li>
+<li>第三个View，边界移动时对View进行捕获。</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;第二个 View，在 onLayout 之后保存了最开始的位置信息，最主要还是重写了 Callback 中的 onViewReleased，我们在 onViewReleased 中判断如果是 mAutoBackView 则调用 settleCapturedViewAt 回到初始的位置。源码中可以看到紧随其后的代码是 invalidate(); 因为其内部使用的是 mScroller.startScroll，所以别忘了需要 invalidate() 以及结合 computeScroll 方法一起。</p>
+<p>&#160; &#160; &#160; &#160;在 ViewDragHelper 的滑动中共有三个方法可以调用，smoothSlideViewTo、settleCapturedViewAt、flingCapturedView，动画移动会回调 continueSettling(boolean) 方法，在内部是用的 ScrollerCompat 来实现滑动的。 在 computeScroll 方法中判断 continueSettling(boolean) 的返回值，来动态刷新界面：通常情况下，可以使用如下模版代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mViewDragHelper.continueSettling(<span class="keyword">true</span>)) &#123;</span><br><span class="line">        invalidate();<span class="comment">//或者 ViewCompat.postInvalidateOnAnimation(this);       &#125;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;第三个 View，我们在 onEdgeDragStarted 回调方法中，主动通过 captureChildView 对其进行捕获，该方法可以绕过 tryCaptureView，不管 tryCaptureView 返回真假。如果需要使用边界检测，需要添加上类似如下代码（以左边界为例）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mDragger.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT)。</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;详见 <a href="https://github.com/wy521angel/DragTest/blob/master/app/src/main/java/com/wy521angel/dragtest/VDHLayoutForTextView.java" target="_blank" rel="noopener">VDHLayoutForTextView</a></p>
+<p>&#160; &#160; &#160; &#160;把 TextView 全部加上 clickable = true，或者修改成 Button，意思就是子 View 可以消耗事件。再次运行，你会发现本来可以拖动的View不动了。原因是什么呢？主要是因为，如果子 View不消耗事件，那么整个手势（DOWN-MOVE-UP）都是直接进入 onTouchEvent，在 onTouchEvent 的 DOWN 的时候就确定了 captureView。如果消耗事件，那么就会先走 onInterceptTouchEvent 方法，判断是否可以捕获，而在判断的过程中会去判断另外两个回调的方法：getViewHorizontalDragRange 和 getViewVerticalDragRange，只有这两个方法返回大于0的值才能正常的捕获。所以，如果你用 Button 测试，或者给 TextView 添加了 clickable = true ，都记得重写下面这两个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getViewHorizontalDragRange</span><span class="params">(View child)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getMeasuredWidth() - child.getMeasuredWidth();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getViewVerticalDragRange</span><span class="params">(View child)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getMeasuredHeight() - child.getMeasuredHeight();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;方法的返回值应当是该 childView 横向或者纵向的移动的范围，当前如果只需要一个方向移动，可以只复写一个。</p>
+<p>&#160; &#160; &#160; &#160;详见 <a href="https://github.com/wy521angel/DragTest/blob/master/app/src/main/java/com/wy521angel/dragtest/VDHLayoutForButton.java" target="_blank" rel="noopener">VDHLayoutForButton</a></p>
+<h1 id="ViewDragHelper-的更多方法"><a href="#ViewDragHelper-的更多方法" class="headerlink" title="ViewDragHelper 的更多方法"></a>ViewDragHelper 的更多方法</h1><h2 id="所有的Callback方法"><a href="#所有的Callback方法" class="headerlink" title="所有的Callback方法"></a>所有的Callback方法</h2><ul>
+<li>public void onViewDragStateChanged(int state)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;当 ViewDragHelper 状态发生变化时回调（拖拽状态改变）（STATE_IDLE,STATE_DRAGGING,STATE_SETTLING[自动滚动时]）。</p>
+<ul>
+<li>public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;被拖拽的 View 位置变化时回调，changedView 为位置变化的 view，left、top 变化后的 x、y 坐标，dx、dy 为新位置与旧位置的偏移量，常用于滑动时更改 scale 等。</p>
+<ul>
+<li>public void onViewCaptured(View capturedChild, int activePointerId)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;成功捕获到子 View 时或者手动调用 captureChildView() 时回调（触摸到View后回调，可以做一些初始化操作）。</p>
+<ul>
+<li>public void onViewReleased(View releasedChild, float xvel, float yvel)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;当前拖拽的 view 松手或者 ACTION_CANCEL 时调用，xvel、yvel 为离开屏幕时的速率。</p>
+<ul>
+<li>public void onEdgeTouched(int edgeFlags, int pointerId)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;当触摸到边界时回调。</p>
+<ul>
+<li>public boolean onEdgeLock(int edgeFlags)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;true 的时候会锁住当前的边界，false 则 unLock。锁定后的边缘就不会回调 onEdgeDragStarted()。</p>
+<ul>
+<li>public void onEdgeDragStarted(int edgeFlags, int pointerId)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;ACTION_MOVE 且没有锁定边缘时触发，在此可手动调用 captureChildView() 触发从边缘拖动子 View。</p>
+<ul>
+<li>public int getOrderedChildIndex(int index)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;寻找当前触摸点 View 时回调此方法，如需改变遍历子 view 顺序可重写此方法；改变同一个坐标（x,y）去寻找 captureView 位置的方法。（具体在：findTopChildUnder方法中）。</p>
+<ul>
+<li>public int getViewHorizontalDragRange(View child)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;返回拖拽子 View 在水平方向上可以被拖动的最远距离，默认为0。</p>
+<ul>
+<li>public int getViewVerticalDragRange(View child)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;返回拖拽子 View 在垂直方向上可以被拖动的最远距离，默认为0。</p>
+<ul>
+<li>public abstract boolean tryCaptureView(View child, int pointerId)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;对触摸 view 判断，如果需要当前触摸的子 View 进行拖拽移动就返回 true，否则返回 false。</p>
+<ul>
+<li>public int clampViewPositionHorizontal(View child, int left, int dx)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;拖拽的子 View 在所属方向上移动的位置，child 为拖拽的子 View，left 为子 view 应该到达的x坐标，dx 为挪动差值。</p>
+<ul>
+<li>public int clampViewPositionVertical(View child, int top, int dy)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;同上，top 为子 view 应该到达的 y 坐标。</p>
+<h2 id="方法的大致的回调顺序"><a href="#方法的大致的回调顺序" class="headerlink" title="方法的大致的回调顺序"></a>方法的大致的回调顺序</h2><ul>
+<li>shouldInterceptTouchEvent</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;DOWN:</p>
+<p>&#160; &#160; &#160; &#160;getOrderedChildIndex(findTopChildUnder)<br>&#160; &#160; &#160; &#160;-&gt; onEdgeTouched</p>
+<p>&#160; &#160; &#160; &#160;MOVE:</p>
+<p>&#160; &#160; &#160; &#160;getOrderedChildIndex(findTopChildUnder)<br>&#160; &#160; &#160; &#160;-&gt;getViewHorizontalDragRange &amp; getViewVerticalDragRange(checkTouchSlop)(MOVE中可能不止一次)<br>&#160; &#160; &#160; &#160;-&gt;clampViewPositionHorizontal &amp; clampViewPositionVertical<br>&#160; &#160; &#160; &#160;-&gt;onEdgeDragStarted<br>&#160; &#160; &#160; &#160;-&gt;tryCaptureView<br>&#160; &#160; &#160; &#160;-&gt;onViewCaptured<br>&#160; &#160; &#160; &#160;-&gt;onViewDragStateChanged  </p>
+<ul>
+<li>processTouchEvent:</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;DOWN:</p>
+<p>&#160; &#160; &#160; &#160;getOrderedChildIndex(findTopChildUnder)<br>&#160; &#160; &#160; &#160;-&gt;tryCaptureView<br>&#160; &#160; &#160; &#160;-&gt;onViewCaptured<br>&#160; &#160; &#160; &#160;-&gt;onViewDragStateChanged<br>&#160; &#160; &#160; &#160;-&gt;onEdgeTouched</p>
+<p>&#160; &#160; &#160; &#160;MOVE:</p>
+<p>&#160; &#160; &#160; &#160;-&gt;STATE==DRAGGING:dragTo  </p>
+<p>&#160; &#160; &#160; &#160;-&gt;STATE!=DRAGGING:</p>
+<p>&#160; &#160; &#160; &#160;onEdgeDragStarted<br>&#160; &#160; &#160; &#160;-&gt;getOrderedChildIndex(findTopChildUnder)<br>&#160; &#160; &#160; &#160;-&gt;getViewHorizontalDragRange &amp; getViewVerticalDragRange(checkTouchSlop)<br>&#160; &#160; &#160; &#160;-&gt;tryCaptureView<br>&#160; &#160; &#160; &#160;-&gt;onViewCaptured<br>&#160; &#160; &#160; &#160;-&gt;onViewDragStateChanged</p>
+<p>&#160; &#160; &#160; &#160;从上面也可以解释，我们在之前 TextView(clickable=false) 的情况下，没有编写 getViewHorizontalDragRange 方法时，是可以移动的。因为直接进入 processTouchEvent 的 DOWN，然后就 onViewCaptured、onViewDragStateChanged（进入DRAGGING状态），接下来 MOVE 就直接 dragTo 了。而当子 View 消耗事件的时候，就需要走 shouldInterceptTouchEvent，MOVE 的时候经过一系列的判断（getViewHorizontalDragRange，clampViewPositionVertical等），才能够去 tryCaptureView。</p>
+<h2 id="ViewDragHelper的其它方法"><a href="#ViewDragHelper的其它方法" class="headerlink" title="ViewDragHelper的其它方法"></a>ViewDragHelper的其它方法</h2><ul>
+<li>public static ViewDragHelper create(ViewGroup forParent, float sensitivity, Callback cb)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;初始化 ViewDragHelper 中已经介绍，ViewDragHelper 的实例是通过静态工厂方法创建的，sensitivity 越大，对滑动的检测就越敏感，默认传1即可。</p>
+<ul>
+<li>public void setEdgeTrackingEnabled(int edgeFlags)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;设置允许父 View 的某个边缘可以用来响应托拽事件，edgeFlags 参数是枚举类型，可以从左边，上边，右边，下边拖动。如果想实现左右拖动设置如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT | ViewDragHelper.EDGE_RIGHT);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>public void setMinVelocity(float minVel)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;setMinVelocity（最小拖动速度）。</p>
+<ul>
+<li>public boolean shouldInterceptTouchEvent(MotionEvent ev)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;在父 view onInterceptTouchEvent 方法中调用。</p>
+<ul>
+<li>public void processTouchEvent(MotionEvent ev)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;在父 view onTouchEvent 方法中调用。</p>
+<ul>
+<li>public void captureChildView(View childView, int activePointerId)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;在父 View 内捕获指定的子 view 用于拖曳，会回调 tryCaptureView()。</p>
+<ul>
+<li>public boolean smoothSlideViewTo(View child, int finalLeft, int finalTop)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;某个 View 自动滚动到指定的位置，初速度为0，可在任何地方调用，动画移动会回调 continueSettling(boolean) 方法，直到结束。</p>
+<ul>
+<li>public boolean settleCapturedViewAt(int finalLeft, int finalTop)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;以松手前的滑动速度为初值，让捕获到的子View自动滚动到指定位置，只能在 Callback 的 onViewReleased() 中使用，其余同上。</p>
+<ul>
+<li>public void flingCapturedView(int minLeft, int minTop, int maxLeft, int maxTop)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;以松手前的滑动速度为初值，让捕获到的子 View 在指定范围内 fling 惯性运动，只能在 Callback 的 onViewReleased() 中使用，其余同上。</p>
+<ul>
+<li>public boolean continueSettling(boolean deferCallbacks)</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;在调用 settleCapturedViewAt()、flingCapturedView()和 smoothSlideViewTo( )时，该方法返回 true，一般重写父 view 的 computeScroll 方法，进行该方法判断。</p>
+<ul>
+<li>public void abort()</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;中断动画。</p>
+<p>&#160; &#160; &#160; &#160;ViewDragHelper编写DrawerLayout详见 <a href="https://github.com/wy521angel/DragTest/blob/master/app/src/main/java/com/wy521angel/dragtest/LeftDrawerLayout.java" target="_blank" rel="noopener">LeftDrawerLayout</a></p>
+<blockquote>
+<p>参考资料：<br>Android 群英传<br>鸿洋_ <a href="http://blog.csdn.net/lmj623565791/article/details/46858663" target="_blank" rel="noopener">Android ViewDragHelper完全解析 自定义ViewGroup神器</a><br>鸿洋_ <a href="http://blog.csdn.net/lmj623565791/article/details/47396187" target="_blank" rel="noopener">ViewDragHelper实战 自己打造Drawerlayout</a><br>zhangke3016 <a href="http://blog.csdn.net/zhangke3016/article/details/52347569" target="_blank" rel="noopener">自定义控件辅助神器ViewDragHelper</a><br><a href="http://m.2cto.com/kf/201606/515814.html" target="_blank" rel="noopener">http://m.2cto.com/kf/201606/515814.html</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/" rel="tag"># 触摸反馈</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/24/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E6%8B%96%E6%8B%BD/" rel="next" title="拖拽">
+                <i class="fa fa-chevron-left"></i> 拖拽
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/25/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E5%B5%8C%E5%A5%97%E6%BB%91%E5%8A%A8%E4%B8%8E%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3/" rel="prev" title="嵌套滑动与冲突解决">
+                嵌套滑动与冲突解决 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDEwMS82NjU2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myavatar.jpg"
+               alt="wy521angel" />
+          <p class="site-author-name" itemprop="name">wy521angel</p>
+           
+              <p class="site-description motion-element" itemprop="description">存放一些IT技术积累</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">136</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="Hongyang的博客" target="_blank">Hongyang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/guolin_blog" title="郭霖的博客" target="_blank">郭霖的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/eclipsexys" title="eclipse_xu的博客" target="_blank">eclipse_xu的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lovelion?viewmode=list" title="刘伟的博客" target="_blank">刘伟的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philipdroid.github.io" title="philipdroid的博客" target="_blank">philipdroid的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://juejin.im/timeline" title="掘金" target="_blank">掘金</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.infoq.com/cn" title="InfoQ" target="_blank">InfoQ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.uisdc.com" title="优设" target="_blank">优设</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=34341358&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用步骤"><span class="nav-number">1.</span> <span class="nav-text">使用步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化ViewDragHelper"><span class="nav-number">1.1.</span> <span class="nav-text">初始化ViewDragHelper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#触摸相关方法"><span class="nav-number">1.2.</span> <span class="nav-text">触摸相关方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理回调Callback"><span class="nav-number">1.3.</span> <span class="nav-text">处理回调Callback</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#详细功能展示"><span class="nav-number">2.</span> <span class="nav-text">详细功能展示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ViewDragHelper-的更多方法"><span class="nav-number">3.</span> <span class="nav-text">ViewDragHelper 的更多方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#所有的Callback方法"><span class="nav-number">3.1.</span> <span class="nav-text">所有的Callback方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法的大致的回调顺序"><span class="nav-number">3.2.</span> <span class="nav-text">方法的大致的回调顺序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ViewDragHelper的其它方法"><span class="nav-number">3.3.</span> <span class="nav-text">ViewDragHelper的其它方法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wy521angel</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("xVeur9szsyg7AkKwseQcBlqr-MdYXbMMI", "UEl3HMLcU0j2xYsHkUlJGVS8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a href="https://github.com/wy521angel" target="_blank" rel="noopener"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+  
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
