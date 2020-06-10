@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Base64," />
 
 
 
@@ -89,14 +89,21 @@
 
 
 
-<meta name="description" content="存放一些IT技术积累">
-<meta property="og:type" content="website">
-<meta property="og:title" content="wy521angel的博客">
-<meta property="og:url" content="http://yoursite.com/categories/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.html">
+<meta name="description" content="Base64、编码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Base64">
+<meta property="og:url" content="http://yoursite.com/2019/11/19/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/1.Base64/index.html">
 <meta property="og:site_name" content="wy521angel的博客">
-<meta property="og:description" content="存放一些IT技术积累">
+<meta property="og:description" content="Base64、编码">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/705aaf4d5f72f03e6362c4567fc4f19250520a58/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/Base64%20%E7%B4%A2%E5%BC%95%E8%A1%A8.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/8b53436dcd28ec380e5aa7bced6a07b339267442/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/Base64%20Man%E7%BC%96%E7%A0%81%E7%A4%BA%E4%BE%8B.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/8b53436dcd28ec380e5aa7bced6a07b339267442/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/Base64%E7%BC%96%E7%A0%81%E6%9C%AB%E5%B0%BE%E8%A1%A5%E8%B6%B3.png?raw=true">
+<meta property="article:published_time" content="2019-11-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-11-20T13:33:06.000Z">
 <meta property="article:author" content="wy521angel">
+<meta property="article:tag" content="Base64">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/705aaf4d5f72f03e6362c4567fc4f19250520a58/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/Base64%20%E7%B4%A2%E5%BC%95%E8%A1%A8.png?raw=true">
 
 
 
@@ -125,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/IT/Android/源码分析/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/11/19/IT/编码解码、压缩解压/1.Base64/"/>
 
 
 
 
 
-  <title>分类: 源码分析 | wy521angel的博客</title>
+  <title>Base64 | wy521angel的博客</title>
   
 
 
@@ -156,7 +163,7 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -304,55 +311,278 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>源码分析<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/19/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/1.Base64/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wy521angel">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wy521angel的博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/11/28/IT/Android/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/OkHttp%20%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E4%B8%8E%E6%BA%90%E7%A0%81%E7%BB%93%E6%9E%84/" itemprop="url">
-              
-                <span itemprop="name">OkHttp 简单使用与源码结构</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Base64</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-11-28T00:00:00+08:00"
-              content="2019-11-28" >
-          11-28
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-19T00:00:00+08:00">
+                2019-11-19
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/" itemprop="url" rel="index">
+                    <span itemprop="name">IT</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编码解码、压缩解压</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/11/19/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/1.Base64/" class="leancloud_visitors" data-flag-title="Base64">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  Base64、编码
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>&#160; &#160; &#160; &#160;将⼆进制数据转换成由64个字符组成的字符串的编码算法。</p>
+<h1 id="⼆进制数据"><a href="#⼆进制数据" class="headerlink" title="⼆进制数据"></a>⼆进制数据</h1><ul>
+<li>⼴义：所有计算机数据都是⼆进制数据</li>
+<li>狭义：⾮⽂本数据即⼆进制数据</li>
+</ul>
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><p>&#160; &#160; &#160; &#160;将原数据每6位对应成 Base64 索引表中的⼀个字符编排成⼀个字符串（每个字符8位）。</p>
+<p>&#160; &#160; &#160; &#160;Base64 索引表：</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/705aaf4d5f72f03e6362c4567fc4f19250520a58/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/Base64%20%E7%B4%A2%E5%BC%95%E8%A1%A8.png?raw=true" alt="Base64 索引表"></p>
+<p>&#160; &#160; &#160; &#160;编码示例：把“Man”进行 Base64 编码：</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/8b53436dcd28ec380e5aa7bced6a07b339267442/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/Base64%20Man%E7%BC%96%E7%A0%81%E7%A4%BA%E4%BE%8B.png?raw=true" alt="Base64 编码"></p>
+<p>&#160; &#160; &#160; &#160;编码示例：Base64 的末尾补足：</p>
+<p><img src="https://github.com/wy521angel/MarkdowmPhotos/blob/8b53436dcd28ec380e5aa7bced6a07b339267442/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/Base64%E7%BC%96%E7%A0%81%E6%9C%AB%E5%B0%BE%E8%A1%A5%E8%B6%B3.png?raw=true" alt="Base64 的末尾补足"></p>
+<h1 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h1><ol>
+<li>将二进制数据扩充了储存和传输途径，让原数据具有字符串所具有的特性，例如可以把数据保存到文本文件、可以通过聊天对话框或短信形式发送二进制数据、可以在URL中加入简单的二进制数据；</li>
+<li>普通的字符串在经过 Base64 编码后的结果会变得肉眼不可读，因此可以适用于一定条件下的防偷窥(较少用)。</li>
+</ol>
+<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><p>&#160; &#160; &#160; &#160;因为自身的原理(6位变8位)，因此每次 Base64 编码之后，数据都会増大约1/3，所以会影响存储和传输性能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Base64加密图片传输更安全和高效？</span><br><span class="line">不。首先，Base64 并不是加密；另外，Base64 会导致数据增大1&#x2F;3，降低网络性能，增大用户流量开销，是画蛇添足的手段。</span><br><span class="line">Base64 对图片进行编码的用途在于，有时需要使用文本形式来传输图片。除此之外，完全没必要使用 Base64 对图片进行额外处理。</span><br></pre></td></tr></table></figure>
+
+<h1 id="Base58-变种"><a href="#Base58-变种" class="headerlink" title="Base58 变种"></a>Base58 变种</h1><p>&#160; &#160; &#160; &#160;比特币使用的编码方式，去掉了 Base64 中的数字“0”，字母大写“O”，字母大写”I”和字母小写“l”，以及“+”和“/”等符号，用于比特币地址的表示。</p>
+<p>&#160; &#160; &#160; &#160;Base58 对于 Base64 的改动，主要目的在于用户的便捷性。由于去掉了难以区分的字符，使得 Base58 对于“人工抄写”更加方便。另外，去掉了“+”和“/”后也让大多数的软件可以方便双击选取。</p>
+<h1 id="URL-使⽤的百分号编码"><a href="#URL-使⽤的百分号编码" class="headerlink" title="URL 使⽤的百分号编码"></a>URL 使⽤的百分号编码</h1><p>&#160; &#160; &#160; &#160;在 URL 的字符串中，对一些不用于特殊用途的保留字符，使用百分号“%”为前缀进行单独编码，以避免出现解析错误。</p>
+<p>&#160; &#160; &#160; &#160;例如，要在 <a href="http://encoder.com/user" target="_blank" rel="noopener">http://encoder.com/user</a> 后面添加查询字符串，查询 name 为“隐匿&amp;伟大”的用户，如果直接写成 <a href="http://encoder.com/user/?name=隐匿&amp;伟大" target="_blank" rel="noopener">http://encoder.com/user/?name=隐匿&amp;伟大</a> ，“&amp;”符号就会被解析为分隔符号，即“name=隐匿”和“伟大”分别为一个查询，因此需要对它进行转码，转码后的 URL 为 <a href="http://encoder.com/user/?name=隐匿%26伟大" target="_blank" rel="noopener">http://encoder.com/user/?name=隐匿%26伟大</a> 。“%26”即为“&amp;”保留字符的表达，“/”和“+”也是保留字符。这种编码仅用于URL，目的是避免解析错误的出现。</p>
+<blockquote>
+<p>参考资料：<br>腾讯课堂 HenCoder</p>
+</blockquote>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Base64/" rel="tag"># Base64</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/18/IT/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%8D%8F%E8%AE%AE/2.%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86/" rel="next" title="加密与解密">
+                <i class="fa fa-chevron-left"></i> 加密与解密
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/20/IT/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E3%80%81%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B/2.%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B/" rel="prev" title="压缩与解压">
+                压缩与解压 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
 
 
           </div>
@@ -360,6 +590,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDEwMS82NjU2"></div>
+    
+  </div>
+
 
         </div>
         
@@ -380,8 +616,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/myavatar.jpg"
@@ -407,7 +652,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -418,7 +663,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-count">53</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -497,6 +742,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#⼆进制数据"><span class="nav-number">2.</span> <span class="nav-text">⼆进制数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法"><span class="nav-number">3.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用途"><span class="nav-number">4.</span> <span class="nav-text">用途</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缺点"><span class="nav-number">5.</span> <span class="nav-text">缺点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Base58-变种"><span class="nav-number">6.</span> <span class="nav-text">Base58 变种</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#URL-使⽤的百分号编码"><span class="nav-number">7.</span> <span class="nav-text">URL 使⽤的百分号编码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -622,10 +883,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
@@ -654,6 +915,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
