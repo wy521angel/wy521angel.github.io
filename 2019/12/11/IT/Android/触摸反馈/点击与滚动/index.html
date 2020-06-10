@@ -98,7 +98,7 @@
 <meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/49acd4881d720fc87b82d317b01e7daab0d07423/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/scroll%E5%8F%82%E6%95%B0%E7%9A%84%E6%AD%A3%E8%B4%9F%E5%80%BC%E8%AF%B4%E6%98%8E1.png?raw=true">
 <meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/scroll%E5%8F%82%E6%95%B0%E7%9A%84%E6%AD%A3%E8%B4%9F%E5%80%BC%E8%AF%B4%E6%98%8E2.png?raw=true">
 <meta property="article:published_time" content="2019-12-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2019-12-19T08:13:24.000Z">
+<meta property="article:modified_time" content="2020-06-10T06:25:02.040Z">
 <meta property="article:author" content="wy521angel">
 <meta property="article:tag" content="触摸反馈">
 <meta name="twitter:card" content="summary">
@@ -549,7 +549,7 @@
 <p>&#160; &#160; &#160; &#160;对于每个事件（包括 ACTION_DOWN 事件），使⽤<br>velocityTracker.addMovement(event) 把事件添加进 VelocityTracker ；</p>
 <p>&#160; &#160; &#160; &#160;在需要速度的时候（例如在 ACTION_UP 中计算是否达到 fling 速度），使⽤ velocityTracker.computeCurrentVelocity(1000, maxVelocity) 来计算实时速度，并通过 getXVelocity() / getYVelocity() 来获取计算出的速度。⽅法参数中的1000是指计算的时间⻓度，单位是 ms。例如这⾥填⼊1000，那么<br>getXVelocity() 返回的值就是每 1000ms （即⼀秒）时间内⼿指移动的像素数。第⼆个参数是速度上限，超过这个速度时，计算出的速度会回落到这个速度。例如这⾥填了 200，⽽实时速度是 300，那么实际的返回速度将是200。maxVelocity 可以通过 viewConfiguration.getScaledMaximumFlingVelocity() 来获取。使用详见 <a href="https://github.com/wy521angel/SlideTest/blob/master/app/src/main/java/com/example/wy521angel/slidetest/TwoViewPager.java" target="_blank" rel="noopener">TwoViewPager</a></p>
 <blockquote>
-<p>参考资料：<br>腾讯课堂 HenCoder<br>Android 群英传</p>
+<p>参考资料：<br>腾讯课堂 HenCoder<br>《Android 群英传》徐宜生 第5章 Android Scroll 分析</p>
 </blockquote>
 
       
