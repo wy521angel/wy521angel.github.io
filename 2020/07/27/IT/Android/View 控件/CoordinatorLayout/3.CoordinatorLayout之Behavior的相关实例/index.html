@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wy521angel的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Behavior的相关实例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoordinatorLayout之Behavior的相关实例">
+<meta property="og:url" content="http://yoursite.com/2020/07/27/IT/Android/View%20%E6%8E%A7%E4%BB%B6/CoordinatorLayout/3.CoordinatorLayout%E4%B9%8BBehavior%E7%9A%84%E7%9B%B8%E5%85%B3%E5%AE%9E%E4%BE%8B/index.html">
+<meta property="og:site_name" content="wy521angel的博客">
+<meta property="og:description" content="Behavior的相关实例">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/View%20%E6%8E%A7%E4%BB%B6/Behavior%E7%9A%84%E6%B5%8B%E9%87%8F%E4%B8%8E%E5%B8%83%E5%B1%80.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/View%20%E6%8E%A7%E4%BB%B6/Behavior%E4%BE%9D%E8%B5%96.gif?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/View%20%E6%8E%A7%E4%BB%B6/Behavior%E6%BB%9A%E5%8A%A8.gif?raw=true">
+<meta property="article:published_time" content="2020-07-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-07-27T02:18:00.009Z">
+<meta property="article:author" content="wy521angel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/View%20%E6%8E%A7%E4%BB%B6/Behavior%E7%9A%84%E6%B5%8B%E9%87%8F%E4%B8%8E%E5%B8%83%E5%B1%80.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/27/IT/Android/View 控件/CoordinatorLayout/3.CoordinatorLayout之Behavior的相关实例/"/>
+
+
+
+
+
+  <title>CoordinatorLayout之Behavior的相关实例 | wy521angel的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wy521angel的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一个从事IT工作的伪文艺青年</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-camera"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/27/IT/Android/View%20%E6%8E%A7%E4%BB%B6/CoordinatorLayout/3.CoordinatorLayout%E4%B9%8BBehavior%E7%9A%84%E7%9B%B8%E5%85%B3%E5%AE%9E%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wy521angel">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wy521angel的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CoordinatorLayout之Behavior的相关实例</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-27T00:00:00+08:00">
+                2020-07-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/" itemprop="url" rel="index">
+                    <span itemprop="name">IT</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/View-%E6%8E%A7%E4%BB%B6/" itemprop="url" rel="index">
+                    <span itemprop="name">View 控件</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/View-%E6%8E%A7%E4%BB%B6/CoordinatorLayout/" itemprop="url" rel="index">
+                    <span itemprop="name">CoordinatorLayout</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/07/27/IT/Android/View%20%E6%8E%A7%E4%BB%B6/CoordinatorLayout/3.CoordinatorLayout%E4%B9%8BBehavior%E7%9A%84%E7%9B%B8%E5%85%B3%E5%AE%9E%E4%BE%8B/" class="leancloud_visitors" data-flag-title="CoordinatorLayout之Behavior的相关实例">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  Behavior的相关实例
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#160; &#160; &#160; &#160;CoodinatorLayout并不知道FloatingActionButton和AppBarLayout的工作原理，在<a href="https://wy521angel.github.io/2020/07/17/IT/Android/View%20%E6%8E%A7%E4%BB%B6/CoordinatorLayout/CoordinatorLayout%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" target="_blank" rel="noopener">CoordinatorLayout的基本使用</a>提到CoodinatorLayout实现了NestedScrollingParent，通过一个实现了NestedScrollingChild的scrolling view，就可以轻松的实现滑动事件的处理与View之间的交互。这其中充当中间桥梁的就是CoordinatorLayout.Behavior，比如FloatingActionButton，查看源码发现它的类注解是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CoordinatorLayout</span>.DefaultBehavior(FloatingActionButton.Behavior<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">FloatingActionButton</span> <span class="keyword">extends</span> <span class="title">VisibilityAwareImageButton</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160;&#160;FloatingActionButton.Behavior 的主要作用就是防止被Snackbar盖住。</p>
+<p>&#160; &#160; &#160;&#160;自定义View既可以通过注解指定Behavior，也可以通过在布局XML申明：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app:layout_behavior="具体Behavior的类路径"</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160;&#160;Behavior主要功能有三块：</p>
+<ol>
+<li><p>onLayoutChild和onMeasureChild<br>跟布局有关的，这部分控制界面位置和大小</p>
+</li>
+<li><p>layoutDependsOn和onDependentViewChanged<br>跟别的子view的位置互动 layoutDependsOn和onDependentViewChanged</p>
+</li>
+<li><p>onXXXSroll和onXXXFling<br>跟嵌套滑动有关 onStartNestedScroll onNestedPreScroll onNestedScroll onStopNestedScroll onNestedPreFling onNestedFling</p>
+</li>
+</ol>
+<h1 id="onMeasureChild和onLayoutChild"><a href="#onMeasureChild和onLayoutChild" class="headerlink" title="onMeasureChild和onLayoutChild"></a>onMeasureChild和onLayoutChild</h1><h2 id="onMeasureChild"><a href="#onMeasureChild" class="headerlink" title="onMeasureChild"></a>onMeasureChild</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onMeasureChild</span><span class="params">(@NonNull CoordinatorLayout parent, @NonNull V child,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span> parentWidthMeasureSpec, <span class="keyword">int</span> widthUsed,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span> parentHeightMeasureSpec, <span class="keyword">int</span> heightUsed)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;这个方法用来计算child的宽高(getMeasuredWidth和getMeasuredHeight)，这部分和view的绘制方法和作用都是一样的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> newHeightMeasureSpec = View.MeasureSpec.makeMeasureSpec(<span class="number">300</span>, View.MeasureSpec.EXACTLY);</span><br><span class="line"><span class="keyword">int</span> newWidthMeasureSpec = View.MeasureSpec.makeMeasureSpec(<span class="number">500</span>, View.MeasureSpec.EXACTLY);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;如上，我们重新设定parent的宽高是500*300，然后用新的参数测量child：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parent.onMeasureChild(child, newWidthMeasureSpec, widthUsed, newHeightMeasureSpec, heightUsed);</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;输出日志如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com.wy521angel.coordinatorlayouttest I&#x2F;MeasureBehavior: onMeasureChild&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;w&#x3D;500   h&#x3D;300</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;布局如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">View</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:background</span>=<span class="string">"@android:color/holo_blue_light"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_behavior</span>=<span class="string">".MeasureBehavior"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;就像下图的蓝色的方块，即使在xml文件设定的宽高是match_parent，也是显示成代码里面设置的500*300。</p>
+<center><font color=grey>Behavior的测量与布局</font></center>
+
+<img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/View%20%E6%8E%A7%E4%BB%B6/Behavior%E7%9A%84%E6%B5%8B%E9%87%8F%E4%B8%8E%E5%B8%83%E5%B1%80.png?raw=true"  width="40%" height="40%">
+
+<h2 id="onLayoutChild"><a href="#onLayoutChild" class="headerlink" title="onLayoutChild"></a>onLayoutChild</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onLayoutChild</span><span class="params">(@NonNull CoordinatorLayout parent, @NonNull V child,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span> layoutDirection)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;这个方法是用来放置child的位置的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onLayoutChild</span><span class="params">(@NonNull CoordinatorLayout parent, @NonNull View child, <span class="keyword">int</span> layoutDirection)</span> </span>&#123;</span><br><span class="line">    child.layout(<span class="number">0</span>, <span class="number">500</span>, child.getMeasuredWidth(), <span class="number">500</span> + child.getMeasuredHeight());</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;像上面设置之后，效果是Behavior的测量与布局图中的红色方块，往下移动500。</p>
+<p>&#160; &#160; &#160; &#160;另外，onInterceptTouchEvent和onTouchEvent这两个功能和view的onInterceptTouchEvent和onTouchEvent是一样的，在这两个方法里面进行一些事件的分发，返回true就可以代替view自己的两个方法。这个部分的内容其实和View的绘制和事件分发是一样的。</p>
+<h1 id="layoutDependsOn和onDependentViewChanged"><a href="#layoutDependsOn和onDependentViewChanged" class="headerlink" title="layoutDependsOn和onDependentViewChanged"></a>layoutDependsOn和onDependentViewChanged</h1><p>&#160; &#160; &#160; &#160;这是Behavior比较核心的一个功能。</p>
+<p>&#160; &#160; &#160; &#160;Behavior可以让一个child根据另外的一个child的位移，来改变自己的状态，无论是位置还是透明度等一些属性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">layoutDependsOn</span><span class="params">(@NonNull CoordinatorLayout parent, @NonNull V child,</span></span></span><br><span class="line"><span class="function"><span class="params">        @NonNull View dependency)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;这个方法主要是决定当前child要根据哪个child(即dependency)来改变自己，可以用dependency的id、tag、类型等一些办法来判定是否是dependency。</p>
+<p>&#160; &#160; &#160; &#160;类似ScrollingViewBehavior就是根据view的类型来判断的，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">layoutDependsOn</span><span class="params">(CoordinatorLayout parent, View child, View dependency)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// We depend on any AppBarLayouts</span></span><br><span class="line">  <span class="keyword">return</span> dependency <span class="keyword">instanceof</span> AppBarLayout;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;当确定好dependency，就可以用下面方法根据dependency位置变化来改变自己的状态了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onDependentViewChanged</span><span class="params">(@NonNull CoordinatorLayout parent, @NonNull V child,</span></span></span><br><span class="line"><span class="function"><span class="params">        @NonNull View dependency)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onDependentViewChanged</span><span class="params">(@NonNull CoordinatorLayout parent, @NonNull View child, @NonNull View dependency)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> dependBottom = dependency.getBottom();</span><br><span class="line">    child.setY(dependBottom + <span class="number">50</span>);</span><br><span class="line">    child.setX(dependency.getLeft());</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;红色方块会跟着绿色方块移动，如下图：</p>
+<img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/View%20%E6%8E%A7%E4%BB%B6/Behavior%E4%BE%9D%E8%B5%96.gif?raw=true"  width="40%" height="40%">
+
+<h1 id="onXXXXXXXScroll"><a href="#onXXXXXXXScroll" class="headerlink" title="onXXXXXXXScroll"></a>onXXXXXXXScroll</h1><p>&#160; &#160; &#160; &#160;这个部分也是Behavior比较核心的一个功能，关于这部分的原理解释起来会经常涉及到嵌套滑动，详见<a href="https://wy521angel.github.io/2019/12/25/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E5%B5%8C%E5%A5%97%E6%BB%91%E5%8A%A8%E4%B8%8E%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3/" target="_blank" rel="noopener">嵌套滑动与冲突解决</a></p>
+<p>&#160; &#160; &#160; &#160;onXXXXXXXFling部分跟Scroll流程是类似的，此处省略。</p>
+<p>&#160; &#160; &#160; &#160;CoordinatorLayout实现了NestedScrollingParent就能接收实现了NestedScrollingChild接口的child的滑动事件，它接收到滑动事件后就会把事件发送给每个愿意接收这个事件的child，至于怎么确定是否愿意，是在这个方法onStartNestedScroll：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onStartNestedScroll</span><span class="params">(@NonNull CoordinatorLayout coordinatorLayout, @NonNull V child, @NonNull View directTargetChild, @NonNull View target, <span class="keyword">int</span> axes)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;只要返回true就表示这个child愿意接收这个滑动事件。如果愿意接收这个滑动事件，就会在接下来的这两个方法onNestedPreScroll、onNestedScroll接收到事件。</p>
+<p>&#160; &#160; &#160; &#160;这里先简单介绍一下这两个方法的流程，当一个NestedScrollingChild的childA发生滑动的时候，会先询问有没有childB愿意接收这个滑动事件，愿意的话在onStartNestedScroll返回true，然后把这个事件会发给childB的onNestedPreScroll。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout,</span><br><span class="line">        @NonNull V child, @NonNull View target, int dx, int dy, @NonNull int[] consumed) &#123;</span><br><span class="line">    // Do nothing</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;在onNestedPreScroll里面，childB有可能会消费这个滑动事件，也有可能一点都不消费，或者消费部分，这个都是通过consumed来传回的。</p>
+<p>&#160; &#160; &#160; &#160;当childB的onNestedPreScroll结束后，childA根据consumed的值，判断是否还有剩下滑动距离没消费完。如果还有的话，childA就开始自己的滑动，当然childA依然还是有可能消费不完这次的滑动事件，比如滑到底部了，childA会再次把事件发给childB的onNestedScroll。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNestedScroll</span><span class="params">(@NonNull CoordinatorLayout coordinatorLayout, @NonNull V child,</span></span></span><br><span class="line"><span class="function"><span class="params">        @NonNull View target, <span class="keyword">int</span> dxConsumed, <span class="keyword">int</span> dyConsumed, <span class="keyword">int</span> dxUnconsumed,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span> dyUnconsumed)</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;如果childB还没消费完这个事件，会再返回到childA，自生自灭。</p>
+<p>&#160; &#160; &#160; &#160;看如下效果图：</p>
+<img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/View%20%E6%8E%A7%E4%BB%B6/Behavior%E6%BB%9A%E5%8A%A8.gif?raw=true"  width="40%" height="40%">
+
+<p>&#160; &#160; &#160; &#160;有个NestedScrollView和一个方块，运行规则是这个方块会根据NestedScrollView的反方向移动，当触顶或者触底的时候，才会轮到NestedScrollView自己滚动。consumed控制着方块的消费情况。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNestedPreScroll</span><span class="params">(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy, @NonNull <span class="keyword">int</span>[] consumed, <span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">        Log.d(TAG, <span class="string">"onNestedPreScroll"</span>);</span><br><span class="line">        <span class="keyword">if</span> (child.getY() + dy &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">//方块到达顶部，滑动距离消费不完</span></span><br><span class="line">            ViewCompat.offsetTopAndBottom(child, (<span class="keyword">int</span>) (<span class="number">0</span> - child.getY()));</span><br><span class="line">            consumed[<span class="number">1</span>] = <span class="number">0</span> - (<span class="keyword">int</span>) child.getY();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (child.getY() + dy &gt; coordinatorLayout.getHeight() - child.getHeight()) &#123;</span><br><span class="line">            <span class="comment">//方块到达底部，滑动距离消费不完</span></span><br><span class="line">            ViewCompat.offsetTopAndBottom(child, (<span class="keyword">int</span>) (coordinatorLayout.getHeight() - child.getHeight() - child.getY()));</span><br><span class="line">            consumed[<span class="number">1</span>] = coordinatorLayout.getHeight() - child.getHeight() - (<span class="keyword">int</span>) child.getY();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//方块消费完全部事件</span></span><br><span class="line">            ViewCompat.offsetTopAndBottom(child, dy);</span><br><span class="line">            consumed[<span class="number">1</span>] = dy;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;Behavior的更多使用请看<a href=""></a>，代码详见<a href="https://github.com/wy521angel/CoordinatorLayoutTest">CoordinatorLayoutTest</a></p>
+<blockquote>
+<p>参考资料：<br>zhuhf <a href="https://www.jianshu.com/p/4a77ae4cd82f" target="_blank" rel="noopener">CoordinatorLayout 完全解析</a><br>Xugter <a href="https://xugter.xyz/2019/07/10/CoordinatorLayout2/" target="_blank" rel="noopener">CoordinatorLayout系列(二):Behavior的使用</a>  </p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/21/IT/Android/View%20%E6%8E%A7%E4%BB%B6/CoordinatorLayout/2.CoordinatorLayout%E4%B9%8BBehavior%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="next" title="CoordinatorLayout之Behavior的使用">
+                <i class="fa fa-chevron-left"></i> CoordinatorLayout之Behavior的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDEwMS82NjU2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myavatar.jpg"
+               alt="wy521angel" />
+          <p class="site-author-name" itemprop="name">wy521angel</p>
+           
+              <p class="site-description motion-element" itemprop="description">存放一些IT技术积累</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">141</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="Hongyang的博客" target="_blank">Hongyang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/guolin_blog" title="郭霖的博客" target="_blank">郭霖的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/eclipsexys" title="eclipse_xu的博客" target="_blank">eclipse_xu的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lovelion?viewmode=list" title="刘伟的博客" target="_blank">刘伟的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philipdroid.github.io" title="philipdroid的博客" target="_blank">philipdroid的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://juejin.im/timeline" title="掘金" target="_blank">掘金</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.infoq.com/cn" title="InfoQ" target="_blank">InfoQ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.uisdc.com" title="优设" target="_blank">优设</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=34341358&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#onMeasureChild和onLayoutChild"><span class="nav-number">1.</span> <span class="nav-text">onMeasureChild和onLayoutChild</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#onMeasureChild"><span class="nav-number">1.1.</span> <span class="nav-text">onMeasureChild</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#onLayoutChild"><span class="nav-number">1.2.</span> <span class="nav-text">onLayoutChild</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#layoutDependsOn和onDependentViewChanged"><span class="nav-number">2.</span> <span class="nav-text">layoutDependsOn和onDependentViewChanged</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#onXXXXXXXScroll"><span class="nav-number">3.</span> <span class="nav-text">onXXXXXXXScroll</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wy521angel</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("xVeur9szsyg7AkKwseQcBlqr-MdYXbMMI", "UEl3HMLcU0j2xYsHkUlJGVS8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a href="https://github.com/wy521angel" target="_blank" rel="noopener"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+  
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
