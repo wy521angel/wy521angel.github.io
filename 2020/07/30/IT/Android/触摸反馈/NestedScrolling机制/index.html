@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="触摸反馈," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wy521angel的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="NestedScrolling机制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NestedScrolling机制">
+<meta property="og:url" content="http://yoursite.com/2020/07/30/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/NestedScrolling%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="wy521angel的博客">
+<meta property="og:description" content="NestedScrolling机制">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E5%B5%8C%E5%A5%97%E5%90%8C%E5%90%91%E6%BB%91%E5%8A%A8.png?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E5%86%85%E9%83%A8ScrollView%E6%97%A0%E6%B3%95%E6%BB%91%E5%8A%A8.gif?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E5%86%85%E9%83%A8%E5%85%88%E8%8E%B7%E5%8F%96%E4%BA%8B%E4%BB%B6.gif?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BC%98%E5%8C%96.gif?raw=true">
+<meta property="og:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/ScrollView%E5%B5%8C%E5%A5%97%E6%BB%91%E5%8A%A8.gif?raw=true">
+<meta property="article:published_time" content="2020-07-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-08-07T07:35:31.382Z">
+<meta property="article:author" content="wy521angel">
+<meta property="article:tag" content="触摸反馈">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E5%B5%8C%E5%A5%97%E5%90%8C%E5%90%91%E6%BB%91%E5%8A%A8.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/30/IT/Android/触摸反馈/NestedScrolling机制/"/>
+
+
+
+
+
+  <title>NestedScrolling机制 | wy521angel的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wy521angel的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一个从事IT工作的伪文艺青年</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-camera"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/30/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/NestedScrolling%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wy521angel">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wy521angel的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">NestedScrolling机制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-30T00:00:00+08:00">
+                2020-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/" itemprop="url" rel="index">
+                    <span itemprop="name">IT</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/" itemprop="url" rel="index">
+                    <span itemprop="name">触摸反馈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/07/30/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/NestedScrolling%E6%9C%BA%E5%88%B6/" class="leancloud_visitors" data-flag-title="NestedScrolling机制">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  NestedScrolling机制
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#160; &#160; &#160; &#160;NestedScrolling机制翻译过来叫嵌套滑动机制，它提供了一种优雅解决嵌套滑动问题的方案。</p>
+<h1 id="嵌套同向滑动"><a href="#嵌套同向滑动" class="headerlink" title="嵌套同向滑动"></a>嵌套同向滑动</h1><h2 id="嵌套同向滑动的问题"><a href="#嵌套同向滑动的问题" class="headerlink" title="嵌套同向滑动的问题"></a>嵌套同向滑动的问题</h2><p>&#160; &#160; &#160; &#160;所谓嵌套同向滑动，就是指这样一种情况：两个可滑动的View内外嵌套，而且它们的滑动方向是相同的。</p>
+<img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E5%B5%8C%E5%A5%97%E5%90%8C%E5%90%91%E6%BB%91%E5%8A%A8.png?raw=true"  width="40%" height="40%">
+
+<p>&#160; &#160; &#160; &#160;这种情况如果使用一般的处理方式，会出现交互问题，比如使用两个ScrollView进行布局，触摸内部的ScrollView进行滑动，它是滑不动的（不考虑后来Google给它加的NestedScroll开关）：</p>
+<img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E5%86%85%E9%83%A8ScrollView%E6%97%A0%E6%B3%95%E6%BB%91%E5%8A%A8.gif?raw=true"  width="40%" height="40%">
+
+<h2 id="分析问题原因"><a href="#分析问题原因" class="headerlink" title="分析问题原因"></a>分析问题原因</h2><p>&#160; &#160; &#160; &#160;根据Android的触摸事件分发机制，原因很好理解：两个ScrollView嵌套时，滑动距离达到滑动手势判定阈值（mTouchSlop）的这个MOVE事件，会先经过父View的onInterceptTouchEvent()方法，父View于是直接把事件拦截，子View的onTouchEvent()方法里虽然也会在判定滑动距离足够后调用requestDisallowInterceptTouchEvent(true)，但始终要晚一步。</p>
+<p>&#160; &#160; &#160; &#160;这个效果显然是不符合用户直觉的。大部分时候，用户希望看到：当手指触摸内部ScrollView进行滑动时，能先滑动内部的ScrollView，只有当内部的ScrollView滑动到尽头时，才滑动外部的ScrollView。</p>
+<p>&#160; &#160; &#160; &#160;这看上去非常自然，也跟触摸事件的处理方式一致，但相比触摸事件的处理，要在滑动时实现同样的效果却会困难很多。因为滑动动作不能立刻识别出来，它的处理本身就需要通过事件拦截机制进行，而事件拦截机制实质上跟<a href="https://wy521angel.github.io/2020/07/28/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E4%BB%8E%E9%9C%80%E6%B1%82%E7%9A%84%E8%A7%92%E5%BA%A6%E8%B0%88%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91/" target="_blank" rel="noopener">从需求的角度谈触摸事件分发</a>中第一次试造的框架一样，只是单向的，而且方向从外到内，所以无法做到先让内部拦截滑动，内部不拦截滑动时，再在让外部拦截滑动。</p>
+<p>&#160; &#160; &#160; &#160;那能不能把事件拦截机制变成双向的呢？不是不行，但这显然违背了拦截机制的初衷，而且它很快会发展成无限递归的：双向的事件拦截机制本身是否也需要一个拦截机制呢？于是有了拦截的拦截……</p>
+<h2 id="尝试解决问题"><a href="#尝试解决问题" class="headerlink" title="尝试解决问题"></a>尝试解决问题</h2><p>&#160; &#160; &#160; &#160;换一个更直接的思路，如果我们的需求始终是内部滑动优先，那是否可以让外部View“拦截滑动的判定条件”比内部View“申请外部不拦截的判定条件”更严格，从而让滑动距离每次都先达到“申请外部不拦截的判定条件”，子View就能够在父View拦截事件前申请外部不拦截了。</p>
+<p>&#160; &#160; &#160; &#160;能看到在ScrollView中，“拦截滑动的判定条件”和“申请外部不拦截的判定条件”都是Math.abs(deltaY) &gt; mTouchSlop，我们只需要增大“拦截滑动的判定条件”时的mTouchSlop就可以了。但实际上这样做并不好，因为mTouchSlop到底应该增加多少是不确定的，手指滑动的快慢和屏幕的分辨率可能都会对它有影响。所以可以换一种实现，那就是让第一次“拦截滑动的判定条件”成立时，先不进行拦截，如果内部没有申请外部不拦截，第二次条件成立时，再进行拦截，这样也实现了开始的思路。于是继承ScrollView，覆写它的onInterceptTouchEvent()：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleNestedScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isFirstIntercept = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SimpleNestedScrollView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(ev.getActionMasked() == MotionEvent.ACTION_DOWN)&#123;</span><br><span class="line">            isFirstIntercept = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">boolean</span> result =  <span class="keyword">super</span>.onInterceptTouchEvent(ev);</span><br><span class="line">        <span class="keyword">if</span>(result&amp;&amp;isFirstIntercept)&#123;</span><br><span class="line">            isFirstIntercept = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;效果如下，能看到确实实现了让内部先获取事件：</p>
+<img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E5%86%85%E9%83%A8%E5%85%88%E8%8E%B7%E5%8F%96%E4%BA%8B%E4%BB%B6.gif?raw=true"  width="40%" height="40%">
+
+<h2 id="第一次优化"><a href="#第一次优化" class="headerlink" title="第一次优化"></a>第一次优化</h2><p>&#160; &#160; &#160; &#160;我们希望体验能更好一点，从上图能看到，内部即使在自己无法滑动的时候，也会对事件进行拦截，无法通过滑动内部来让外部滑动。其实内部应该在自己无法滑动的时候，直接在onTouchEvent()返回false，不触发“申请外部不拦截的判定条件”，就能让内外都有机会滑动。这个要求非常通用而且合理，在SimpleNestedScrollView基础上进行简单修改，加入代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleNestedScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isFirstIntercept = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isNeedRequestDisallowIntercept = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SimpleNestedScrollView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (ev.getActionMasked() == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">            isFirstIntercept = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">boolean</span> result = <span class="keyword">super</span>.onInterceptTouchEvent(ev);</span><br><span class="line">        <span class="keyword">if</span> (result &amp;&amp; isFirstIntercept) &#123;</span><br><span class="line">            isFirstIntercept = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (ev.getActionMasked() == MotionEvent.ACTION_DOWN) isNeedRequestDisallowIntercept = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (ev.getActionMasked() == MotionEvent.ACTION_MOVE) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!isNeedRequestDisallowIntercept) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">int</span> offsetY = (<span class="keyword">int</span>) ev.getY() - getField(<span class="string">"mLastMotionY"</span>);</span><br><span class="line">                <span class="keyword">if</span> (Math.abs(offsetY) &gt; getField(<span class="string">"mTouchSlop"</span>)) &#123; <span class="comment">// 滑动距离足够判断滑动方向是上还是下后</span></span><br><span class="line">                    <span class="comment">// 判断自己是否能在对应滑动方向上进行滑动（不能则返回false）</span></span><br><span class="line">                    <span class="keyword">if</span> ((offsetY &gt; <span class="number">0</span> &amp;&amp; isScrollToTop()) || (offsetY &lt; <span class="number">0</span> &amp;&amp; isScrollToBottom())) &#123;</span><br><span class="line">                        isNeedRequestDisallowIntercept = <span class="keyword">false</span>;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(ev);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getField</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        Field field = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            field = ScrollView<span class="class">.<span class="keyword">class</span>.<span class="title">getDeclaredField</span>(<span class="title">name</span>)</span>;</span><br><span class="line">            field.setAccessible(<span class="keyword">true</span>); <span class="comment">// 设置Java不检查权限。</span></span><br><span class="line">            Log.e(<span class="string">"SimpleNestedScrollView"</span>, <span class="string">"name:"</span> + field.getInt(<span class="keyword">this</span>));</span><br><span class="line">            <span class="keyword">return</span> field.getInt(<span class="keyword">this</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            Log.e(<span class="string">"SimpleNestedScrollView"</span>, <span class="string">"name:"</span> + e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        Log.e(<span class="string">"SimpleNestedScrollView"</span>, <span class="string">"name:"</span> + (-<span class="number">1</span>));</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isScrollToTop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getScrollY() == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isScrollToBottom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getScrollY() + getHeight() - getPaddingTop() - getPaddingBottom() == getChildAt(<span class="number">0</span>).getHeight();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;这段代码省略了多点触控情况的判断，运行效果如下：</p>
+<img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BC%98%E5%8C%96.gif?raw=true"  width="40%" height="40%">
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">注意，在Android 9.0上测试，反射获取ScrollView的mTouchSlop会报错：</span><br><span class="line">No field mTouchSlop in class Landroid&#x2F;widget&#x2F;ScrollView;</span><br><span class="line">但是同样可以运行，在Android 5.0未发现该问题，其它版本暂未测试</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;这样完成了对嵌套滑动View最基本的需求：内外两层View都能滑了。事实上不用小心翼翼地让改动尽量小，既然内部优先，完全可以让内部的ScrollView在DOWN事件的时候就申请外部不拦截，然后在滑动一段距离后，如果判断自己在该滑动方向无法滑动，再取消对外部的拦截限制，思路是类似的但代码更简单：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleNestedScrollView2</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (ev.getActionMasked() == MotionEvent.ACTION_DOWN)</span><br><span class="line">            getParent().requestDisallowInterceptTouchEvent(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ev.getActionMasked() == MotionEvent.ACTION_MOVE) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> offsetY = (<span class="keyword">int</span>) ev.getY() - getField(<span class="string">"mLastMotionY"</span>);</span><br><span class="line">            <span class="keyword">if</span> (Math.abs(offsetY) &gt; getField(<span class="string">"mTouchSlop"</span>)) &#123;</span><br><span class="line">                <span class="keyword">if</span> ((offsetY &gt; <span class="number">0</span> &amp;&amp; isScrollToTop()) || (offsetY &lt; <span class="number">0</span> &amp;&amp; isScrollToBottom())) &#123;</span><br><span class="line">                    getParent().requestDisallowInterceptTouchEvent(<span class="keyword">false</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.dispatchTouchEvent(ev);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;运行效果和上面是一样的。</p>
+<h2 id="第二次优化"><a href="#第二次优化" class="headerlink" title="第二次优化"></a>第二次优化</h2><p>&#160; &#160; &#160; &#160;但这两种方式目前为止都没有实现最好的交互体验，最好的交互体验应该让内部不能滑动时，能接着滑动外部，甚至在你滑动过程中快速抬起时，接下来的惯性滑动也能在两个滑动View间传递。由于滑动交互的特殊性，我们可以在外部对它进行操作，所以连续滑动的实现非常简单，只要重写scrollBy就好了，在已有代码的基础上再加上下面的代码（上面的两种思路都是加一样的代码）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scrollBy</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ((y &gt; <span class="number">0</span> &amp;&amp; isScrollToTop()) || (y &lt; <span class="number">0</span> &amp;&amp; isScrollToBottom())) &#123;</span><br><span class="line">        ((View) getParent()).scrollBy(x, y);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.scrollBy(x, y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;而惯性滑动的实现就会相对复杂一点，得处理computeScroll()方法，此处暂略。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>&#160; &#160; &#160; &#160;嵌套滑动交互主要解决下面几个问题：</p>
+<ol>
+<li>在内部View可以滑动的时候，阻止外部View拦截滑动事件，先滑动内部View；</li>
+<li>在用户一次滑动操作中，当内部View滑动到终点时，切换滑动对象为外部View，让用户能够连续滑动；</li>
+<li>在用户快速抬起触发的惯性滑动中，当内部View滑动到终点时，切换滑动对象为外部View，让惯性能够连续。</li>
+</ol>
+<h1 id="NestedScrolling机制"><a href="#NestedScrolling机制" class="headerlink" title="NestedScrolling机制"></a>NestedScrolling机制</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>&#160; &#160; &#160; &#160;我们只考虑了给ScrollView增加支持嵌套滑动的特性，但系统开发者需要考虑给所有有滑动交互的View增加这个特性，所以一个直接的思路是在View里加入这个机制。</p>
+<p>&#160; &#160; &#160; &#160;进一步梳理前面要解决的问题，在嵌套滑动中，是能明确区分两类作用对象的：一个是内部View，一个是外部View。而且它们的主被动关系也非常明确：因为内部View离手指更近，我们肯定希望它能优先消费事件，但同时还希望在某些情况下事件能在内部不消耗的时候给外部消耗，这当然也是让内部来控制，所以内部是主动，外部是被动。由此整个嵌套滑动的过程可以认为是这样的：触摸事件交给内部View进行消费，内部View执行相关逻辑，在合适的时候对外部View进行一定的控制，两者配合实现嵌套滑动。这就包括了两部分逻辑：</p>
+<ol>
+<li>内部View中的主动逻辑，需要主动阻止外部View拦截事件，自己进行滑动，并在合适的时候让外部View配合进行剩下的滑动；</li>
+<li>外部View中的被动逻辑，基本就是配合行动。</li>
+</ol>
+<p>&#160; &#160; &#160; &#160;由于View里是不能放其它View的，它只能是内部的、主动的角色，而ViewGroup既可以放在另一个ViewGroup里，它里边也可以放其它的View，所以它可以是内部的也可以是外部的角色。这正好符合View和ViewGroup的继承关系，所以一个很自然的设计是在View中加入主动逻辑，在ViewGroup中加入被动逻辑。</p>
+<p>&#160; &#160; &#160; &#160;并不是每个View和ViewGroup都能够滑动，滑动只是众多交互中的一种，所以Google加入的这些逻辑其实都是帮助方法，相关的View需要选择在合适的时候进行调用，最后才能实现嵌套滑动的效果。Google希望能帮助我们实现一个什么样的嵌套滑动效果：</p>
+<ol>
+<li>从逻辑上区分嵌套滑动中的两个角色：nested scroll child和nested scroll parent，对应了内部的View和外部的View。为什么叫逻辑上？因为实际上它允许一个View同时扮演两个角色；</li>
+<li>nested scroll child会在收到DOWN事件时，找到自己父辈中最近的能与自己匹配的nested scroll parent，与它进行绑定并关闭它的事件拦截机制；</li>
+<li>然后nnested scroll child会在接下来的MOVE事件中判定出用户触发了滑动手势，并把事件流拦截下来给自己消费；</li>
+<li>消费事件流时，对于每一次MOVE事件增加的滑动距离：<ol>
+<li>nested scroll child并不是直接自己消费，而是先把它交给nested scroll parent，让nested scroll parent可以在nested scroll child之前消费滑动；</li>
+<li>如果nested scroll parent没有消费或是没有消费完，nested scroll child再自己消费剩下的滑动；</li>
+<li>如果nested scroll child自己还是没有消费完这个滑动，会再把剩下的滑动交给nested scroll parent消费；</li>
+<li>最后如果滑动还有剩余，nested scroll child可以做最终的处理</li>
+</ol>
+</li>
+<li>同时在nested scroll child的computeScroll()方法中，nested scroll child也会把自己因为用户fling操作引发的滑动，与上面用户滑动屏幕触发的滑动一样，使用“parent -&gt; child -&gt; parent -&gt; child”的顺序进行消费。</li>
+</ol>
+<p>&#160; &#160; &#160; &#160;这跟我们自己实现嵌套滑动的方式非常像，但它这些地方做得更好：</p>
+<ul>
+<li>nested scroll child使用更灵活的方式找到和绑定自己的nested scroll parent，而不是直接找自己的上一级节点；</li>
+<li>nested scroll child在DOWN事件时关闭nested scroll parent的事件拦截机制单独用了一个Flag进行关闭，这就不会关闭nested scroll parent对其它手势的拦截，也不会递归往上关闭父辈们的事件拦截机制。nested scroll child直到在MOVE事件中确定自己要开始滑动后，才会调用requestDisallowInterceptTouchEvent(true)递归关闭父辈们全部的事件拦截；</li>
+<li>对每一次MOVE事件传递来的滑动，都使用“parent -&gt; child -&gt; parent -&gt; child”机制进行消费，让nested scroll child在消费滑动时与nested scroll parent配合更加细致、紧密和灵活；</li>
+<li>对于因为用户fling操作引发的滑动，与用户滑动屏幕触发的滑动使用同样的机制进行消费，实现了完美的惯性连续效果。</li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>&#160; &#160; &#160; &#160;Google给View和ViewGroup加入的需要我们关心的方法一共有这些（只注明了关键返回值和参数）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//View</span></span><br><span class="line">setNestedScrollingEnabled(<span class="keyword">true</span>)                       <span class="comment">// 调用</span></span><br><span class="line">startNestedScroll()                                   <span class="comment">// 调用</span></span><br><span class="line">dispatchNestedPreScroll(<span class="keyword">int</span> delta, <span class="keyword">int</span>[] consumed)    <span class="comment">// 调用</span></span><br><span class="line">dispatchNestedScroll(<span class="keyword">int</span> unconsumed, <span class="keyword">int</span>[] consumed)  <span class="comment">// 调用</span></span><br><span class="line">stopNestedScroll()                                    <span class="comment">// 调用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ViewGroup</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">onStartNestedScroll</span><span class="params">()</span>                       <span class="comment">// 覆写</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getNestedScrollAxes</span><span class="params">()</span>                           <span class="comment">// 调用</span></span></span><br><span class="line"><span class="function"><span class="title">onNestedPreScroll</span><span class="params">(<span class="keyword">int</span> delta, <span class="keyword">int</span>[] consumed)</span>        <span class="comment">// 覆写</span></span></span><br><span class="line"><span class="function"><span class="title">onNestedScroll</span><span class="params">(<span class="keyword">int</span> unconsumed, <span class="keyword">int</span>[] consumed)</span>      <span class="comment">// 覆写</span></span></span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;怎么调用这些方法取决于要实现什么角色。</p>
+<ul>
+<li>在实现一个nested scroll child角色时：</li>
+</ul>
+<ol>
+<li>在实例化的时候调用setNestedScrollingEnabled(true)，启用嵌套滑动机制；</li>
+<li>在DOWN事件时调用startNestedScroll()方法，它会找到自己父辈中最近的与自己匹配的nested scroll parent，进行绑定并关闭nested scroll parent的事件拦截机制；</li>
+<li>在判断出用户正在进行滑动后：<ol>
+<li>先常规操作：关闭父辈们全部的事件拦截，同时拦截自己子View的事件；</li>
+<li>然后调用dispatchNestedPreScroll()方法，传入用户的滑动距离，这个方法会触发nested scroll parent对滑动的消费，并且把消费结果返回；</li>
+<li>然后nested scroll child可以开始自己消费剩下滑动；</li>
+<li>nested scroll child自己消费完后调用dispatchNestedScroll()方法，传入最后没消费完的滑动距离，这个方法会继续触发nested scroll parent对剩下滑动的消费，并且把消费结果返回；</li>
+<li>nested scroll child拿到最后没有消费完的滑动，做最后的处理，比如显示overscroll效果，比如在fling的时候停止scroller。</li>
+</ol>
+</li>
+<li>如果希望惯性滑动也能传递给nested scroll parent，那么在View的computeScroll()方法中，对于每个scroller计算到的滑动距离，与MOVE事件中处理滑动一样，按照这个顺序进行消费：“dispatchNestedPreScroll() -&gt; 自己 -&gt; dispatchNestedScroll() -&gt; 自己”；</li>
+<li>在UP、CANCEL事件中以及computeScroll()方法中惯性滑动结束时，调用stopNestedScroll()方法，这个方法会打开nested scroll parent的事件拦截机制，并取消与它的绑定。</li>
+</ol>
+<ul>
+<li>在实现一个nested scroll parent角色时：</li>
+</ul>
+<ol>
+<li>重写方法boolean onStartNestedScroll(View child, View target, int nestedScrollAxes)，通过传入的参数，决定自己对这类嵌套滑动感兴趣，在感兴趣的情况中返回true，nested scroll child就是通过遍历所有nested scroll parent的这个方法来找到与自己匹配的nested scroll parent;</li>
+<li>如果选择了某种情况下支持嵌套滑动，那么在拦截滑动事件前，调用getNestedScrollAxes()，它会返回某个方向的拦截机制是否已经被nested scroll child关闭了，如果被关闭，就不应该拦截事件了;</li>
+<li>开启嵌套滑动后，可以在onNestedPreScroll和onNestedScroll方法中等待nested scroll child的消息，它对应了在nested scroll child中调用的dispatchNestedPreScroll和dispatchNestedScroll方法，可以在有必要的时候进行自己的滑动，并且把消耗掉的滑动距离通过参数中的数组返回。</li>
+</ol>
+<p>&#160; &#160; &#160; &#160;在我们刚开始的同向嵌套滑动的例子中，只要打开ScrollView的setNestedScrollingEnabled(true)开关，就能看到嵌套滑动的效果（实际上ScrollView实现的不是完美的嵌套滑动，原因见下一节）：</p>
+<img src="https://github.com/wy521angel/MarkdowmPhotos/blob/master/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/ScrollView%E5%B5%8C%E5%A5%97%E6%BB%91%E5%8A%A8.gif?raw=true"  width="40%" height="40%">
+
+<p>&#160; &#160; &#160; &#160;以上都说的是单一角色时的使用情况，有时候会需要一个View扮演两个角色，就需要再多做一些事情，比如对于nested scroll parent，要时刻注意也是 nested scroll child，在有滑动的时候也照顾一下自己的nested scroll parent。</p>
+<h1 id="版本历史简述"><a href="#版本历史简述" class="headerlink" title="版本历史简述"></a>版本历史简述</h1><h2 id="版本一"><a href="#版本一" class="headerlink" title="版本一"></a>版本一</h2><h3 id="第一个版本，2014年9月"><a href="#第一个版本，2014年9月" class="headerlink" title="第一个版本，2014年9月"></a>第一个版本，2014年9月</h3><p>&#160; &#160; &#160; &#160;在Android5.0/API 21(2014.9) 时，Google第一次加入了NestedScrolling机制。</p>
+<p>&#160; &#160; &#160; &#160;虽然在版本更新里完全没有提到，但是在View和ViewGroup的源码里已经能看到其中的嵌套滑动相关方法。而且此时使用了这些方法实现了嵌套滑动效果的View其实已经有不少了，除了ScrollView，还有AbsListView、ActionBarOverlayLayout等，而这些也基本是当时所有跟滑动有关的View了。所以，在Android5.0时其实就能通过setNestedScrollingEnabled(true)开关启用View的嵌套滑动效果。这是NestedScrolling机制的第一版实现。</p>
+<h3 id="重构第一个版本，2015年4月"><a href="#重构第一个版本，2015年4月" class="headerlink" title="重构第一个版本，2015年4月"></a>重构第一个版本，2015年4月</h3><p>&#160; &#160; &#160; &#160;因为第一个版本的NestedScrolling机制是加在framework层的View和ViewGroup中，所以能享受到嵌套滑动效果的只能是Android5.0的系统，也就是当时最新的系统。大家都知道，这样的功能不会太受开发者喜欢，所以在当时NestedScrolling机制基本没有怎么被使用（所以大家一说嵌套滑动就提后来才发布的NestedScrollView而不知道ScrollView早就能嵌套滑动也是非常正常了）。</p>
+<p>&#160; &#160; &#160; &#160;Google后面重构出来两个接口（NestedScrollingChild、NestedScrollingParent）、两个Helper（NestedScrollingChildHelper、NestedScrollingParentHelper）外加一个NestedScrollView，在Revision 22.1.0 (2015.4)到来之际，把它们一块加入了v4 support library。</p>
+<p>&#160; &#160; &#160; &#160;随后，在下一个月Revision 22.2.0 (2015.5)时，Google又推出了Design Support library，其中的控件CoordinatorLayout更是把NestedScrolling机制使用得出神入化。</p>
+<p>&#160; &#160; &#160; &#160;这时的NestedScrolling机制相比之前放在View和ViewGroup中的第一个版本，其实完全没有改动，只是把View和ViewGroup里的方法分成两部分放到接口和Helper里了，NestedScrollView里跟嵌套滑动有关的部分也跟ScrollView里的没什么区别，所以此时的NestedScrolling机制本质还是第一个版本，只是形式发生了变化。而NestedScrolling机制形式的变化带来了如下一些影响：</p>
+<ol>
+<li>因为这个机制其实不涉及核心的framework层的东西，所以让它脱离API版本存在，让低版本系统也能有嵌套滑动的体验，才是导致这个变化的主要原因也是它的主要优点。至于依赖倒置、组合大于继承应该都只是结果。而便于修复Bug什么的Google当时大概也没有想到。</li>
+<li>这么做的主要缺点有：<ul>
+<li>使用麻烦。这是肯定的，本来放在View里拿来就用的方法，现在不仅要实现接口，还要自己去写接口的实现，虽然有Helper类进行辅助，但还是麻烦；</li>
+<li>暴露了更多内部的不需要普通使用者关心的API。这点比上一点要重要一些，因为它会影响开发者对整个机制的上手速度。本来，如前文介绍，只需要知道有这9个方法就可以，现在这一改，只child里就有9个，parent里还有8个，接近二倍了。多的这些方法中有的是机制内部用来沟通的（比如isNestedScrollingEnabled()、onNestedScrollAccepted()），有的是设计别扭用得很少的（比如dispatchNestedFling()），有的是需要特别优化细节才需要的（比如hasNestedScrollingParent()），一开始开发者其实完全不用关心。</li>
+</ul>
+</li>
+</ol>
+<h3 id="第一个版本的Bug"><a href="#第一个版本的Bug" class="headerlink" title="第一个版本的Bug"></a>第一个版本的Bug</h3><p>&#160; &#160; &#160; &#160;第一版NestedScrolling机制有一个的著名Bug：惯性不连续。</p>
+<p>&#160; &#160; &#160; &#160;简单说就是在滑动内部View时快速抬起手指，内部View会开始惯性滑动，当内部View惯性滑动到自己顶部时便停止了滑动，此时外部的可滑动View不会有任何反应，即使外部View可以滑动。本来这个体验也没多大问题，但因为手动滑动的时候，内部滑动到顶部时可以接着滑动外边的View，这就形成了对比，有对比就有差距，在惯性滑动的时候也需要把里面的滑动传递到外面去。所以这个问题也不能算是Bug，只是体验没有做到那么好罢了。其实Google也考虑过惯性，其中关于fling的4个 API便表明了用来处理惯性滑动：</p>
+<ul>
+<li>nested scroll child：dispatchNestedPreFling、dispatchNestedFling</li>
+<li>nested scroll parent：onNestedPreFling、onNestedFling</li>
+</ul>
+<p>&#160; &#160; &#160; &#160;前面的内容中说nested scroll child直接消费用户快速抬起时产生的惯性滑动，在computeScroll方法中把惯性引起的滑动也传递给nested scroll parent，让父子配合进行惯性滑动。<br>但实际上此时的NestedScrollView是这么写的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">        <span class="keyword">if</span> (mIsBeingDragged) &#123;</span><br><span class="line">            ...</span><br><span class="line">    </span><br><span class="line">            <span class="keyword">if</span> ((Math.abs(initialVelocity) &gt; mMinimumVelocity)) &#123;</span><br><span class="line">                flingWithNestedDispatch(-initialVelocity);</span><br><span class="line">            &#125;</span><br><span class="line">    </span><br><span class="line">            stopNestedScroll();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">flingWithNestedDispatch</span><span class="params">(<span class="keyword">int</span> velocityY)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> scrollY = getScrollY();</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> canFling = (scrollY &gt; <span class="number">0</span> || velocityY &gt; <span class="number">0</span>) &amp;&amp; (scrollY &lt; getScrollRange() || velocityY &lt; <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!dispatchNestedPreFling(<span class="number">0</span>, velocityY)) &#123;</span><br><span class="line">        dispatchNestedFling(<span class="number">0</span>, velocityY, canFling);</span><br><span class="line">        <span class="keyword">if</span> (canFling) fling(velocityY);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fling</span><span class="params">(<span class="keyword">int</span> velocityY)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (getChildCount() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        ...</span><br><span class="line">    </span><br><span class="line">        mScroller.fling(getScrollX(), getScrollY(), <span class="number">0</span>, velocityY, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, Math.max(<span class="number">0</span>, bottom - height), <span class="number">0</span>, height/<span class="number">2</span>);</span><br><span class="line">        ViewCompat.postInvalidateOnAnimation(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mScroller.computeScrollOffset()) &#123;</span><br><span class="line">        ... <span class="comment">// 没有关于把滑动分发给nested scroll parent 的逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;同滑动一样，设计者给惯性（速度）也设计了一套协同消费的机制。但这套机制与滑动不太一样。在用户滑动nested scroll child并快速抬起手指产生惯性的时候，flingWithNestedDispatch()方法中，nested scroll child会先问nested scroll parent是否消费此速度，如果消费，就把速度全部交出，自己不再消费<br>如果nested scroll parent不消费，那么将再次把速度交给nested scroll parent，并且告诉它自己是否有消费速度的条件（根据系统类库一贯的写法，如果nested scroll child消费这个速度，nested scroll parent都不会对这个速度做处理），同时自己在有消费速度的条件时，对速度进行消费。自己消费速度的方式是使用mScroller进行惯性滑动，但是在computeScroll()中并没有把滑动分发给nested scroll parent，最后只要抬起手指，就会调用stopNestedScroll()解除与nested scroll parent的绑定，宣告这次协同合作到此结束。</p>
+<p>&#160; &#160; &#160; &#160;惯性的这套协同消费机制只能在惯性滑动前让nested scroll parent有机会拦截处理惯性，它并不能在惯性滑动过程中让nested scroll child和nested scroll parent协同消费惯性引发的滑动，也就实现不了前面期望的惯性连续效果。实现惯性连续的方式其实非常简单，不需要增加新的机制，直接通过滑动的协同消费机制，在nested scroll child进行惯性滑动时，把滑动传递出来，就可以了。所以修复这个Bug也很简单，只是比较繁琐：修改所有作为nested scroll child角色使用了嵌套滑动机制的系统控件，惯性相关的API和处理逻辑都可以保留，只要在computeScroll()中把滑动用dispatchNestedPreScroll()和dispatchNestedScroll()方法分发给nested scroll parent，再更改一下解除与nested scroll parent绑定的时机，放在fling结束之后就可以了。自己写的nested scroll child View可以直接改，但系统提供的NestedScrollView、RecyclerView等控件，就只能提个issue等官方修复或者拷贝一份出来自己改。</p>
+<h2 id="版本二"><a href="#版本二" class="headerlink" title="版本二"></a>版本二</h2><h3 id="第二个版本，2017年9月"><a href="#第二个版本，2017年9月" class="headerlink" title="第二个版本，2017年9月"></a>第二个版本，2017年9月</h3><p>&#160; &#160; &#160; &#160;2017年9月，Revision 26.1.0更新了一版NestedScrollingChild2和NestedScrollingParent2，并且处理了第一版中系统控件的Bug，这便是第二个版本的NestedScrolling机制了。</p>
+<p>&#160; &#160; &#160; &#160;首先在接口上，nested scroll child在computeScroll中分发滑动给nested scroll parent，这是关键，并且区分开是用户手指移动触发的滑动还是由惯性触发的滑动。第二版中给所有NestedScrollingChild中滑动相关的（确切地说是除了fling相关、滑动开关外的）5个方法、所有NestedScrollingParent中滑动相关的（确切地说是除了fling相关、获取滑动轴外的）5个方法，都增加了一个参数type，type有两个取值代表上述的两种滑动类型：TYPE_TOUCH、TYPE_NON_TOUCH。第二版的两个接口没有增删任何方法，只是给10个方法加了个type参数，并且对旧的接口做了个兼容，让它们的type是TYPE_TOUCH。</p>
+<p>&#160; &#160; &#160; &#160;Helper类也要修改，第一版的NestedScrollingChildHelper里本来持有了一个nested scroll parent域mNestedScrollingParentTouch，作为绑定关系，第二版再加了一个nested scroll parent域mNestedScrollingParentNonTouch，为什么是两个而不公用一个，大概是避免对两类滑动的生命周期有过于严格的要求，比如在NestedScrollView的实现里，就是先开启TYPE_NON_TOUCH类型的滑动，然后关闭了TYPE_TOUCH类型的滑动，如果公用一个nested scroll  parent 域就做不到这样了。NestedScrollingChildHelper里主要就做了这一点额外的改动，其它的改动都是增加参数后的常规变换，NestedScrollingParentHelper里就更没有特别的变化了。</p>
+<p>&#160; &#160; &#160; &#160;以NestedScrollView为例，主要的变化如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">        <span class="keyword">if</span> (mIsBeingDragged) &#123;</span><br><span class="line">            ...</span><br><span class="line">    </span><br><span class="line">            <span class="keyword">if</span> ((Math.abs(initialVelocity) &gt; mMinimumVelocity)) &#123;</span><br><span class="line">                flingWithNestedDispatch(-initialVelocity);</span><br><span class="line">            &#125;</span><br><span class="line">    </span><br><span class="line">            stopNestedScroll(ViewCompat.TYPE_TOUCH);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">flingWithNestedDispatch</span><span class="params">(<span class="keyword">int</span> velocityY)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> scrollY = getScrollY();</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> canFling = (scrollY &gt; <span class="number">0</span> || velocityY &gt; <span class="number">0</span>) &amp;&amp; (scrollY &lt; getScrollRange() || velocityY &lt; <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!dispatchNestedPreFling(<span class="number">0</span>, velocityY)) &#123;</span><br><span class="line">        dispatchNestedFling(<span class="number">0</span>, velocityY, canFling);</span><br><span class="line">        fling(velocityY); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fling</span><span class="params">(<span class="keyword">int</span> velocityY)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (getChildCount() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL, ViewCompat.TYPE_NON_TOUCH);</span><br><span class="line">        </span><br><span class="line">        mScroller.fling(getScrollX(), getScrollY(), <span class="number">0</span>, velocityY, <span class="number">0</span>, <span class="number">0</span>, Integer.MIN_VALUE, Integer.MAX_VALUE, <span class="number">0</span>, <span class="number">0</span>); </span><br><span class="line">        </span><br><span class="line">        mLastScrollerY = getScrollY();</span><br><span class="line">        ViewCompat.postInvalidateOnAnimation(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mScroller.computeScrollOffset()) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> x = mScroller.getCurrX();</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> y = mScroller.getCurrY();</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">int</span> dy = y - mLastScrollerY;</span><br><span class="line">    </span><br><span class="line">        <span class="comment">// Dispatch up to parent</span></span><br><span class="line">        <span class="keyword">if</span> (dispatchNestedPreScroll(<span class="number">0</span>, dy, mScrollConsumed, <span class="keyword">null</span>, ViewCompat.TYPE_NON_TOUCH)) &#123;</span><br><span class="line">            dy -= mScrollConsumed[<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (dy != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> range = getScrollRange();</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> oldScrollY = getScrollY();</span><br><span class="line">    </span><br><span class="line">            overScrollByCompat(<span class="number">0</span>, dy, getScrollX(), oldScrollY, <span class="number">0</span>, range, <span class="number">0</span>, <span class="number">0</span>, <span class="keyword">false</span>);</span><br><span class="line">    </span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> scrolledDeltaY = getScrollY() - oldScrollY;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> unconsumedY = dy - scrolledDeltaY;</span><br><span class="line">    </span><br><span class="line">            <span class="keyword">if</span> (!dispatchNestedScroll(<span class="number">0</span>, scrolledDeltaY, <span class="number">0</span>, unconsumedY, <span class="keyword">null</span>, ViewCompat.TYPE_NON_TOUCH)) &#123;</span><br><span class="line">                <span class="keyword">if</span> (canOverscroll()) showOverScrollEdgeEffect();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        ViewCompat.postInvalidateOnAnimation(<span class="keyword">this</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        stopNestedScroll(ViewCompat.TYPE_NON_TOUCH);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;简单说明一下，UP时候做的事情没有变，还是在这解除了与nested scroll parent的绑定，但是注明了类型是TYPE_TOUCH；在fling()方法中，调用startNestedScroll()开启了新一轮绑定，不过这时的类型变成了TYPE_NON_TOUCH；最多的改动是在computeScroll()方法中，但逻辑很清晰：对于每个dy，都会经过“parent -&gt; child -&gt; parent -&gt; child”这个消费流程，从而实现了惯性连续，解决了Bug。</p>
+<h3 id="第二个版本的Bug"><a href="#第二个版本的Bug" class="headerlink" title="第二个版本的Bug"></a>第二个版本的Bug</h3><p>&#160; &#160; &#160; &#160;第一个二倍速的问题正好出现在了NestedScrollView中，RecyclerView等类没有这个问题，它的现象是这样：当外部View不在顶部、内部View在顶部时，往下滑动内部View然后快速抬起（制造fling），预期效果应该是外部View往下进行惯性滑动，实际上有一点点区别，外部View往下滑动的速度会比预想中要快，大概是两倍的速度（反方向也是一样）。</p>
+<p>&#160; &#160; &#160; &#160;如果把第二版嵌套滑动机制更新的NestedScrollView跟之前的对比，会很容易发现flingWithNestedDispatch()中，fling(velocityY)前的if(canFling)消失了，这个if判断在新的机制中并不需要去掉。没有了if会让外部View同时进行两个fling，实际体验也确实是这样。所以解决这个问题很简单，直接把if判断补上就好了。</p>
+<p>&#160; &#160; &#160; &#160;第二个问题在所有的嵌套滑动控件都存在，而且体验非常明显。当外部View在顶部、内部View也在顶部时，往下滑动内部View然后快速抬起（制造fling），（目前什么都不会发生，因为都滑到顶了，关键是下一步）马上滑外部View，预期应该是外部View往上滚动，但实际上会发现滑不动它，或是滑上去一点，马上又下来了，像是有一台无形的马达在跟你的手指较劲（反方向也是一样）。</p>
+<p>&#160; &#160; &#160; &#160;原因解释起来也非常简单：看方法flingWithNestedDispatch()中的代码：其中的dispatchNestedPreFling()大部分时候会返回false，于是几乎所有的情况下，内部View都会通过fling()方法启动自己mScroller这个小马达，然后在小马达启动后，到computeScroll()方法中，如果不直接触摸内部View，除非等到马达自己停止，否则没有外力能让它停下，于是它会一直向外输出dispatchNestedPreScroll()和dispatchNestedScroll()。所以在上面的现象中，即使内外的View都在顶部，都无法滑动，内部View的小马达还在工作，只要你把外部View滑到不在顶部的位置，它就又会把它给滑下来。其实不需要前面说的“当外部View在顶部、内部View也在顶部时”这种场景（这只是最好复现的场景），当以任何方式开启了内部View的小马达后，又不通过直接触摸内部View把它关闭时，都能看到这个问题。</p>
+<p>&#160; &#160; &#160; &#160;除了用户直接触摸内部View让它停止，它还需要有一个停止开关，至少让用户触摸外部View的时候也能关闭它，更合理的实现还应该让驱动过程能够反馈，当出现情况无法驱动（比如内外都滑到顶部）时，停下马达。</p>
+<p>&#160; &#160; &#160; &#160;前文讲过，这个机制中nested scroll child是主动的一方，nested scroll parent完全是被动的，nested scroll parent没法主动通知nested scroll child自己滑不动了。但nested scroll parent并不是没办法告知nested scroll child信息，通过方法的返回值和引用类型的参数，nested scroll child仍然可以从nested scroll parent中获取信息。所以只要给NestedScrolling机制加一组方法，让nested scroll child询问nested scroll parent是否能够滑动，问题就解决了，如果nested scroll parent滑不动了，nested scroll child自己也滑不动，那就赶紧关闭马达。</p>
+<h2 id="版本三"><a href="#版本三" class="headerlink" title="版本三"></a>版本三</h2><h3 id="第三个版本，2018年11月"><a href="#第三个版本，2018年11月" class="headerlink" title="第三个版本，2018年11月"></a>第三个版本，2018年11月</h3><p>&#160; &#160; &#160; &#160;在2018年11月5日androidx.core 1.1.0-alpha01的更新中，Google给出了最新的修复——NestedScrollingChild3和NestedScrollingParent3，以及一系列系统组件也陆续进行了更新。</p>
+<p>&#160; &#160; &#160; &#160;先看接口，哪里不通改哪里，在接口NestedScrollingChild3中，没有增加方法，只是给dispatchNestedScroll方法增加了一个参数int[] consumed，并且把它的boolean返回值改成了void，有了能获取更详细信息的途径，自然就不需要这个boolean了；接口NestedScrollingParent3同样只是改了一个方法，给onNestedScroll增加了int[] consumed参数（它返回值就是 void，没变）。</p>
+<p>&#160; &#160; &#160; &#160;下面是NestedScrollingChild3中的对比：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">dispatchNestedScroll</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span> dxConsumed, <span class="keyword">int</span> dyConsumed,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span> dxUnconsumed, <span class="keyword">int</span> dyUnconsumed, </span></span></span><br><span class="line"><span class="function"><span class="params">    @Nullable <span class="keyword">int</span>[] offsetInWindow,</span></span></span><br><span class="line"><span class="function"><span class="params">    @NestedScrollType <span class="keyword">int</span> type</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br><span class="line">    </span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dispatchNestedScroll</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span> dxConsumed, <span class="keyword">int</span> dyConsumed, </span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span> dxUnconsumed, <span class="keyword">int</span> dyUnconsumed,</span></span></span><br><span class="line"><span class="function"><span class="params">    @Nullable <span class="keyword">int</span>[] offsetInWindow, </span></span></span><br><span class="line"><span class="function"><span class="params">    @NestedScrollType <span class="keyword">int</span> type,</span></span></span><br><span class="line"><span class="function"><span class="params">    @NonNull <span class="keyword">int</span>[] consumed // 这个</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;再看下Helper，NestedScrollingChildHelper除了适配新的接口基本没有改动，NestedScrollingParentHelper也只是增强了一点逻辑的严谨性。</p>
+<p>&#160; &#160; &#160; &#160;最后再看NestedScrollView，改动部分跟预期基本一致：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNestedScroll</span><span class="params">(View target, <span class="keyword">int</span> dxConsumed, <span class="keyword">int</span> dyConsumed,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span> dxUnconsumed, <span class="keyword">int</span> dyUnconsumed, <span class="keyword">int</span> type, @NonNull <span class="keyword">int</span>[] consumed)</span> </span>&#123;</span><br><span class="line">            </span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> oldScrollY = getScrollY();</span><br><span class="line">    scrollBy(<span class="number">0</span>, dyUnconsumed);</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> myConsumed = getScrollY() - oldScrollY;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (consumed != <span class="keyword">null</span>) consumed[<span class="number">1</span>] += myConsumed; <span class="comment">// 就加了这一句</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> myUnconsumed = dyUnconsumed - myConsumed;</span><br><span class="line">    mChildHelper.dispatchNestedScroll(<span class="number">0</span>, myConsumed, <span class="number">0</span>, myUnconsumed, <span class="keyword">null</span>, type, consumed);</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="comment">// ---</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">// onTouchEvent 中逻辑没有变化</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">flingWithNestedDispatch</span><span class="params">(<span class="keyword">int</span> velocityY)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!dispatchNestedPreFling(<span class="number">0</span>, velocityY)) &#123;</span><br><span class="line">        dispatchNestedFling(<span class="number">0</span>, velocityY, <span class="keyword">true</span>);</span><br><span class="line">        fling(velocityY); <span class="comment">// fling 中的逻辑没有变化</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mScroller.isFinished()) <span class="keyword">return</span>;</span><br><span class="line">    mScroller.computeScrollOffset();</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> y = mScroller.getCurrY();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> unconsumed = y - mLastScrollerY;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Nested Scrolling Pre Pass</span></span><br><span class="line">    mScrollConsumed[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    dispatchNestedPreScroll(<span class="number">0</span>, unconsumed, mScrollConsumed, <span class="keyword">null</span>, ViewCompat.TYPE_NON_TOUCH);</span><br><span class="line">    unconsumed -= mScrollConsumed[<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> range = getScrollRange();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (unconsumed != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// Internal Scroll</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> oldScrollY = getScrollY();</span><br><span class="line">        overScrollByCompat(<span class="number">0</span>, unconsumed, getScrollX(), oldScrollY, <span class="number">0</span>, range, <span class="number">0</span>, <span class="number">0</span>, <span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> scrolledByMe = getScrollY() - oldScrollY;</span><br><span class="line">        unconsumed -= scrolledByMe;</span><br><span class="line">    </span><br><span class="line">        <span class="comment">// Nested Scrolling Post Pass</span></span><br><span class="line">        mScrollConsumed[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">        dispatchNestedScroll(<span class="number">0</span>, scrolledByMe, <span class="number">0</span>, unconsumed, mScrollOffset, ViewCompat.TYPE_NON_TOUCH, mScrollConsumed);</span><br><span class="line">        unconsumed -= mScrollConsumed[<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 处理最后还有 unconsumed 的情况</span></span><br><span class="line">    <span class="keyword">if</span> (unconsumed != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (canOverscroll()) showOverScrollEdgeEffect();</span><br><span class="line">    </span><br><span class="line">        mScroller.abortAnimation(); <span class="comment">// 关停小马达</span></span><br><span class="line">        stopNestedScroll(ViewCompat.TYPE_NON_TOUCH);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!mScroller.isFinished()) ViewCompat.postInvalidateOnAnimation(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&#160; &#160; &#160; &#160;修改最多的还是computeScroll()，不过其它地方也有些变化，简单说明一下：因为onNestedScroll()增加了记录距离消耗的参数，所以nested scroll parent就需要把这个数据记录上并且继续传递给自己的nested scroll parent；flingWithNestedDispatch()方法中，本来的预期是恢复第一版的写法，把fling(velocityY)前的if (canFling)加回来，结果连canFling也不判断了，dispatchNestedFling(0, velocityY, true)直接传true，fling(velocityY)始终调用。这意味着什么呢？需要结合大部分View的写法来看。搜索API 28的代码就会看到，对于onNestedPreFling()方法，除了ResolverDrawerLayout会在某些情况下消费fling并返回true，以及CoordinatorLayout会象征性地问一遍自己孩子们的Behavior，其它的写法都是直接返回false；对于onNestedFling(boolean consumed)方法，所有的写法都是，只要consumed为true，就什么都不会做，这种做法也非常自然。所以当前的现状是，绝大部分情况下，内部View的fling小马达都会启动，外部View都不会消费内部View产生的fling。这就代表着：惯性的协作机制完全被滑动的协作机制取代了。当然，即使名存实亡，但如果真的有特殊需求需要使用到fling的传递机制，也是可以使用的。最后来看computeScroll()，它基本把之前文章中说怎么修复第二版中Bug时的思路实现了：因为能从dispatchNestedPreScroll()和dispatchNestedScroll()得知nested scroll parent消耗了多少这一次分发出去的滑动距离，同时也有自己消耗了多少，两者一合计，如果还有没消耗的滑动距离，那肯定无论内外都滑到头了，于是就把小马达关停。</p>
+<h3 id="第三个版本的Bug"><a href="#第三个版本的Bug" class="headerlink" title="第三个版本的Bug"></a>第三个版本的Bug</h3><p>&#160; &#160; &#160; &#160;对比代码容易看到，第三版中DOWN事件的处理相对第二版没有变化，它没有加入触摸外部View后关闭内部View马达的机制，更确切地说是没有加入“触摸外部View后阻止对内部View传递过来的滑动进行消费的机制”。所以只有外部View滑动到尽头的时候才能关闭马达，外部View没法给内部View反馈自己被摁住了。</p>
+<p>&#160; &#160; &#160; &#160;不过这个问题只有可以响应触摸的nested scroll parent需要考虑，可以响应触摸的nested scroll parent主要就是NestedScrollView了，所以这个问题主要还是NestedScrollView的问题。这个问题也非常好改，只需要在DOWN事件后能给nested scroll child反馈自己被摁住了就可以，可以用反射，或是直接把NestedScrollView挪出来改，关键代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">boolean</span> mIsBeingTouched = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (ev.getActionMasked()) &#123;</span><br><span class="line">        <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">            mIsBeingTouched = <span class="keyword">true</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MotionEvent.ACTION_CANCEL:</span><br><span class="line">        <span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">            mIsBeingTouched = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(ev);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">onNestedScrollInternal</span><span class="params">(<span class="keyword">int</span> dyUnconsumed, <span class="keyword">int</span> type, @Nullable <span class="keyword">int</span>[] consumed)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> oldScrollY = getScrollY();</span><br><span class="line">    <span class="keyword">if</span> (!mIsBeingTouched) scrollBy(<span class="number">0</span>, dyUnconsumed); <span class="comment">// 只改了这一句</span></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> myConsumed = getScrollY() - oldScrollY;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (consumed != <span class="keyword">null</span>) &#123;</span><br><span class="line">        consumed[<span class="number">1</span>] += myConsumed;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> myUnconsumed = dyUnconsumed - myConsumed;</span><br><span class="line"></span><br><span class="line">    childHelper.dispatchNestedScroll(<span class="number">0</span>, myConsumed, <span class="number">0</span>, myUnconsumed, <span class="keyword">null</span>, type, consumed);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<blockquote>
+<p>参考资料：<br>RubiTree <a href="https://juejin.im/post/5c3c8538f265da6142741d63" target="_blank" rel="noopener">【透镜系列】看穿 &gt; 触摸事件分发 &gt;</a>  </p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/" rel="tag"># 触摸反馈</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/28/IT/Android/%E8%A7%A6%E6%91%B8%E5%8F%8D%E9%A6%88/%E4%BB%8E%E9%9C%80%E6%B1%82%E7%9A%84%E8%A7%92%E5%BA%A6%E8%B0%88%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91/" rel="next" title="从需求的角度谈触摸事件分发">
+                <i class="fa fa-chevron-left"></i> 从需求的角度谈触摸事件分发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDEwMS82NjU2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myavatar.jpg"
+               alt="wy521angel" />
+          <p class="site-author-name" itemprop="name">wy521angel</p>
+           
+              <p class="site-description motion-element" itemprop="description">存放一些IT技术积累</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">143</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lmj623565791" title="Hongyang的博客" target="_blank">Hongyang的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/guolin_blog" title="郭霖的博客" target="_blank">郭霖的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/eclipsexys" title="eclipse_xu的博客" target="_blank">eclipse_xu的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/lovelion?viewmode=list" title="刘伟的博客" target="_blank">刘伟的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philipdroid.github.io" title="philipdroid的博客" target="_blank">philipdroid的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jcodecraeer.com" title="泡在网上的日子" target="_blank">泡在网上的日子</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://juejin.im/timeline" title="掘金" target="_blank">掘金</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.infoq.com/cn" title="InfoQ" target="_blank">InfoQ</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.uisdc.com" title="优设" target="_blank">优设</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=34341358&auto=0&height=66"></iframe>
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#嵌套同向滑动"><span class="nav-number">1.</span> <span class="nav-text">嵌套同向滑动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌套同向滑动的问题"><span class="nav-number">1.1.</span> <span class="nav-text">嵌套同向滑动的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析问题原因"><span class="nav-number">1.2.</span> <span class="nav-text">分析问题原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尝试解决问题"><span class="nav-number">1.3.</span> <span class="nav-text">尝试解决问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一次优化"><span class="nav-number">1.4.</span> <span class="nav-text">第一次优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二次优化"><span class="nav-number">1.5.</span> <span class="nav-text">第二次优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">1.6.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NestedScrolling机制"><span class="nav-number">2.</span> <span class="nav-text">NestedScrolling机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">2.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">2.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本历史简述"><span class="nav-number">3.</span> <span class="nav-text">版本历史简述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#版本一"><span class="nav-number">3.1.</span> <span class="nav-text">版本一</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一个版本，2014年9月"><span class="nav-number">3.1.1.</span> <span class="nav-text">第一个版本，2014年9月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重构第一个版本，2015年4月"><span class="nav-number">3.1.2.</span> <span class="nav-text">重构第一个版本，2015年4月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一个版本的Bug"><span class="nav-number">3.1.3.</span> <span class="nav-text">第一个版本的Bug</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#版本二"><span class="nav-number">3.2.</span> <span class="nav-text">版本二</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第二个版本，2017年9月"><span class="nav-number">3.2.1.</span> <span class="nav-text">第二个版本，2017年9月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二个版本的Bug"><span class="nav-number">3.2.2.</span> <span class="nav-text">第二个版本的Bug</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#版本三"><span class="nav-number">3.3.</span> <span class="nav-text">版本三</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第三个版本，2018年11月"><span class="nav-number">3.3.1.</span> <span class="nav-text">第三个版本，2018年11月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三个版本的Bug"><span class="nav-number">3.3.2.</span> <span class="nav-text">第三个版本的Bug</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wy521angel</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("xVeur9szsyg7AkKwseQcBlqr-MdYXbMMI", "UEl3HMLcU0j2xYsHkUlJGVS8");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a href="https://github.com/wy521angel" target="_blank" rel="noopener"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+  
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
